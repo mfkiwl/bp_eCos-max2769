@@ -1,11 +1,8 @@
 #!/bin/sh -x
 
-
 ECOS_REPOSITORY=~/workplace/bp_eCos/ecos-3.0/packages ; export ECOS_REPOSITORY
 PATH=~/workplace/bp_eCos/ecos-3.0/tools/bin:$PATH ; export PATH
-# End eCos paths - do not modify this line, it is used by the installer
 PATH=/opt/gcc/gnutools-4.7.3/arm-eabi/bin:$PATH ; export PATH
-
 
 if [ $# -gt 0 ]
 then
@@ -34,4 +31,3 @@ rm -rf *.elf *.bin *.lst *.hex *.map config.mk
 ecosconfig new bp2016_asic_bp_ddr
 ecosconfig tree
 make -j
-
