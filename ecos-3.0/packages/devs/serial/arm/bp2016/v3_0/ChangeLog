@@ -1,0 +1,7 @@
+2017-05-08  
+
+	* cdl/ser_arm_bp2016.cdl:
+	* src/bp2016_serial.c:
+	* src/bp2016_serial.h:
+	New package to support the serial device on a HG 
+	BP2016 development board.

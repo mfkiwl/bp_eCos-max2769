@@ -1,0 +1,5 @@
+2017-11-01  
+
+	* cdl/ser_arm_bp2016_16x5x.cdl:
+	New package to support the serial device on a HG 
+	BP2016 development board.

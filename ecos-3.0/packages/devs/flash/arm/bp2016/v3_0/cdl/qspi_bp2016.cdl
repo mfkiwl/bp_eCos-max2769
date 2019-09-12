@@ -1,0 +1,45 @@
+######DESCRIPTIONBEGIN####
+##
+## Author(s):      wu jinying 
+## Date:           2018-01-29
+##
+#####DESCRIPTIONEND####
+##
+## ====================================================================
+
+cdl_package CYGPKG_DEVS_QSPI_BP2016 {
+    display       "BP2016 QSPI memory support"
+    parent        CYGPKG_IO_FLASH
+    active_if	  CYGPKG_IO_FLASH
+    implements    CYGHWR_IO_FLASH_DEVICE
+    implements    CYGHWR_IO_FLASH_BLOCK_LOCKING
+	implements	  CYGHWR_IO_FLASH_INDIRECT_READS
+
+    include_dir   cyg/io/flash
+
+    compile	-library=libextras.a flash.c fl_common.c fl_gd25q512mc.c fl_s25fl512s.c fl_w25q256fv.c fl_gd25q256d.c qspi_hw.c qspi_wrapper.c qspi_bp2016.c qspi_api.c
+
+    description "
+        Flash memory support for on-chip flash on BP2016 devices and compatibles.
+        "
+
+	cdl_option CYGPKG_DEVS_QSPI_DMA_EN {
+		display "QSPI DMA read/write enable"
+		flavor  data
+		legal_values {0 1}
+		default_value 1
+		description   "
+			This option specifies whether we use dma read/write in QSPI
+			controller, if 0 , not use dma transfer, otherwise use dma transfer"
+	}
+
+	cdl_option CYGPKG_DEVS_QSPI_QUAD_ENABLE {
+		display "QSPI quad read enable"
+		flavor  data
+		legal_values {0 1}
+		default_value 1
+		description   "
+			This option specifies whether we use quad read in QSPI
+			controller, if 0 , not use quad read, otherwise use quad"
+	}
+}

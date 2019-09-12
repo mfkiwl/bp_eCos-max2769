@@ -1,0 +1,220 @@
+# ====================================================================
+#
+#      spi_arm_bp2016.cdl
+#
+#      SPI driver for BP2016
+#
+# ====================================================================
+######DESCRIPTIONBEGIN####
+#
+# Author(s):      huyue <huyue@haigebeidou.cn>
+# Contributors:   @BSP Team
+# Date:           2017-01-10
+#
+#####DESCRIPTIONEND####
+# ====================================================================
+
+cdl_package CYGPKG_DEVS_SPI_ARM_BP2016 {
+    display     "BP2016 SPI driver"
+    description "spi driver for BP2016"
+    include_dir cyg/io/spi
+
+    active_if   CYGPKG_HAL_ARM_BP2016
+    requires    CYGPKG_IO
+    requires    CYGFUN_KERNEL_API_C
+    requires    CYGPKG_HAL_ARM_BP2016
+
+    parent      CYGPKG_IO_SPI
+    active_if   CYGPKG_IO_SPI
+
+    compile     -library=libextras.a  spi_bp2016.c spi3wire_bp2016.c spi_api.c
+
+    cdl_component CYGPKG_DEVS_SPI_BP2016_OPTIONS {
+        display         "spi bp2016 options"
+        flavor          bool
+        default_value   1
+        description   "The BP2016 controllers contain 3 SPI master interfaces.
+                       and 1 spi slave interface."
+
+        cdl_option CYGPKG_DEVS_SPI_ARM_BP2016_DEBUG_LEVEL {
+            display "spi driver debug output level"
+            flavor  data
+            legal_values {0 1 2}
+            default_value 0
+            description   "
+                This option specifies the level of debug data output by
+                the BP2016 spi device driver. A value of 0 signifies
+                no debug data output; 1 signifies normal debug data
+                output. If an overrun occurred then this can only be
+                detected by debug output messages."
+        }
+
+        cdl_option CYGVAR_DEVS_BP2016_SPI_TOTAL_NUM {
+            display       "total spi bus numbers"
+            flavor        data
+            legal_values  0 to 5
+            default_value 5
+            description   "This option indicates that total number of SPI modules"
+        }
+
+        cdl_option CYGPKG_DEVS_SPI_ENABLE_DMA {
+            display "spi enable dma feature"
+            active_if	CYGPKG_IO_COMMON_DMA_ARM_BP2016
+            flavor  data
+            legal_values {0 1}
+            default_value 1
+            description   "This option indicates spi support dma."
+        }
+
+        cdl_option CYGPKG_DEVS_SPI_DMA_MAX_BURST {
+            display "spi dma max burst"
+            flavor  data
+            default_value 32
+            description   "
+                This option indicates spi support dma."
+        }
+    }
+
+    cdl_component CYGPKG_DEVS_SPI_ARM_BP2016_BUS0 {
+        display       "Enable SPI interface 0"
+        flavor        bool
+        default_value 1
+        description   "The BP2016 controllers contain 3 SPI master interfaces.
+                       Enable this component to get support for SPI
+                       interface 0."
+
+        cdl_option CYGNUM_IO_SPI_ARM_BP2016_BUS0_INTPRIO {
+            display       "Interrupt priority of the SPI bus 0 ISR"
+            flavor        data
+            legal_values  0 to 15
+            default_value 12
+            requires      { is_active(CYGNUM_IO_SPI_ARM_BP2016_BUS1_INTPRIO)
+                             implies (CYGNUM_IO_SPI_ARM_BP2016_BUS0_INTPRIO !=
+                             CYGNUM_IO_SPI_ARM_BP2016_BUS1_INTPRIO)
+            }
+            description "
+                This option specifies the interrupt priority of the ISR of
+                the SPI bus 0 interrupt in the VIC. Slot 0 has the highest
+                priority and slot 15 the lowest."
+        }
+
+        cdl_option CYGPKG_IO_SPI_ARM_BP2016_BUS0_CS_NUM {
+            display       "SPI bus 0 cs numbers"
+            flavor        data
+            legal_values  0 to 8
+            default_value 1
+            description "spi bus 0 cs numbers."
+        }
+
+        cdl_option CYGPKG_SPI_BP2016_BUS0_DMA_SUPPORT {
+            display       "SPI bus 0 dma support"
+            flavor        data
+            legal_values  { 0 1 }
+            default_value 0
+            description "whether spi0 has dma support."
+        }
+    }
+
+    cdl_component CYGPKG_DEVS_SPI_ARM_BP2016_BUS1 {
+        display       "Enable SPI interface 1"
+        flavor        bool
+        default_value 1
+        description   "The BP2016 controllers contain 3 SPI master interfaces.
+                       Enable this component to get support for SPI
+                       interface 1."
+
+        cdl_option CYGNUM_IO_SPI_ARM_BP2016_BUS1_INTPRIO {
+            display       "Interrupt priority of the SPI bus 1 ISR"
+            flavor        data
+            legal_values  0 to 15
+            default_value 13
+            description "
+                This option specifies the interrupt priority of the ISR of
+                the SPI bus 1 interrupt in the VIC. Slot 0 has the highest
+                priority and slot 15 the lowest."
+        }
+
+        cdl_option CYGPKG_IO_SPI_ARM_BP2016_BUS1_CS_NUM {
+            display       "SPI bus 1 cs numbers"
+            flavor        data
+            legal_values  0 to 8
+            default_value 2
+            description "spi bus 1 cs numbers."
+        }
+
+        cdl_option CYGPKG_SPI_BP2016_BUS1_DMA_SUPPORT {
+            display       "SPI bus 1 dma support"
+            flavor        data
+            legal_values  { 0 1 }
+            default_value 0
+            description "whether spi1 has dma support."
+        }
+    }
+
+    cdl_component CYGPKG_DEVS_SPI_ARM_BP2016_BUS2 {
+        display       "Enable SPI interface 2"
+        flavor        bool
+        default_value 1
+        description   "The BP2016 controllers contain 3 SPI master interfaces.
+                       Enable this component to get support for SPI
+                       interface 1."
+
+        cdl_option CYGNUM_IO_SPI_ARM_BP2016_BUS2_INTPRIO {
+            display       "Interrupt priority of the SPI bus 1 ISR"
+            flavor        data
+            legal_values  0 to 15
+            default_value 14
+            description "
+                This option specifies the interrupt priority of the ISR of
+                the SPI bus 1 interrupt in the VIC. Slot 0 has the highest
+                priority and slot 15 the lowest."
+        }
+
+        cdl_option CYGPKG_IO_SPI_ARM_BP2016_BUS2_CS_NUM {
+            display       "SPI bus 2 cs numbers"
+            flavor        data
+            legal_values  0 to 8
+            default_value 8
+            description "spi bus 2 cs numbers."
+        }
+
+        cdl_option CYGPKG_IO_SPI_ARM_BP2016_BUS2_CS_NUM_ALL {
+            display       "SPI bus 2 all cs numbers"
+            flavor        data
+            legal_values  0 to 10
+            default_value 10
+            description "spi bus 2 all cs numbers, contains common cs and gpio cs"
+        }
+
+        cdl_option CYGPKG_SPI_BP2016_BUS2_DMA_SUPPORT {
+            display       "SPI bus 2 dma support"
+            flavor        data
+            legal_values  { 0 1 }
+            default_value 0
+            description "whether spi2 has dma support."
+        }
+    }
+
+    cdl_component CYGPKG_DEVS_SPI3WIRE_ARM_BP2016_BUS4 {
+        display       "Enable SPI interface 4"
+        flavor        bool
+        default_value 1
+        description   "The BP2016 spi3wire controllers contain 1 SPI master interfaces."
+
+        cdl_option CYGPKG_IO_SPI3WIRE_ARM_BP2016_BUS4_CS_NUM {
+            display       "SPI bus 4 cs numbers"
+            flavor        data
+            legal_values  0 to 4
+            default_value 3
+            description "spi bus 4 SEN numbers."
+        }
+
+        cdl_option CYGPKG_SPI_BP2016_BUS4_DMA_SUPPORT {
+            display       "SPI bus 4 dma support"
+            flavor        data
+            legal_values  { 0 1 }
+            default_value 0
+            description "whether spi4 has dma support."
+        }
+    }
+}

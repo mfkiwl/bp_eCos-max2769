@@ -1,0 +1,474 @@
+# ====================================================================
+#
+#      ser_arm_bp2016.cdl
+#
+#      eCos serial ARM/BP2016 configuration data
+#
+# ====================================================================
+## ####ECOSGPLCOPYRIGHTBEGIN####                                            
+## -------------------------------------------                              
+## This file is part of eCos, the Embedded Configurable Operating System.   
+## Copyright (C) 1998, 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
+##
+## eCos is free software; you can redistribute it and/or modify it under    
+## the terms of the GNU General Public License as published by the Free     
+## Software Foundation; either version 2 or (at your option) any later      
+## version.                                                                 
+##
+## eCos is distributed in the hope that it will be useful, but WITHOUT      
+## ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or    
+## FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License    
+## for more details.                                                        
+##
+## You should have received a copy of the GNU General Public License        
+## along with eCos; if not, write to the Free Software Foundation, Inc.,    
+## 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.            
+##
+## As a special exception, if other files instantiate templates or use      
+## macros or inline functions from this file, or you compile this file      
+## and link it with other works to produce a work based on this file,       
+## this file does not by itself cause the resulting work to be covered by   
+## the GNU General Public License. However the source code for this file    
+## must still be made available in accordance with section (3) of the GNU   
+## General Public License v2.                                               
+##
+## This exception does not invalidate any other reasons why a work based    
+## on this file might be covered by the GNU General Public License.         
+## -------------------------------------------                              
+## ####ECOSGPLCOPYRIGHTEND####                                              
+# ====================================================================
+######DESCRIPTIONBEGIN####
+#
+# Author(s):      michael anburaj <michaelanburaj@hotmail.com>
+# Contributors:   michael anburaj <michaelanburaj@hotmail.com>
+# Date:           2003-08-01
+#
+#####DESCRIPTIONEND####
+#
+# ====================================================================
+
+
+cdl_package CYGPKG_IO_SERIAL_ARM_BP2016_GENERIC_16X5X {
+    display       "HG BP2016 board serial device drivers"
+
+    parent        CYGPKG_IO_SERIAL_DEVICES
+    active_if     CYGPKG_IO_SERIAL
+    active_if     CYGPKG_HAL_ARM_BP2016
+
+    requires      CYGPKG_ERROR
+    include_dir   cyg/io
+#    include_files ; # none _exported_ whatsoever
+    description   "
+           This option enables the serial device drivers for the
+           HG BP2016 based development boards."
+
+    compile       -library=libextras.a   uart_api.c
+
+    define_proc {
+        puts $::cdl_header "#define CYGPRI_IO_SERIAL_GENERIC_16X5X_STEP 4"
+        puts $::cdl_header "#include <pkgconf/io_serial_generic_16x5x.h>"
+   }
+    define_proc {
+        puts $::cdl_system_header "/***** serial driver proc output start *****/"
+        puts $::cdl_system_header "#define CYGDAT_IO_SERIAL_DEVICE_HEADER <pkgconf/io_serial_arm_bp2016_generic_16x5x.h>"
+        puts $::cdl_system_header "#define CYGDAT_IO_SERIAL_GENERIC_16X5X_INL <cyg/io/ser_arm_bp2016_generic_16x5x.inl>"
+        puts $::cdl_system_header "#define CYGDAT_IO_SERIAL_GENERIC_16X5X_CFG <pkgconf/io_serial_arm_bp2016_generic_16x5x.h>"
+        puts $::cdl_system_header "/*****  serial driver proc output end  *****/"
+    }
+
+    cdl_component CYGPKG_IO_SERIAL_ARM_BP2016_16X5X {
+        display       "ARM Industrial Module BP2016 16x5x serial device drivers"
+
+        parent        CYGPKG_IO_SERIAL_DEVICES
+        active_if     CYGPKG_IO_SERIAL
+        active_if     CYGPKG_HAL_ARM_BP2016
+        default_value 1
+
+        requires      CYGPKG_ERROR
+        description   "
+               This package contains serial device drivers for the
+               ARM Industrial Module BP2016 for the 16550 serial
+               interface on board."
+
+        # FIXME: This really belongs in the GENERIC_16X5X package
+        cdl_interface CYGINT_IO_SERIAL_GENERIC_16X5X_REQUIRED {
+            display   "Generic 16x5x serial driver required"
+        }
+
+        cdl_component CYGPKG_IO_SERIAL_ARM_BP2016_16X5X_SERIAL0 {
+            display       "BP2016 16X5X serial port 0 driver"
+            flavor        bool
+            default_value 0
+            description   "
+                This option includes the serial device driver for the BP2016 16X5X 
+                port 0, which is COM0 on the BP2016."
+
+            implements    CYGINT_IO_SERIAL_GENERIC_16X5X_REQUIRED
+            implements    CYGINT_IO_SERIAL_FLOW_CONTROL_HW
+            implements    CYGINT_IO_SERIAL_LINE_STATUS_HW
+
+            cdl_option CYGDAT_IO_SERIAL_ARM_BP2016_16X5X_SERIAL0_NAME {
+                display       "Device name for the BP2016 16X5X serial port 0 driver "
+                flavor        data
+                default_value {"\"/dev/ser0\""}
+                description   "
+                    This option sets the name of the serial device for the BP2016 
+                    16X5X port 0 (COM0)."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL0_BAUD {
+                display       "Baud rate for the BP2016 16X5X serial port 0 driver"
+                flavor        data
+                legal_values  { 50 75 110 "134_5" 150 200 300 600 1200 1800 2400 3600
+                              4800 7200 9600 14400 19200 38400 57600 115200 230400
+                              460800 921600 1875000 2850000
+                }
+                default_value 115200
+                description   "
+                    This option specifies the default baud rate (speed) for the 
+                    BP2016 16X5X port 0."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL0_BUFSIZE {
+                display       "Buffer size for the BP2016 16X5X serial port 0 driver"
+                flavor        data
+                legal_values  0 to 8192
+                default_value 128
+                description   "
+                    This option specifies the size of the internal buffers used for
+                    the BP2016 16X5X port 0."
+            }
+        }
+
+# ====================================================================
+# ====================================================================
+        cdl_component CYGPKG_IO_SERIAL_ARM_BP2016_16X5X_SERIAL1 {
+            display       "BP2016 16X5X serial port 1 driver"
+            flavor        bool
+            default_value 1
+            description   "
+                This option includes the serial device driver for the BP2016 16X5X 
+                port 1, which is COM1 on the BP2016."
+
+            implements    CYGINT_IO_SERIAL_GENERIC_16X5X_REQUIRED
+            implements    CYGINT_IO_SERIAL_FLOW_CONTROL_HW
+            implements    CYGINT_IO_SERIAL_LINE_STATUS_HW
+
+            cdl_option CYGDAT_IO_SERIAL_ARM_BP2016_16X5X_SERIAL1_NAME {
+                display       "Device name for the BP2016 16X5X serial port 1 driver "
+                flavor        data
+                default_value {"\"/dev/ser1\""}
+                description   "
+                    This option sets the name of the serial device for the BP2016 
+                    16X5X port 1 (COM1)."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL1_BAUD {
+                display       "Baud rate for the BP2016 16X5X serial port 1 driver"
+                flavor        data
+                legal_values  { 50 75 110 "134_5" 150 200 300 600 1200 1800 2400 3600
+                              4800 7200 9600 14400 19200 38400 57600 115200 230400
+                              460800 921600 1875000 2850000
+                }
+                default_value 115200
+                description   "
+                    This option specifies the default baud rate (speed) for the 
+                    BP2016 16X5X port 1."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL1_BUFSIZE {
+                display       "Buffer size for the BP2016 16X5X serial port 1 driver"
+                flavor        data
+                legal_values  0 to 8192
+                default_value 128
+                description   "
+                    This option specifies the size of the internal buffers used for
+                    the BP2016 16X5X port 1."
+            }
+        }
+
+# ====================================================================
+# ====================================================================
+        cdl_component CYGPKG_IO_SERIAL_ARM_BP2016_16X5X_SERIAL2 {
+            display       "BP2016 16X5X serial port 2 driver"
+            flavor        bool
+            default_value 1
+            description   "
+                This option includes the serial device driver for the BP2016 16X5X 
+                port 2, which is COM2 on the BP2016."
+
+            implements    CYGINT_IO_SERIAL_GENERIC_16X5X_REQUIRED
+            implements    CYGINT_IO_SERIAL_FLOW_CONTROL_HW
+            implements    CYGINT_IO_SERIAL_LINE_STATUS_HW
+
+            cdl_option CYGDAT_IO_SERIAL_ARM_BP2016_16X5X_SERIAL2_NAME {
+                display       "Device name for the BP2016 16X5X serial port 2 driver "
+                flavor        data
+                default_value {"\"/dev/ser2\""}
+                description   "
+                    This option sets the name of the serial device for the BP2016 
+                    16X5X port 2 (COM2)."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL2_BAUD {
+                display       "Baud rate for the BP2016 16X5X serial port 2 driver"
+                flavor        data
+                legal_values  { 50 75 110 "134_5" 150 200 300 600 1200 1800 2400 3600
+                              4800 7200 9600 14400 19200 38400 57600 115200 230400
+                              460800 921600 1875000 2850000
+                }
+                default_value 115200
+                description   "
+                    This option specifies the default baud rate (speed) for the 
+                    BP2016 16X5X port 2."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL2_BUFSIZE {
+                display       "Buffer size for the BP2016 16X5X serial port 2 driver"
+                flavor        data
+                legal_values  0 to 8192
+                default_value 128
+                description   "
+                    This option specifies the size of the internal buffers used for
+                    the BP2016 16X5X port 2."
+            }
+        }
+
+# ====================================================================
+# ====================================================================
+        cdl_component CYGPKG_IO_SERIAL_ARM_BP2016_16X5X_SERIAL3 {
+            display       "BP2016 16X5X serial port 3 driver"
+            flavor        bool
+            default_value 1
+            description   "
+                This option includes the serial device driver for the BP2016 16X5X 
+                port 3, which is COM3 on the BP2016."
+
+            implements    CYGINT_IO_SERIAL_GENERIC_16X5X_REQUIRED
+            implements    CYGINT_IO_SERIAL_FLOW_CONTROL_HW
+            implements    CYGINT_IO_SERIAL_LINE_STATUS_HW
+
+            cdl_option CYGDAT_IO_SERIAL_ARM_BP2016_16X5X_SERIAL3_NAME {
+                display       "Device name for the BP2016 16X5X serial port 3 driver "
+                flavor        data
+                default_value {"\"/dev/ser3\""}
+                description   "
+                    This option sets the name of the serial device for the BP2016 
+                    16X5X port 3 (COM3)."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL3_BAUD {
+                display       "Baud rate for the BP2016 16X5X serial port 3 driver"
+                flavor        data
+                legal_values  { 50 75 110 "134_5" 150 200 300 600 1200 1800 2400 3600
+                              4800 7200 9600 14400 19200 38400 57600 115200 230400
+                              460800 921600 1875000 2850000
+                }
+                default_value 115200
+                description   "
+                    This option specifies the default baud rate (speed) for the 
+                    BP2016 16X5X port 3."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL3_BUFSIZE {
+                display       "Buffer size for the BP2016 16X5X serial port 3 driver"
+                flavor        data
+                legal_values  0 to 8192
+                default_value 128
+                description   "
+                    This option specifies the size of the internal buffers used for
+                    the BP2016 16X5X port 3."
+            }
+        }
+
+# ====================================================================
+# ====================================================================
+        cdl_component CYGPKG_IO_SERIAL_ARM_BP2016_16X5X_SERIAL4 {
+            display       "BP2016 16X5X serial port 4 driver"
+            flavor        bool
+            default_value 1
+            description   "
+                This option includes the serial device driver for the BP2016 16X5X 
+                port 4, which is COM4 on the BP2016."
+
+            implements    CYGINT_IO_SERIAL_GENERIC_16X5X_REQUIRED
+            implements    CYGINT_IO_SERIAL_FLOW_CONTROL_HW
+            implements    CYGINT_IO_SERIAL_LINE_STATUS_HW
+
+            cdl_option CYGDAT_IO_SERIAL_ARM_BP2016_16X5X_SERIAL4_NAME {
+                display       "Device name for the BP2016 16X5X serial port 4 driver "
+                flavor        data
+                default_value {"\"/dev/ser4\""}
+                description   "
+                    This option sets the name of the serial device for the BP2016 
+                    16X5X port 4 (COM4)."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL4_BAUD {
+                display       "Baud rate for the BP2016 16X5X serial port 4 driver"
+                flavor        data
+                legal_values  { 50 75 110 "134_5" 150 200 300 600 1200 1800 2400 3600
+                              4800 7200 9600 14400 19200 38400 57600 115200 230400
+                              460800 921600 1875000 2850000
+                }
+                default_value 115200
+                description   "
+                    This option specifies the default baud rate (speed) for the 
+                    BP2016 16X5X port 4."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL4_BUFSIZE {
+                display       "Buffer size for the BP2016 16X5X serial port 4 driver"
+                flavor        data
+                legal_values  0 to 8192
+                default_value 128
+                description   "
+                    This option specifies the size of the internal buffers used for
+                    the BP2016 16X5X port 4."
+            }
+        }
+
+# ====================================================================
+# ====================================================================
+        cdl_component CYGPKG_IO_SERIAL_ARM_BP2016_16X5X_SERIAL5 {
+            display       "BP2016 16X5X serial port 5 driver"
+            flavor        bool
+            default_value 1
+            description   "
+                This option includes the serial device driver for the BP2016 16X5X 
+                port 5, which is COM5 on the BP2016."
+
+            implements    CYGINT_IO_SERIAL_GENERIC_16X5X_REQUIRED
+            implements    CYGINT_IO_SERIAL_FLOW_CONTROL_HW
+            implements    CYGINT_IO_SERIAL_LINE_STATUS_HW
+
+            cdl_option CYGDAT_IO_SERIAL_ARM_BP2016_16X5X_SERIAL5_NAME {
+                display       "Device name for the BP2016 16X5X serial port 5 driver "
+                flavor        data
+                default_value {"\"/dev/ser5\""}
+                description   "
+                    This option sets the name of the serial device for the BP2016 
+                    16X5X port 5 (COM5)."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL5_BAUD {
+                display       "Baud rate for the BP2016 16X5X serial port 5 driver"
+                flavor        data
+                legal_values  { 50 75 110 "134_5" 150 200 300 600 1200 1800 2400 3600
+                              4800 7200 9600 14400 19200 38400 57600 115200 230400
+                              460800 921600 1875000 2850000
+                }
+                default_value 115200
+                description   "
+                    This option specifies the default baud rate (speed) for the 
+                    BP2016 16X5X port 5."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL5_BUFSIZE {
+                display       "Buffer size for the BP2016 16X5X serial port 5 driver"
+                flavor        data
+                legal_values  0 to 8192
+                default_value 128
+                description   "
+                    This option specifies the size of the internal buffers used for
+                    the BP2016 16X5X port 5."
+            }
+        }
+
+# ====================================================================
+# ====================================================================
+        cdl_component CYGPKG_IO_SERIAL_ARM_BP2016_16X5X_SERIAL6 {
+            display       "BP2016 16X5X serial port 6 driver"
+            flavor        bool
+            default_value 1
+            description   "
+                This option includes the serial device driver for the BP2016 16X5X 
+                port 6, which is COM6 on the BP2016."
+
+            implements    CYGINT_IO_SERIAL_GENERIC_16X5X_REQUIRED
+            implements    CYGINT_IO_SERIAL_FLOW_CONTROL_HW
+            implements    CYGINT_IO_SERIAL_LINE_STATUS_HW
+
+            cdl_option CYGDAT_IO_SERIAL_ARM_BP2016_16X5X_SERIAL6_NAME {
+                display       "Device name for the BP2016 16X5X serial port 6 driver "
+                flavor        data
+                default_value {"\"/dev/ser6\""}
+                description   "
+                    This option sets the name of the serial device for the BP2016 
+                    16X5X port 6 (COM6)."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL6_BAUD {
+                display       "Baud rate for the BP2016 16X5X serial port 6 driver"
+                flavor        data
+                legal_values  { 50 75 110 "134_5" 150 200 300 600 1200 1800 2400 3600
+                              4800 7200 9600 14400 19200 38400 57600 115200 230400
+                              460800 921600 1875000 2850000
+                }
+                default_value 115200
+                description   "
+                    This option specifies the default baud rate (speed) for the 
+                    BP2016 16X5X port 6."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL6_BUFSIZE {
+                display       "Buffer size for the BP2016 16X5X serial port 6 driver"
+                flavor        data
+                legal_values  0 to 8192
+                default_value 256
+                description   "
+                    This option specifies the size of the internal buffers used for
+                    the BP2016 16X5X port 6."
+            }
+        }
+
+# ====================================================================
+# ====================================================================
+        cdl_component CYGPKG_IO_SERIAL_ARM_BP2016_16X5X_SERIAL7 {
+            display       "BP2016 16X5X serial port 7 driver"
+            flavor        bool
+            default_value 1
+            description   "
+                This option includes the serial device driver for the BP2016 16X5X 
+                port 7, which is COM7 on the BP2016."
+
+            implements    CYGINT_IO_SERIAL_GENERIC_16X5X_REQUIRED
+            implements    CYGINT_IO_SERIAL_FLOW_CONTROL_HW
+            implements    CYGINT_IO_SERIAL_LINE_STATUS_HW
+
+            cdl_option CYGDAT_IO_SERIAL_ARM_BP2016_16X5X_SERIAL7_NAME {
+                display       "Device name for the BP2016 16X5X serial port 7 driver "
+                flavor        data
+                default_value {"\"/dev/ser7\""}
+                description   "
+                    This option sets the name of the serial device for the BP2016 
+                    16X5X port 7 (COM7)."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL7_BAUD {
+                display       "Baud rate for the BP2016 16X5X serial port 7 driver"
+                flavor        data
+                legal_values  { 50 75 110 "134_5" 150 200 300 600 1200 1800 2400 3600
+                              4800 7200 9600 14400 19200 38400 57600 115200 230400
+                              460800 921600 1875000 2850000
+                }
+                default_value 115200
+                description   "
+                    This option specifies the default baud rate (speed) for the 
+                    BP2016 16X5X port 7."
+            }
+
+            cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_16X5X_SERIAL7_BUFSIZE {
+                display       "Buffer size for the BP2016 16X5X serial port 7 driver"
+                flavor        data
+                legal_values  0 to 8192
+                default_value 256
+                description   "
+                    This option specifies the size of the internal buffers used for
+                    the BP2016 16X5X port 7."
+            }
+        }
+    }
+}
+
+# EOF ser_arm_bp2016.cdl

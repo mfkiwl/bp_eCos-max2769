@@ -1,0 +1,162 @@
+#==========================================================================
+######DESCRIPTIONBEGIN####
+# 
+# Author(s):    huyue
+# Contributors: 
+# Date:         2017-10-18
+# Purpose:      
+# Description:  sim(iso7816) driver for RDSS and RNSS
+# 
+#####DESCRIPTIONEND####
+# 
+#==========================================================================
+
+cdl_package CYGPKG_IO_COMMON_SIM_ARM_BP2016 {
+    display     "HG BP2016 board sim driver"
+    include_dir cyg/io/sim
+
+    active_if   CYGPKG_HAL_ARM_BP2016
+    requires    CYGPKG_IO
+    requires    CYGFUN_KERNEL_API_C
+    requires    CYGPKG_HAL_ARM_BP2016
+    
+    compile     -library=libextras.a    sim_bp2016.c sim_api.c
+
+    description "sim driver for BP2016"
+
+    cdl_component CYGPKG_DEVS_SIM_BP2016_OPTIONS {
+        display         "options"
+        flavor          bool
+        default_value   1
+
+        cdl_option CYGDAT_DEVS_SIM_BP2016_NAME {
+            display "Device name for the sim driver"
+            flavor data
+            default_value {"\"/dev/sim\""}
+            description " This option specifies the name of the sim device"
+        }
+
+        cdl_option CYGNUM_DEVS_SIM_BP2016_RX_BUFFER_SIZE {
+            display "size of RX buffer for sim driver "
+            flavor data
+            default_value { 1024 }
+            description "
+                This option defines the size of the sim device internal
+            buffer. The cyg_io_read() function will return as many of these
+            as there is space for in the buffer passed."
+        }
+
+        cdl_option CYGPKG_DEVS_SIM_ARM_BP2016_DEBUG_LEVEL {
+            display "Driver debug output level"
+            flavor  data
+            legal_values {0 1}
+            default_value 0
+            description   "
+                This option specifies the level of debug data output by
+                the BP2016 SIM device driver. A value of 0 signifies
+                no debug data output; 1 signifies normal debug data
+                output. If an overrun occurred then this can only be
+                detected by debug output messages."
+        }
+
+        cdl_option CYGNUM_DEVS_SIM0_ARM_BP2016_INTPRIO {
+            display       "Interrupt priority"
+            flavor        data
+            legal_values  0 to 255
+            default_value 160
+            description   "This option selects the interrupt priority for the SIM0"
+        }
+
+        cdl_option CYGNUM_DEVS_SIM1_ARM_BP2016_INTPRIO {
+            display       "Interrupt priority"
+            flavor        data
+            legal_values  0 to 255
+            default_value 160
+            description   "This option selects the interrupt priority for the SIM1"
+        }
+
+        cdl_option CYGNUM_DEVS_SIM2_ARM_BP2016_INTPRIO {
+            display       "Interrupt priority"
+            flavor        data
+            legal_values  0 to 255
+            default_value 160
+            description   "This option selects the interrupt priority for the SIM2"
+        }
+    }
+
+    cdl_component CYGPKG_DEVS_SIM_BP2016_DEVTAB_ENTRIES {
+        display     "Provide a devtab entry for sim"
+        active_if   CYGPKG_DEVS_SIM_BP2016_OPTIONS 
+        default_value 1
+        description "
+             This component controls if /dev/sim entries will be created."
+
+        cdl_option CYGVAR_DEVS_BP2016_SIM0_DEVTAB_ENTRY {
+            display       "Provide a devtab entry for sim 0"
+            flavor        bool
+            default_value 1
+            requires      CYGPKG_IO
+            description "
+               If sim 0 will only be accessed via the low-level
+               USB-specific calls then there is no need for an entry
+               in the device table, saving some memory. If the
+               application intends to access the sim by means
+               of open and ioctl calls then a devtab entry is needed."
+        }
+
+        cdl_option CYGVAR_DEVS_BP2016_SIM1_DEVTAB_ENTRY {
+            display       "Provide a devtab entry for sim 1"
+            flavor        bool
+            default_value 1
+            requires      CYGPKG_IO 
+            description "
+                If this sim will only be accessed via the low-level
+                USB-specific calls then there is no need for an entry
+                in the device table, saving some memory. If the
+                application intends to access the sim by means
+                of open and read calls then a devtab entry is needed."
+        }
+
+        cdl_option CYGVAR_DEVS_BP2016_SIM2_DEVTAB_ENTRY {
+            display       "Provide a devtab entry for sim 2"
+            flavor        bool
+            default_value 1
+            requires      CYGPKG_IO 
+            description "
+                If this sim will only be accessed via the low-level
+                SIM-specific calls then there is no need for an entry
+                in the device table, saving some memory. If the
+                application intends to access the sim by means
+                of open and read calls then a devtab entry is needed."
+        }
+
+        cdl_option CYGVAR_DEVS_BP2016_SIM_INDEX0 {
+            display       "sim index 0"
+            flavor        data
+            default_value 0
+            description   "This option indicates that SIM index 0"
+        }
+
+        cdl_option CYGVAR_DEVS_BP2016_SIM_INDEX1 {
+            display       "sim index 1"
+            flavor        data
+            default_value 1
+            description   "This option indicates that SIM index 1"
+        }
+
+        cdl_option CYGVAR_DEVS_BP2016_SIM_INDEX2 {
+            display       "sim index 2"
+            flavor        data
+            default_value 2
+            description   "This option indicates that SIM index 2"
+        }
+
+        cdl_option CYGVAR_DEVS_BP2016_SIM_TOTAL_NUM {
+            display       "total sim numbers"
+            flavor        data
+            legal_values  0 to 3
+            default_value 3
+            description   "This option indicates that total number of SIM modules"
+        }
+    }
+}

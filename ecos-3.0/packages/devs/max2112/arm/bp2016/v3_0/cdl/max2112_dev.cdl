@@ -1,0 +1,42 @@
+
+#==========================================================================
+######DESCRIPTIONBEGIN####
+# 
+# Author(s):    wujinying 
+# Contributors: 
+# Date:         2018-01-23
+# Purpose:      
+# Description:  max2112 i2c Device driver for BP2016 
+# 
+#####DESCRIPTIONEND####
+# 
+#==========================================================================
+
+cdl_package CYGPKG_BP2016_I2C_DEV_MAX2112 {
+	display     "HG BP2016 board max2112 driver"
+	include_dir cyg/io/max2112
+
+    active_if   CYGPKG_HAL_ARM_BP2016
+    requires    CYGPKG_IO
+    requires    CYGFUN_KERNEL_API_C
+    requires    CYGPKG_HAL_ARM_BP2016
+    requires	CYGPKG_IO_I2C
+	requires	CYGPKG_DEVS_BP2016_I2C_DW
+    
+    compile     -library=libextras.a   max2112_i2c.c max2112_api.c
+
+    description "max2112 i2c Device driver for BP2016"
+
+    cdl_option CYGPKG_DEVS_MAX2112_ARM_BP2016_DEBUG_LEVEL {
+		display "Driver debug output level"
+		flavor  data
+		legal_values {0 1}
+		default_value 1
+		description   "
+                This option specifies the level of debug data output by
+                the BP2016 MAX2112 device driver. A value of 0 signifies
+                no debug data output; 1 signifies normal debug data
+                output. If an overrun occurred then this can only be
+                detected by debug output messages."
+        }
+}

@@ -1,0 +1,15 @@
+devs/
+ecos.ecc
+error/
+hal/
+infra/
+install/
+io/
+isoinfra/
+kernel/
+language/
+makefile
+services/
+config.mk
+compat/
+fs/

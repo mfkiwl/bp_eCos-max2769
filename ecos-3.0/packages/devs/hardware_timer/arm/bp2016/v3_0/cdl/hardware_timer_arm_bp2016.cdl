@@ -1,0 +1,43 @@
+#==========================================================================
+######DESCRIPTIONBEGIN####
+# 
+# Author(s):    wuzhen
+# Contributors: 
+# Date:         2018-06-28
+# Purpose:      
+# Description:  hardware timer driver for bp2016 APB timer
+# 
+#####DESCRIPTIONEND####
+# 
+#==========================================================================
+
+cdl_package CYGPKG_IO_COMMON_TIMER_ARM_BP2016 {
+    display     "HG BP2016 board hardware timer driver"
+
+    requires    CYGPKG_IO
+    requires    CYGFUN_KERNEL_API_C
+    requires    {CYGPKG_HAL_ARM_BP2016 || CYGPKG_HAL_ARM_BP2018}
+    
+    compile     -library=libextras.a    timer_sep_api.c
+
+    description "hardware timer driver for BP2016 or BP2018"
+
+    cdl_component CYGPKG_DEVS_TIMER_BP2016 {
+        display         "options"
+        flavor          bool
+        default_value   1
+
+        cdl_option CYGPKG_DEVS_TIMER_ARM_BP2016_DEBUG_LEVEL {
+            display "Driver debug output level"
+            flavor  data
+            legal_values {0 1}
+            default_value 0
+            description   "
+                This option specifies the level of debug data output by
+                the BP2016 Timer device driver. A value of 0 signifies
+                no debug data output; 1 signifies normal debug data
+                output. If an overrun occurred then this can only be
+                detected by debug output messages."
+        }
+    }
+}

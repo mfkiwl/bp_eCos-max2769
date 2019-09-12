@@ -1,0 +1,97 @@
+# ====================================================================
+#
+#      i2c_dw.cdl
+#
+#      HG BP2016 I2C package configuration data
+#
+# ====================================================================
+## ####ECOSGPLCOPYRIGHTBEGIN####                                            
+## -------------------------------------------                              
+## This file is part of eCos, the Embedded Configurable Operating System.   
+## Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+##
+## eCos is free software; you can redistribute it and/or modify it under    
+## the terms of the GNU General Public License as published by the Free     
+## Software Foundation; either version 2 or (at your option) any later      
+## version.                                                                 
+##
+## eCos is distributed in the hope that it will be useful, but WITHOUT      
+## ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or    
+## FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License    
+## for more details.                                                        
+##
+## You should have received a copy of the GNU General Public License        
+## along with eCos; if not, write to the Free Software Foundation, Inc.,    
+## 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.            
+##
+## As a special exception, if other files instantiate templates or use      
+## macros or inline functions from this file, or you compile this file      
+## and link it with other works to produce a work based on this file,       
+## this file does not by itself cause the resulting work to be covered by   
+## the GNU General Public License. However the source code for this file    
+## must still be made available in accordance with section (3) of the GNU   
+## General Public License v2.                                               
+##
+## This exception does not invalidate any other reasons why a work based    
+## on this file might be covered by the GNU General Public License.         
+## -------------------------------------------                              
+## ####ECOSGPLCOPYRIGHTEND####                                              
+# ====================================================================
+######DESCRIPTIONBEGIN####
+#
+# Author(s):      jinyingwu 
+# Contributors:   
+# Date:           2018-01-12
+#
+#####DESCRIPTIONEND####
+#
+# ====================================================================
+
+cdl_package CYGPKG_DEVS_BP2016_I2C_DW {
+    display     "I2C driver for BP2016 family of DesignWare controllers"
+    include_dir cyg/io/i2c
+    
+    active_if   CYGPKG_HAL_ARM_BP2016 
+    parent      CYGPKG_IO_I2C
+    active_if   CYGPKG_IO_I2C
+    requires    CYGFUN_KERNEL_API_C
+
+    compile     -library=libextras.a    i2c_dw_bus.c  i2c_api.c
+
+    description " 
+           This package provides a generic I2C device driver for the on-chip
+           I2C peripherals in bp2016 processors."
+    
+    cdl_component CYGHWR_DEVS_I2C_ARM_BP2016_I2C_BUSES {
+	display		"Target hardware may have multiple I2C buses"
+	flavor		bool
+	default_value 1
+	description "
+          The BP2016 I2C driver can support multiple I2C bus devices. By
+          default the driver assumes only a single device is present and will
+          optimize for that case, using constant definitions provided by the
+          platform HAL rather than per-device structure fields. If the hardware
+          has multiple I2C bus devices, or if a singleton bus is instantiated
+          by some other package and hence the platform HAL cannot provide the
+          necessary definitions, then this option should be enabled."
+
+
+        cdl_option CYGVAR_DEVS_BP2016_I2C_BUS0_EN {
+            display       "Enable I2C BUS0"
+            flavor        bool
+            default_value 1
+            requires      CYGPKG_IO_I2C
+            description "
+               Enable and insmod I2C bus0 Driver"
+        }
+
+        cdl_option CYGVAR_DEVS_BP2016_I2C_BUS1_EN {
+            display       "Enable I2C BUS1"
+            flavor        bool
+            default_value 0
+            requires      CYGPKG_IO_I2C
+            description "
+                Enable and insmod I2C bus0 Driver"
+        }
+    }
+}

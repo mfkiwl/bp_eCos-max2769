@@ -1,0 +1,152 @@
+#include <pkgconf/hal.h>
+#include <cyg/infra/cyg_type.h>         // base types
+#include <cyg/hal/plf/common_def.h>
+#include <cyg/hal/a7/cortex_a7.h>           // necessary?
+#include <cyg/hal/hal_platform_ints.h>           
+
+#define ARCH_TIMER_CTRL_ENABLE		(1 << 0)
+#define ARCH_TIMER_CTRL_IT_MASK		(1 << 1)
+#define ARCH_TIMER_CTRL_IT_STAT		(1 << 2)
+
+#define CNTHCTL_EL1PCTEN		(1 << 0)
+#define CNTHCTL_EL1PCEN			(1 << 1)
+#define CNTHCTL_EVNTEN			(1 << 2)
+#define CNTHCTL_EVNTDIR			(1 << 3)
+#define CNTHCTL_EVNTI			(0xF << 4)
+
+#define ARCH_TIMER_USR_PCT_ACCESS_EN	(1 << 0) /* physical counter */
+#define ARCH_TIMER_USR_VCT_ACCESS_EN	(1 << 1) /* virtual counter */
+#define ARCH_TIMER_VIRT_EVT_EN		(1 << 2)
+#define ARCH_TIMER_EVT_TRIGGER_SHIFT	(4)
+#define ARCH_TIMER_EVT_TRIGGER_MASK	(0xF << ARCH_TIMER_EVT_TRIGGER_SHIFT)
+#define ARCH_TIMER_USR_VT_ACCESS_EN	(1 << 8) /* virtual timer registers */
+#define ARCH_TIMER_USR_PT_ACCESS_EN	(1 << 9) /* physical timer registers */
+
+#define ARCH_TIMER_EVT_STREAM_FREQ	10000	/* 100us */
+
+/*
+ * On ARMv5 and above those functions can be implemented around the
+ * clz instruction for much better code efficiency.  __clz returns
+ * the number of leading zeros, zero input will return 32, and
+ * 0x80000000 will return 0.
+ */
+static inline unsigned int __clz(unsigned int x)
+{
+	unsigned int ret;
+
+	asm("clz\t%0, %1" : "=r" (ret) : "r" (x));
+
+	return ret;
+}
+
+/*
+ * fls() returns zero if the input is zero, otherwise returns the bit
+ * position of the last set bit, where the LSB is 1 and MSB is 32.
+ */
+static inline int fls(int x)
+{
+	return 32 - __clz(x);
+}
+
+static inline void arch_timer_set_cntfrq(u32 val)
+{
+	asm volatile("mcr p15, 0, %0, c14, c0, 0 @ set cntfreq"
+          : : "r" (val) : "cc");
+}
+
+inline u32 arch_timer_get_cntfrq(void)
+{
+	u32 val;
+	asm volatile("mrc p15, 0, %0, c14, c0, 0" : "=r" (val));
+	return val;
+}
+
+inline u64 arch_counter_get_cntpct(void)
+{
+	u64 cval;
+
+	isb();
+	asm volatile("mrrc p15, 0, %Q0, %R0, c14" : "=r" (cval));
+	return cval;
+}
+
+inline u64 arch_counter_get_cntvct(void)
+{
+	u64 cval;
+
+	isb();
+	asm volatile("mrrc p15, 1, %Q0, %R0, c14" : "=r" (cval));
+	return cval;
+}
+
+static inline u32 arch_timer_get_cntkctl(void)
+{
+	u32 cntkctl;
+	asm volatile("mrc p15, 0, %0, c14, c1, 0" : "=r" (cntkctl));
+	return cntkctl;
+}
+
+static inline void arch_timer_set_cntkctl(u32 cntkctl)
+{
+	asm volatile("mcr p15, 0, %0, c14, c1, 0" : : "r" (cntkctl));
+}
+
+static void arch_timer_evtstrm_enable(int divider)
+{
+	u32 cntkctl = arch_timer_get_cntkctl();
+
+	cntkctl &= ~ARCH_TIMER_EVT_TRIGGER_MASK;
+	/* Set the divider and enable virtual event stream */
+	cntkctl |= (divider << ARCH_TIMER_EVT_TRIGGER_SHIFT)
+			| ARCH_TIMER_VIRT_EVT_EN;
+	arch_timer_set_cntkctl(cntkctl);
+}
+
+static void arch_timer_configure_evtstream(void)
+{
+	int evt_stream_div, pos;
+
+	/* Find the closest power of two to the divisor */
+	evt_stream_div = CONFIG_COUNTER_FREQ / ARCH_TIMER_EVT_STREAM_FREQ;
+	pos = fls(evt_stream_div);
+	if (pos > 1 && !(evt_stream_div & (1 << (pos - 2))))
+		pos--;
+	/* enable event stream */
+	if(pos > 15)
+	    pos = 15;
+	arch_timer_evtstrm_enable(pos);
+}
+
+static void arch_counter_set_user_access(void)
+{
+	u32 cntkctl = arch_timer_get_cntkctl();
+
+	/* Disable user access to the timers and both counters */
+	/* Also disable virtual event stream */
+	cntkctl &= ~(ARCH_TIMER_USR_PT_ACCESS_EN
+			| ARCH_TIMER_USR_VT_ACCESS_EN
+		        | ARCH_TIMER_USR_VCT_ACCESS_EN
+			| ARCH_TIMER_VIRT_EVT_EN
+			| ARCH_TIMER_USR_PCT_ACCESS_EN);
+
+	/*
+	 * Enable user access to the virtual counter if it doesn't
+	 * need to be workaround. The vdso may have been already
+	 * disabled though.
+	 */
+	cntkctl |= ARCH_TIMER_USR_VCT_ACCESS_EN | ARCH_TIMER_USR_PCT_ACCESS_EN;
+
+	arch_timer_set_cntkctl(cntkctl);
+}
+
+int arch_timer_starting_cpu(void)
+{
+    arch_timer_set_cntfrq(CONFIG_COUNTER_FREQ);
+
+	arch_counter_set_user_access();
+	arch_timer_configure_evtstream();
+	return 0;
+}
+
+
+

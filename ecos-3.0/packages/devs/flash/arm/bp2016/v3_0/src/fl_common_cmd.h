@@ -1,0 +1,33 @@
+#ifndef __FL_WINBOND_GD_H__
+#define __FL_WINBOND_GD_H__
+
+#define SPINOR_OP_BE_64K 0xd8
+#define SPINOR_OP_BE_32K 0x52
+#define SPINOR_OP_BE_SECTOR 0x20
+#define SPINOR_OP_CHIP_ERASE 0xc7
+#define SPINOR_OP_BE_MAX_MS (2000)
+#define SPINOR_OP_CE_MAX_MS (400 * 1000)
+#define SPINOR_OP_PP_MAX_MS (500)
+
+#define SPINOR_OP_WR_EXTADDR 0xc5
+#define SPINOR_OP_RD_EXTADDR 0xc8
+#define SPINOR_OP_EXTR_A24 0x01
+#define SPINOR_OP_EXTR_A25 0x02
+#define SPINOR_OP_EXTR_A26 0x04
+
+#define SPINOR_OP_RDSR1 0x05
+#define SPINOR_OP_RDSR2 0x35
+#define SPINOR_OP_RDSR3 0x15
+
+#define SPINOR_OP_WRSR1 0x01
+#define SPINOR_OP_WRSR2 0x31
+#define SPINOR_OP_WRSR3 0x11
+
+#define WPS_BLOCK_LOCK			(0x36)
+#define WPS_BLOCK_UNLOCK		(0x39)
+#define WPS_BLOCK_READ_LOCK		(0x3d)
+#define WPS_GLOBAL_BLOCK_LOCK	(0x7e)
+#define WPS_GLOBAL_BLOCK_UNLOCK	(0x98)
+
+extern void *qspi_dma_tx_chan;
+#endif //__FL_WINBOND_GD_H__

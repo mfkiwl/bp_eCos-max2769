@@ -1,0 +1,76 @@
+#==========================================================================
+######DESCRIPTIONBEGIN####
+# 
+# Author(s):    wuzhen
+# Contributors: 
+# Date:         2018-05-22
+# Purpose:      
+# Description:  cpu comm driver for bp2016
+# 
+#####DESCRIPTIONEND####
+# 
+#==========================================================================
+
+cdl_package CYGPKG_IO_COMMON_COMM_ARM_BP2016 {
+    display     "HG BP2016 board comm driver"
+    include_dir cyg/io/comm
+
+    active_if   CYGPKG_HAL_ARM_BP2016
+    requires    CYGPKG_IO
+    requires    CYGFUN_KERNEL_API_C
+    requires    CYGPKG_HAL_ARM_BP2016
+    
+    compile     -library=libextras.a    cpu_comm_if.c
+
+    description "comm driver for BP2016"
+
+    cdl_component CYGPKG_DEVS_COMM_BP2016 {
+        display         "options"
+        flavor          bool
+        default_value   1
+
+        cdl_option CYGPKG_DEVS_COMM_ARM_BP2016_DEBUG_LEVEL {
+            display "Driver debug output level"
+            flavor  data
+            legal_values {0 1}
+            default_value 0
+            description   "
+                This option specifies the level of debug data output by
+                the BP2016 COMM device driver. A value of 0 signifies
+                no debug data output; 1 signifies normal debug data
+                output. If an overrun occurred then this can only be
+                detected by debug output messages."
+        }
+
+        cdl_option CYGNUM_DEVS_ARM_BP2016_SELECT_CPU0 {
+            display       "CPU Index"
+            flavor        bool
+            default_value 0
+            description   "Select CPU0 for building"
+        }
+
+
+        cdl_option CYGNUM_DEVS_ARM_BP2016_SELECT_CPU1 {
+            display       "CPU Index"
+            flavor        bool
+            default_value 0
+            description   "Selects CPU1 for building"
+        }
+
+        cdl_option CYGNUM_COMM_ARM_BP2016_CH_NUM {
+            display       "communication channel number"
+            flavor        data
+            legal_values  0 to 16
+            default_value 16
+            description   "This option selects the channel of the COMM module"
+        }
+
+        cdl_option CYGNUM_DEVS_COMM_ARM_BP2016_INTPRIO {
+            display       "Interrupt priority"
+            flavor        data
+            legal_values  0 to 255
+            default_value 160
+            description   "This option selects the interrupt priority for the COMM module"
+        }
+    }
+}

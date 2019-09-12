@@ -1,0 +1,75 @@
+#==========================================================================
+######DESCRIPTIONBEGIN####
+# 
+# Author(s):    wuzhen
+# Contributors: 
+# Date:         2018-05-08
+# Purpose:      
+# Description:  dma driver for bp2016-DW
+# 
+#####DESCRIPTIONEND####
+# 
+#==========================================================================
+
+cdl_package CYGPKG_IO_COMMON_DMA_ARM_BP2016 {
+    display     "HG BP2016 board dma driver"
+    include_dir cyg/io/dma
+
+    active_if   CYGPKG_HAL_ARM_BP2016
+    requires    CYGPKG_IO
+    requires    CYGFUN_KERNEL_API_C
+    requires    CYGPKG_HAL_ARM_BP2016
+    
+    compile     -library=libextras.a    dma_api.c
+
+    description "dma driver for BP2016"
+
+    cdl_component CYGPKG_DEVS_DMA_BP2016 {
+        display         "options"
+        flavor          bool
+        default_value   1
+
+        cdl_option CYGPKG_DEVS_DMA_ARM_BP2016_DEBUG_LEVEL {
+            display "Driver debug output level"
+            flavor  data
+            legal_values {0 1}
+            default_value 0
+            description   "
+                This option specifies the level of debug data output by
+                the BP2016 DMA device driver. A value of 0 signifies
+                no debug data output; 1 signifies normal debug data
+                output. If an overrun occurred then this can only be
+                detected by debug output messages."
+        }
+
+        cdl_option CYGNUM_DEVS_ARM_BP2016_SELECT_DMAC0 {
+            display       "Dmac Controller Index"
+            flavor        bool
+            default_value 0
+            description   "Selects the DMAC0 Controller"
+        }
+
+
+        cdl_option CYGNUM_DEVS_ARM_BP2016_SELECT_DMAC1 {
+            display       "Dmac Controller Index"
+            flavor        bool
+            default_value 0
+            description   "Selects the DMAC1 Controller"
+        }
+
+        cdl_option CYGNUM_DEVS_DMA_ARM_BP2016_INTPRIO {
+            display       "Interrupt priority"
+            flavor        data
+            legal_values  0 to 255
+            default_value 160
+            description   "This option selects the interrupt priority for the DMA"
+        }
+
+        cdl_option CYGNUM_DEVS_DMA_ARM_BP2016_CH_FIX {
+            display       "Dmac Channel alloc options"
+            flavor        bool
+            default_value 1
+            description   "This option selects the DMAC Channel malloc type"
+        }
+    }
+}
