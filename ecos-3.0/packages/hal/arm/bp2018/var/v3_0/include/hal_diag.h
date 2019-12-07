@@ -68,7 +68,8 @@ externC void hal_delay_us(cyg_int32 usecs);
 #define HAL_DELAY_US(n) hal_delay_us(n);
 
 externC cyg_uint64 hal_ostimer_get_counter_value(void);
-#define HAL_GET_COUNTER arch_counter_get_cntpct()
+//#define HAL_GET_COUNTER arch_counter_get_cntpct()
+#define HAL_GET_COUNTER arch_counter_get_current()
 //-----------------------------------------------------------------------------
 // end of hal_diag.h
 #endif // CYGONCE_HAL_DIAG_H

@@ -77,7 +77,7 @@ int qspi_flash_erase(cyg_io_handle_t handle, cyg_uint32 offs, cyg_uint32 len)
     e.len = len;
     e.err_address = 0;
     elen = sizeof(e);
-    printf("%s: addr 0x%x len 0x%x\n", __func__, e.offset, e.len);
+    //printf("%s: addr 0x%x len 0x%x\n", __func__, e.offset, e.len);
     if ((stat = cyg_io_get_config(handle, CYG_IO_GET_CONFIG_FLASH_ERASE, &e, &elen)) != 0 ||
         e.flasherr != 0) {
         printf("FLASH: erase failed: %s %s\n", cyg_flash_errmsg(stat),
@@ -98,7 +98,7 @@ int qspi_flash_sector_erase(cyg_io_handle_t handle, cyg_uint32 offs, cyg_uint32 
     e.len = len;
     e.err_address = 0;
     elen = sizeof(e);
-    printf("%s: addr 0x%x len 0x%x\n", __func__, e.offset, e.len);
+    //printf("%s: addr 0x%x len 0x%x\n", __func__, e.offset, e.len);
     if ((stat = cyg_io_get_config(handle, CYG_IO_GET_CONFIG_FLASH_SECTOR_ERASE, &e, &elen)) != 0 ||
         e.flasherr != 0) {
         printf("FLASH: erase failed: %s %s\n", cyg_flash_errmsg(stat),

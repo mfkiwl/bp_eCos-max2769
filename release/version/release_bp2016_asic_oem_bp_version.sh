@@ -1,5 +1,9 @@
 #!/bin/sh -x
 
+ECOS_REPOSITORY=~/workplace/bp_eCos/ecos-3.0/packages ; export ECOS_REPOSITORY
+PATH=~/workplace/bp_eCos/ecos-3.0/tools/bin:$PATH ; export PATH
+PATH=/opt/gcc/gnutools-4.7.3/arm-eabi/bin:$PATH ; export PATH
+
 if [ $# -gt 0 ]
 then
 RELEASE_MAJOR_VERSION=$1

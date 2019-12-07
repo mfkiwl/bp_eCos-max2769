@@ -112,7 +112,7 @@ static void timer_m_init(void)
 
 static bool hardware_timer_init(struct cyg_devtab_entry *tab)
 {
-    diag_printf("timer module init...\n");
+    // diag_printf("timer module init...\n");
     timer_m_init();
     return ENOERR;
 }
@@ -222,4 +222,8 @@ void TimerStop(void *handle)
     cyg_mutex_unlock(&timer->mt);
 }
 
+cyg_uint64 TimerGetCurrent(cyg_uint32 id)
+{
+    return hal_ostimer_get_current(id);
+}
 

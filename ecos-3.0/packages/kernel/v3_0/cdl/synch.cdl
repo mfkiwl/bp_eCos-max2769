@@ -175,7 +175,7 @@ cdl_option CYGNUM_KERNEL_SYNCH_MBOX_QUEUE_SIZE {
     doc           ref/kernel-mail-boxes.html
     flavor        data
     legal_values  1 to 65535
-    default_value 128
+    default_value 256
     description   "
         This configuration option controls the number of messages
         that can be queued in a message box before a non-blocking

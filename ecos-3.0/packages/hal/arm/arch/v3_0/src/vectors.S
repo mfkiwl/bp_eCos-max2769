@@ -353,6 +353,25 @@ start:
 
         LED 5
 
+// wwzz add for execute on ddr, copy data section first
+#if defined(CYGHAL_RUN_ENV_TEXT_SRAM_BSS_DDR)
+        // Relocate [copy] data from RAM to DDR
+        ldr     r3,.__rom_data_start
+        ldr     r4,.__ram_data_start
+        ldr     r5,.__ram_data_end
+        cmp     r3,r4           // jump if no necessary to move
+        beq     2f
+        cmp     r4,r5           // jump if no data to move
+        beq     2f
+        sub     r3,r3,#4        // loop adjustments
+        sub     r4,r4,#4
+1:      ldr     r0,[r3,#4]!     // copy info
+        str     r0,[r4,#4]!
+        cmp     r4,r5
+        bne     1b
+2:
+# endif
+
 #ifndef CYGHWR_HAL_BP2016_SUPPORT_FAST_BOOT
 #if defined(CYG_HAL_STARTUP_RAM) && \
     !defined(CYGDBG_HAL_DEBUG_GDB_INCLUDE_STUBS)
@@ -912,7 +931,22 @@ IRQ:
         cmp     r0,#0
         moveq   r1,sp                   // save old stack pointer
         ldreq   sp,.__interrupt_stack
+#ifdef CYGSEM_DIAG_PRINTF_FLOATING_POINT
+		stmeqfd sp!,{r1, r2}		   //fixed print float info, in isr
+        beq     10f  // enter irq from thread, use __interrupt_stack
+
+		// wwzz add, if sp not align with 8B, fix it
+        // enter irq from dsr, check current sp, if not align 8, fix it
+        mov     r1, sp
+        bic     r2, r1, #7
+        cmp     r2, r1
+        ldrne   r0,.irq_stack_align_8
+        movne   r2, #1
+        strne   r2, [r0]  // set flag to 1
+        stmnefd sp!,{r1}  // push 1 more sp, so sp align to 8
+#else 
         stmeqfd sp!,{r1}
+#endif 
 10:
 #endif
 
@@ -927,6 +961,11 @@ IRQ:
         str     r4,[r3]
 #endif
 
+// wwzz add for cpuload
+#ifdef CYGFUN_KERNEL_THREADS_CPULOAD
+        .extern sched_check_idle
+        bl      sched_check_idle
+#endif
         THUMB_MODE(r3,10)
 
         mov     r0,v6
@@ -1023,7 +1062,22 @@ spurious_IRQ:
         ldr     r3,[r2]
         subs    r1,r3,#1
         str     r1,[r2]
+#ifdef CYGSEM_DIAG_PRINTF_FLOATING_POINT
+        ldmeqfd   sp!, {r1, r2}         // fixed print float info, in isr
+        moveq     sp, r1
+        beq       43f
+		// wwzz add, if sp not align with 8B, fix it
+        // enter from dsr, check align_flag, if set, pop 1 para first
+        ldr     r2,.irq_stack_align_8
+        ldr     r3, [r2]
+        cmp     r3, #1       // push 1 para or not?
+        moveq   r3, #0
+        streq   r3, [r2] 
+        ldmeqfd   sp!, {r1}  // pop 1 para to r1
+43:
+#else 
         ldreq   sp,[sp]         // This should be the saved stack pointer
+#endif 
 #endif
         // The return value from the handler (in r0) will indicate whether a 
         // DSR is to be posted. Pass this together with a pointer to the
@@ -1062,7 +1116,11 @@ FUNC_START_ARM(hal_interrupt_stack_call_pending_DSRs, r1)
         // Switch to interrupt stack
         mov     r3,sp                   // save old stack pointer
         ldr     sp,.__interrupt_stack
+#ifdef CYGSEM_DIAG_PRINTF_FLOATING_POINT
+		stmfd sp!,{r3, r4}		   //fixed print float info, in dsr
+#else
         stmfd   sp!,{r3}                // stored at top of interrupt stack
+#endif
         ldr     r2,.irq_level           // current number of nested interrupts
         ldr     r3,[r2]
         add     r3,r3,#1                // bump nesting level
@@ -1086,7 +1144,12 @@ FUNC_START_ARM(hal_interrupt_stack_call_pending_DSRs, r1)
         ldr     r3,[r2]
         sub     r3,r3,#1                // decrement nesting level
         str     r3,[r2]
+#ifdef CYGSEM_DIAG_PRINTF_FLOATING_POINT
+        ldmfd   sp!, {r2, r3}         // fixed print float info, in isr
+        mov     sp, r2
+#else
         ldr     sp,[sp]                 // This should be the saved stack pointer
+#endif
         msr     cpsr,r4                 // restore interrupts to original state
 
 #ifdef __thumb__
@@ -1196,6 +1259,7 @@ PTR(__interrupt_stack)
 PTR(__dump_procs)
 #endif
 
+PTR(irq_stack_align_8)
 //
 // Identification - useful to find out when a system was configured
 _eCos_id:
@@ -1253,6 +1317,7 @@ __exception_stack:
         .rept   32
         .long   0
         .endr
+        .global __undef_exception_stack 
 __undef_exception_stack:
 
 // Runtime stack used during all interrupt processing
@@ -1272,6 +1337,9 @@ __interrupt_stack_base:
 cyg_interrupt_stack:
 __interrupt_stack:
 irq_level:
+        .long   0
+
+irq_stack_align_8:
         .long   0
 #endif
 

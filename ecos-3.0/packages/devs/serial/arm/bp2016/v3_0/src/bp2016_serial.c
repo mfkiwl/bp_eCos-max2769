@@ -429,6 +429,7 @@ static unsigned int bp2016_calc_divisor(U32 clk, U32 baud_rate)
 
 static cyg_uint32 uart_input_clk_setting(cyg_uint32 baud, bp2016_uart_priv *priv)
 {
+    #define  HIGH_BAUD_921600_APB_CLK     (162857142)
     #define  HIGH_BAUD_1875000_APB_CLK    (30000000)
     #define  HIGH_BAUD_2850000_APB_CLK    (45600000)
     cyg_uint32 apb_clk = CONFIG_APB_CLOCK;
@@ -447,6 +448,10 @@ static cyg_uint32 uart_input_clk_setting(cyg_uint32 baud, bp2016_uart_priv *priv
 
     if(CLK_CPU0 != uart_id){
         switch(baud){
+        case 921600:
+            hal_clk_set_rate_kHz(uart_id, (HIGH_BAUD_921600_APB_CLK/1000));
+            apb_clk = HIGH_BAUD_921600_APB_CLK;
+            break;
         case 1875000:
             hal_clk_set_rate_kHz(uart_id, (HIGH_BAUD_1875000_APB_CLK/1000));
             apb_clk = HIGH_BAUD_1875000_APB_CLK;
@@ -505,6 +510,7 @@ bp2016_uart_config_port(bp2016_uart_channel *chan, cyg_serial_info_t *new_config
     if(1000 == count)
     {
         diag_printf("uart line busy!\n");
+        HAL_WRITE_UINT32(base+REG_ier, _ier);
         return false;
     }
 

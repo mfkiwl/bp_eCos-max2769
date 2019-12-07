@@ -91,7 +91,7 @@ bool pll_api_force_set_pll3_ref_KHz(unsigned int rate_kHz)
     cyg_drv_mutex_lock(&pll_lock);
     pll3_ref_clk_khz = rate_kHz;
     cyg_drv_mutex_unlock(&pll_lock);
-    diag_printf("set pll3 refclk to %u KHz\n", pll3_ref_clk_khz);
+    // diag_printf("set pll3 refclk to %u KHz\n", pll3_ref_clk_khz);
 
     return true;
 } 
@@ -118,7 +118,7 @@ bool pll_api_set_pll3_ref_KHz(unsigned int rate_kHz)
             break;
     }
     cyg_drv_mutex_unlock(&pll_lock);
-    diag_printf("set pll3 refclk to %u KHz\n", pll3_ref_clk_khz);
+    // diag_printf("set pll3 refclk to %u KHz\n", pll3_ref_clk_khz);
 
     return ret;
 }

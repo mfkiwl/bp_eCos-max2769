@@ -58,7 +58,7 @@ void hal_misc_init(void)
    //1. for fastboot 
 #ifdef CYGHWR_HAL_BP2016_SUPPORT_FAST_BOOT
     hwp_apSCM->sw_bp_magic = CONFIG_BP_FASTBOOT_JUMP_MAGIC;
-    hwp_apSCM->sw_bp_jaddr = (unsigned int)(&__exception_handlers);
+    hwp_apSCM->sw_bp_jaddr = CONFIG_BP_FASTBOOT_EXEC_ADDR;
 #endif
 }
 

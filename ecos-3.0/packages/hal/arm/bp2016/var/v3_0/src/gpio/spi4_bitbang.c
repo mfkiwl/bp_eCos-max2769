@@ -8,7 +8,7 @@
 #include <cyg/infra/diag.h>
 #include <cyg/hal/plf/common_def.h>
 #include <cyg/hal/hal_diag.h>
-#include <cyg/hal/gpio/gpio_if.h>
+#include <cyg/hal/api/gpio_api.h>
 #include <cyg/hal/api/spi4_bitbang_api.h>
 
 // #define SPI4_BITBANG_DEBUG_LEVEL 
@@ -124,41 +124,41 @@ int spi4_bitbang_api_tx(spi4_gpio_dev_info *handler, u32 addr, unsigned int valu
     d = w_flag | (addr << handler->data_width) | value;
 
     // set output
-    gpio_set_output_direction(handler->cs);
-    gpio_set_output_direction(handler->sdata);
-    gpio_set_output_direction(handler->sclk);
+    gpio_api_set_output(handler->cs);
+    gpio_api_set_output(handler->sdata);
+    gpio_api_set_output(handler->sclk);
 
     //prepare
-    gpio_set_output_low(handler->cs);
-    gpio_set_output_low(handler->sdata);
-    gpio_set_output_low(handler->sclk);
+    gpio_api_set_low(handler->cs);
+    gpio_api_set_low(handler->sdata);
+    gpio_api_set_low(handler->sclk);
     HAL_DELAY_US(100);
 
-    gpio_set_output_low(handler->sclk);
+    gpio_api_set_low(handler->sclk);
     HAL_DELAY_US(spi_delay);
-    gpio_set_output_high(handler->sclk);
+    gpio_api_set_high(handler->sclk);
     HAL_DELAY_US(spi_delay);
-    gpio_set_output_low(handler->sclk);
+    gpio_api_set_low(handler->sclk);
 
-    gpio_set_output_high(handler->cs);
+    gpio_api_set_high(handler->cs);
 
     for(i = 0; i < (width + 1); i++) {
         t = get_bit(d, bits);
         bits --;
         if(t > 0)
-            gpio_set_output_high(handler->sdata);
+            gpio_api_set_high(handler->sdata);
         else
-            gpio_set_output_low(handler->sdata);
+            gpio_api_set_low(handler->sdata);
 
         HAL_DELAY_US(spi_delay);
-        gpio_set_output_high(handler->sclk);
+        gpio_api_set_high(handler->sclk);
         HAL_DELAY_US(spi_delay);
-        gpio_set_output_low(handler->sclk);
+        gpio_api_set_low(handler->sclk);
     }
 
-    gpio_set_output_low(handler->cs);
-    gpio_set_output_low(handler->sclk);
-    gpio_set_output_low(handler->sdata);
+    gpio_api_set_low(handler->cs);
+    gpio_api_set_low(handler->sclk);
+    gpio_api_set_low(handler->sdata);
 
     cyg_drv_mutex_unlock(&spi4_bitbang_lock);
 
@@ -209,51 +209,51 @@ int spi4_bitbang_api_rx(spi4_gpio_dev_info *handler, u32 addr, u32 *value)
     d = r_flag | addr;
 
     // set output
-    gpio_set_output_direction(handler->cs);
-    gpio_set_output_direction(handler->sdata);
-    gpio_set_output_direction(handler->sclk);
+    gpio_api_set_output(handler->cs);
+    gpio_api_set_output(handler->sdata);
+    gpio_api_set_output(handler->sclk);
 
     // prepare for communication
-    gpio_set_output_low(handler->cs);
-    gpio_set_output_low(handler->sdata);
-    gpio_set_output_low(handler->sclk);
+    gpio_api_set_low(handler->cs);
+    gpio_api_set_low(handler->sdata);
+    gpio_api_set_low(handler->sclk);
     HAL_DELAY_US(100);
 
-    gpio_set_output_low(handler->sclk);
+    gpio_api_set_low(handler->sclk);
     HAL_DELAY_US(spi_delay);
-    gpio_set_output_high(handler->sclk);
+    gpio_api_set_high(handler->sclk);
     HAL_DELAY_US(spi_delay);
-    gpio_set_output_low(handler->sclk);
+    gpio_api_set_low(handler->sclk);
 
     // tx addr
-    gpio_set_output_high(handler->cs);
+    gpio_api_set_high(handler->cs);
 
     for(i = 0; i <= (handler->addr_width); i++) {
-        gpio_set_output_low(handler->sclk);
+        gpio_api_set_low(handler->sclk);
         t = get_bit(d, bits);
         bits --;
         if(t > 0)
-            gpio_set_output_high(handler->sdata);
+            gpio_api_set_high(handler->sdata);
         else
-            gpio_set_output_low(handler->sdata);
+            gpio_api_set_low(handler->sdata);
 
         HAL_DELAY_US(spi_delay);
-        gpio_set_output_high(handler->sclk);
+        gpio_api_set_high(handler->sclk);
         HAL_DELAY_US(spi_delay);
     }
-    gpio_set_output_low(handler->sclk);
-    gpio_set_output_low(handler->cs);
+    gpio_api_set_low(handler->sclk);
+    gpio_api_set_low(handler->cs);
 
-    gpio_set_input_direction(handler->sdata);
+    gpio_api_set_input(handler->sdata);
 
     //rx data, bit_max + 2 cycle
     for(i = r_width; i >= 0; i--) {
         HAL_DELAY_US(spi_delay);
-        gpio_set_output_high(handler->sclk);
+        gpio_api_set_high(handler->sclk);
         HAL_DELAY_US(spi_delay);
-        gpio_get_input_data(handler->sdata, &rbit);
+        gpio_api_get_data(handler->sdata, &rbit);
         get_val(&rdata, rbit, i);
-        gpio_set_output_low(handler->sclk);
+        gpio_api_set_low(handler->sclk);
     }
 
     *value = rdata & ((1 << handler->data_width) - 1);

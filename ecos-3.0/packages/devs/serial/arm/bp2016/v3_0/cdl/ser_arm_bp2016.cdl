@@ -107,8 +107,8 @@ cdl_package CYGPKG_IO_SERIAL_ARM_BP2016 {
         cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_SERIAL0_BUFSIZE {
             display       "Buffer size for the HG BP2016 serial port 0 driver"
             flavor        data
-            legal_values  0 to 8192
-            default_value 256
+            legal_values  0 to 81920
+            default_value 32768
             description   "
                 This option specifies the size of the internal buffers used for
                 the HG BP2016 port 0."
@@ -624,8 +624,8 @@ cdl_package CYGPKG_IO_SERIAL_ARM_BP2016 {
         cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_SERIAL6_BUFSIZE {
             display       "Buffer size for the HG BP2016 serial port 6 driver"
             flavor        data
-            legal_values  0 to 8192
-            default_value 8192
+            legal_values  0 to 81920
+            default_value 32768
             description   "
                 This option specifies the size of the internal buffers used for
                 the HG BP2016 port 6."
@@ -711,8 +711,8 @@ cdl_package CYGPKG_IO_SERIAL_ARM_BP2016 {
         cdl_option CYGNUM_IO_SERIAL_ARM_BP2016_SERIAL7_BUFSIZE {
             display       "Buffer size for the HG BP2016 serial port 7 driver"
             flavor        data
-            legal_values  0 to 8192
-            default_value 8192
+            legal_values  0 to 81920
+            default_value 32768
             description   "
                 This option specifies the size of the internal buffers used for
                 the HG BP2016 port 7."

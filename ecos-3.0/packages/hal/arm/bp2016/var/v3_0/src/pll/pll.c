@@ -77,7 +77,7 @@ int get_M_N_NO(unsigned int CLK_IN, unsigned int ratekhz,  unsigned int *m, unsi
         diag_printf("%s: get NO ERROR!\n", __func__);
         return RET_FAILED;
     }
-    diag_printf("NO %d %d %d %d\n", n_o_ok[0], n_o_ok[1], n_o_ok[2], n_o_ok[3]);
+    pll_debug("NO %d %d %d %d\n", n_o_ok[0], n_o_ok[1], n_o_ok[2], n_o_ok[3]);
 
     for(i=0; i<j; i++)
     {
@@ -92,7 +92,7 @@ int get_M_N_NO(unsigned int CLK_IN, unsigned int ratekhz,  unsigned int *m, unsi
                 *m = M;
                 *n = N;
                 *no = NO;
-                diag_printf("%s : M %d N %d NO %d \n", __func__, M, N, NO);
+                pll_debug("%s : M %d N %d NO %d \n", __func__, M, N, NO);
                 return RET_OK;
             }
         }
@@ -225,7 +225,7 @@ int pll1_set_rate_kHz(unsigned int ratekhz)
 
     regv =(( (NO << 12) | (M<<4) | N) << 16);
 
-    diag_printf("regv = 0x%x\n", regv);
+    pll_debug("regv = 0x%x\n", regv);
 
     //set pdrst of ppl0 to 1, we can set PLL divider only after set pdrst 
     M = hwp_apSCM->pll01_ctrl;
@@ -368,7 +368,7 @@ int pll3_set_rate_kHz(unsigned int ratekhz)
     unsigned int regv = 0;
     int ret;
 
-    diag_printf("%s: PLL3 reference clk is %d kHz\n", __func__, pll3_ref_clk_khz);
+    pll_debug("%s: PLL3 reference clk is %d kHz\n", __func__, pll3_ref_clk_khz);
 
     ret = get_M_N_NO(pll3_ref_clk_khz, ratekhz,  &M, &N, &NO);
     if(RET_FAILED == ret)
@@ -411,7 +411,7 @@ int pll3_get_rate_kHz(void)
     unsigned int M=0;     //pll23_ctrl [27:20]
     unsigned int regv=0;
 
-    diag_printf("%s: PLL3 reference clk is %d kHz\n", __func__, pll3_ref_clk_khz);
+    pll_debug("%s: PLL3 reference clk is %d kHz\n", __func__, pll3_ref_clk_khz);
 
     regv = ((hwp_apSCM->pll23_ctrl)>>16);
     N = regv&0xf;

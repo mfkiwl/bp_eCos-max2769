@@ -136,9 +136,11 @@ static Cyg_ErrNo SpiConfigDev(cyg_uint32 index, cyg_uint32 cs, spi_dev_config_t 
             dev->spi_cfg.spi_dw_cfg.cpha = spi_dev->spi_dw_cfg.cpha;
             dev->spi_cfg.spi_dw_cfg.baud = spi_dev->spi_dw_cfg.baud;
             dev->spi_cfg.spi_dw_cfg.bus_width = spi_dev->spi_dw_cfg.bus_width;
-            spi_debug("cpol = %d, cpha = %d, baud = %d, buswidth = %d\n",
+            dev->spi_cfg.spi_dw_cfg.sample_delay = spi_dev->spi_dw_cfg.sample_delay;
+            spi_debug("cpol = %d, cpha = %d, baud = %d, buswidth = %d, sample_delay = %d\n",
                        dev->spi_cfg.spi_dw_cfg.cpol, dev->spi_cfg.spi_dw_cfg.cpha,
-                       dev->spi_cfg.spi_dw_cfg.baud, dev->spi_cfg.spi_dw_cfg.bus_width);
+                       dev->spi_cfg.spi_dw_cfg.baud, dev->spi_cfg.spi_dw_cfg.bus_width,
+                       dev->spi_cfg.spi_dw_cfg.sample_delay);
             dev->spi_cs_num = cs;
             dev->spi_dfs = spi_dev->spi_dw_cfg.bus_width;
             dev->gpio_num = spi_dev->spi_dw_cfg.gpio_num;

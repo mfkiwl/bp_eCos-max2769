@@ -11,7 +11,7 @@
 #include <cyg/hal/a7/cortex_a7.h>
 
 
-extern unsigned char * _stext, *_etext, *__exception_stack_base, *__exception_stack;
+extern unsigned char * _stext, *_etext, *__exception_stack_base, *__exception_stack, *__undef_exception_stack;
 extern unsigned char * cyg_interrupt_stack_base, * cyg_interrupt_stack;
 extern unsigned char * __startup_stack_base, *__startup_stack;
 extern unsigned char * __ram_data_start, *__ram_data_end;
@@ -31,6 +31,8 @@ bool kernel_sp_addr_cross(cyg_uint32 addr)
     if(addr >= (cyg_uint32)&cyg_interrupt_stack_base && addr < (cyg_uint32)&cyg_interrupt_stack)
             return true;
     if(addr >= (cyg_uint32)&__startup_stack_base && addr < (cyg_uint32)&__startup_stack)
+            return true;
+    if(addr >= (cyg_uint32)&__exception_stack && addr < (cyg_uint32)&__undef_exception_stack)
             return true;
     return false;
 }
@@ -93,12 +95,14 @@ void cyg_hg_dump_frame(unsigned char *frame, EXCEPTION_ENUM exp)
     static  int init__ = 0;
     if(init__ == 0) {
         init__ = 1;
+        diag_printf("frame ptr = %p\n", frame);
         diag_printf("_stext = 0x%x\n", (cyg_uint32)&_stext);
         diag_printf("_etext = 0x%x\n", (cyg_uint32)&_etext);
         diag_printf("__exception_stack_base = 0x%x\n", (cyg_uint32)&__exception_stack_base);
         diag_printf("__exception_stack = 0x%x\n", (cyg_uint32)&__exception_stack);
         diag_printf("__interrupt_stack_base = 0x%x\n", (cyg_uint32)&cyg_interrupt_stack_base);
         diag_printf("__interrupt_stack = 0x%x\n", (cyg_uint32)&cyg_interrupt_stack);
+        diag_printf("__undef_exception_stack= 0x%x\n", (cyg_uint32)&__undef_exception_stack);
         diag_printf("__startup_stack_base = 0x%x\n", (cyg_uint32)&__startup_stack_base);
         diag_printf("__startup_stack = 0x%x\n", (cyg_uint32)&__startup_stack);
         diag_printf("__ram_data_start= 0x%x\n", (cyg_uint32)&__ram_data_start);
@@ -112,10 +116,11 @@ void cyg_hg_dump_frame(unsigned char *frame, EXCEPTION_ENUM exp)
         diag_printf("%08X ", rp->d[i]);
         if ((i == 5) || (i == 10)) diag_printf("\n");
     }
-    diag_printf("FP: %08X, SP: %08X, LR: %08X, PC: %08X, PSR: %08X\n",
-            rp->fp, rp->sp, rp->lr, rp->pc, rp->cpsr);
+    diag_printf("FP: %08X, SP: %08X, LR: %08X, PC: %08X, PSR: %08X \n SVC_LR: %08X, SVC_SP: %08X, VECTOR: %d\n",
+            rp->fp, rp->sp, rp->lr, rp->pc, rp->cpsr, rp->svc_lr, rp->svc_sp,
+            rp->vector);
 
-	if((rp->sp >0 ) && ((rp->sp & 7) == 0)) {
+	if((rp->sp >0 ) && ((rp->sp & 3) == 0)) {
 		if(kernel_sp_addr_cross(rp->sp) == true) 
 			diag_printf("SP is in kernel space\r\n");
 		else

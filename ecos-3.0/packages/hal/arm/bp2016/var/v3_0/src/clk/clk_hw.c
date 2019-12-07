@@ -17,7 +17,7 @@ int clk_gating_bypass(int en)
         diag_printf("clk gating bypass!\n");
     }else{
         clken &= (~1);
-        diag_printf("clk gating enable!\n");
+        // diag_printf("clk gating enable!\n");
     }
 
     hwp_apSCM->clk_ctrl = clken;

@@ -3,12 +3,35 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-
-#ifdef CYGFUN_KERNEL_THREADS_CPULOAD
 #include <cyg/hal/a7/cortex_a7.h>
 
+#ifdef CYGFUN_KERNEL_THREADS_CPULOAD
 extern cyg_uint64 tick_sch_start;
 #endif
+
+extern unsigned char * _stext, *_etext, *__exception_stack_base, *__exception_stack, *__undef_exception_stack;
+extern unsigned char * cyg_interrupt_stack_base, * cyg_interrupt_stack;
+extern unsigned char * __startup_stack_base, *__startup_stack;
+extern unsigned char * __ram_data_start, *__ram_data_end;
+static bool sp_addr_cross(cyg_uint32 addr)
+{
+    if(addr >= (cyg_uint32)&__exception_stack_base && addr < (cyg_uint32)&__exception_stack)
+            return true;
+    if(addr >= (cyg_uint32)&cyg_interrupt_stack_base && addr < (cyg_uint32)&cyg_interrupt_stack)
+            return true;
+    if(addr >= (cyg_uint32)&__startup_stack_base && addr < (cyg_uint32)&__startup_stack)
+            return true;
+    if(addr >= (cyg_uint32)&__exception_stack && addr < (cyg_uint32)&__undef_exception_stack)
+            return true;
+    return false;
+}
+
+bool run_in_int_env(void)
+{
+    cyg_uint32 cur_sp;
+    HAL_GET_CURR_SP(cur_sp);
+    return sp_addr_cross(cur_sp);
+}
 
 void show_all_thread_infor(void)
 {
@@ -61,7 +84,53 @@ void show_all_thread_infor(void)
 }
 
 #ifdef CYGFUN_KERNEL_THREADS_CPULOAD
+extern cyg_uint64 tick_sch_start;
+float cyg_thread_get_cpuload(void)
+{
+    cyg_uint64 curr_tick;
+    cyg_handle_t thread;
+    cyg_uint16 id;
+    double rate = 0.0;
+    cyg_thread_info info;
+    thread = cyg_thread_idle_thread();
+    //id = ((Cyg_Thread *)thread)->get_unique_id();
+    id = cyg_thread_get_id(thread);
+    cyg_scheduler_lock();
 
+    if(cyg_thread_get_info(thread, id, &info) == true) {
+        //curr_tick = arch_counter_get_cntpct();
+        curr_tick = arch_counter_get_current();
+        rate = (info.tick_total*1.0)/(curr_tick - tick_sch_start);
+    }
+    cyg_scheduler_unlock();
+    return (1 - rate);
+}
+
+void cyg_thread_cpuload_reset(void)
+{
+    cyg_handle_t thread;
+    cyg_uint16 id;
+
+    cyg_handle_t idlethread = cyg_thread_idle_thread();
+    thread = 0;
+    id = 0;
+
+    cyg_scheduler_lock();
+    //cyg_interrupt_disable();
+    while(cyg_thread_get_next(&thread, &id) == true) {
+        //((Cyg_Thread *)thread)->tick_total = 0;
+        ((cyg_thread *)thread)->tick_total = 0;
+    }
+    //tick_sch_start = arch_counter_get_cntpct();
+    tick_sch_start = arch_counter_get_current();
+    //Cyg_Thread *t = Cyg_Scheduler::get_current_thread();
+    cyg_thread *t = cyg_thread_current();
+    //t->tick_start = arch_counter_get_cntpct();
+    t->tick_start = arch_counter_get_current();
+
+    cyg_scheduler_unlock();
+    //cyg_interrupt_enable();
+}
 
 char *null_name = "NONE";
 void show_all_thread_cpuload(void)

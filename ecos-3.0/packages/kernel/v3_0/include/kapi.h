@@ -176,6 +176,8 @@ void cyg_thread_yield(void) __THROW;
 
 cyg_handle_t cyg_thread_self(void) __THROW;
 
+cyg_handle_t cyg_thread_current(void) __THROW;
+
 cyg_handle_t cyg_thread_idle_thread(void) __THROW;
 
 /* Priority manipulation */
@@ -224,11 +226,6 @@ typedef struct
 } cyg_thread_info;
     
 cyg_bool_t cyg_thread_get_next( cyg_handle_t *thread, cyg_uint16 *id ) __THROW;
-
-#ifdef CYGFUN_KERNEL_THREADS_CPULOAD
-float cyg_thread_get_cpuload(void);
-void cyg_thread_cpuload_reset(void);
-#endif
 
 cyg_bool_t cyg_thread_get_info( cyg_handle_t thread,
                                 cyg_uint16 id,

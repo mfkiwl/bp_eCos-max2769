@@ -129,17 +129,17 @@ int slot_attr_init(struct evatronix_sdio_slot_data *sd,
 	mmc->caps 	= sd->caps;
 	mmc->pm_caps 	= sd->pm_caps;
 
-	printk("slot%u: f_min %d, f_max %d, ocr_avial 0x%x, caps 0x%lx, pm_caps 0x%x",
-				id, mmc->f_min, mmc->f_max,
-				mmc->ocr_avail, mmc->caps, mmc->pm_caps);
+    // printk("slot%u: f_min %d, f_max %d, ocr_avial 0x%x, caps 0x%lx, pm_caps 0x%x",
+    //         id, mmc->f_min, mmc->f_max,
+    //         mmc->ocr_avail, mmc->caps, mmc->pm_caps);
 	return 0;
 }
 
 void evatronix_host_reg(struct evatronix_host *host)
 {
-	diag_printf("HSFR0: 0x%08x\n", host_readl(host, HSFR0));
-	diag_printf("HSFR1: 0x%08x\n", host_readl(host, HSFR1));
-	diag_printf("HSFR2: 0x%08x\n", host_readl(host, HSFR2));
+	// diag_printf("HSFR0: 0x%08x\n", host_readl(host, HSFR0));
+	// diag_printf("HSFR1: 0x%08x\n", host_readl(host, HSFR1));
+	// diag_printf("HSFR2: 0x%08x\n", host_readl(host, HSFR2));
 }
 
 /*
@@ -1774,7 +1774,7 @@ static void controller_reset(struct evatronix_host *host)
 	val |= 0x1;
 	host_writel(host, HSFR0, val);
 
-    printk("HSFR0 0x%x, val=0x%x", host_readl(host, HSFR0), val);
+    // printk("HSFR0 0x%x, val=0x%x", host_readl(host, HSFR0), val);
 
 	while((host_readl(host, HSFR0)&0x1) != 0) {
 		udelay(5);
@@ -2047,9 +2047,9 @@ static cyg_bool evatronix_probe(struct cyg_devtab_entry* tab)
 
 	ENTER();
 
-	printk("SD/MMC/SDIO code version %s", evatronix_sd_vcode);
-    printk("begin create slot %d", cur_slot->id);
-    printk("Descriptors buffer address 0x%08x", (u32)desc_buf); 
+    // printk("SD/MMC/SDIO code version %s", evatronix_sd_vcode);
+    // printk("begin create slot %d", cur_slot->id);
+    // printk("Descriptors buffer address 0x%08x", (u32)desc_buf);
     if(cur_slot->initialized)
     {
         printk("slot %d is already initialized. return ...", cur_slot->id);
@@ -2075,7 +2075,7 @@ static cyg_bool evatronix_probe(struct cyg_devtab_entry* tab)
         host->sdmmc_isrpri = INT_PRI_DEFAULT; 
         host->clk_rate = host->pdata->ref_clk;
 
-        printk("virt_base 0x%x phys_base 0x%x ref_clk %d", (u32)host->virt_base, host->phys_base, host->clk_rate);
+        // printk("virt_base 0x%x phys_base 0x%x ref_clk %d", (u32)host->virt_base, host->phys_base, host->clk_rate);
         host->suspended		= 0;
 
         host->mrq		= NULL;
@@ -2091,7 +2091,7 @@ static cyg_bool evatronix_probe(struct cyg_devtab_entry* tab)
 
         controller_reset(host);
         evatronix_host_reg(host);
-        printk("card status reg: 0x%x", slot_readl(host, SFR9, cur_slot->id));
+        // printk("card status reg: 0x%x", slot_readl(host, SFR9, cur_slot->id));
 
         cyg_drv_mutex_init(&host->lock);
 
@@ -2124,7 +2124,7 @@ static cyg_bool evatronix_probe(struct cyg_devtab_entry* tab)
         VDBG("slot%u: card present", cur_slot->id);
     }
 
-    printk("begin create slot %d", cur_slot->id);
+    // printk("begin create slot %d", cur_slot->id);
 
     cyg_drv_mutex_lock(&host->lock);
 
@@ -2158,10 +2158,10 @@ static void evatronix_remove_slot(struct evatronix_slot *slot)
 
 static void s3_show_regs(struct evatronix_host *host, int id)
 {
-	printk("SFR10 0x%08x", slot_readl(host, SFR10, id));
-	printk("SFR11 0x%08x", slot_readl(host, SFR11, id));
-	printk("SFR13 0x%08x", slot_readl(host, SFR13, id));
-	printk("SFR14 0x%08x", slot_readl(host, SFR14, id));
+	// printk("SFR10 0x%08x", slot_readl(host, SFR10, id));
+	// printk("SFR11 0x%08x", slot_readl(host, SFR11, id));
+	// printk("SFR13 0x%08x", slot_readl(host, SFR13, id));
+	// printk("SFR14 0x%08x", slot_readl(host, SFR14, id));
 }
 
 #ifdef CONFIG_PM

@@ -290,10 +290,10 @@ struct qspi_fl_info {
     int (*read_page)(cyg_uint8 cmd, cyg_uint32 addr, cyg_uint8 *rbuf, int len, int dfs);
     int (*write_page)(cyg_uint32 addr, cyg_uint8 *dbuf, int len);
 #endif
-    cyg_uint8 (*erase)(cyg_uint8 cmd, cyg_uint32 addr);
-    cyg_uint8 (*erase_chip)(void);
+    int (*erase)(cyg_uint8 cmd, cyg_uint32 addr);
+    int (*erase_chip)(void);
 
-    void (*config_4byte_extend)(cyg_uint32 addr, int en);
+    int (*config_4byte_extend)(cyg_uint32 addr, int en);
 
     int (*config_quad)(int en);
     int (*config_prot_region)(int region, int en);
@@ -302,8 +302,8 @@ struct qspi_fl_info {
     int (*block_lock)(cyg_uint32 offs);
     int (*block_unlock)(cyg_uint32 offs);
     int (*get_block_lock_status)(cyg_uint32 offs);
-    void (*global_lock)(void);
-    void (*global_unlock)(void);
+    int (*global_lock)(void);
+    int (*global_unlock)(void);
 };
 
 #define QSPI_HW_STAT

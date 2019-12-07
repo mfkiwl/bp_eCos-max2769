@@ -1,0 +1,2277 @@
+00000000 a armreg_r0
+00000000 a armreg_r0
+00000000 a HAL_ARM_RESET_VECTOR
+00000000 a HAL_ARM_RESET_VECTOR
+00000001 a CYGNUM_HAL_EXCEPTION_ILLEGAL_INSTRUCTION
+00000001 a CYGNUM_HAL_EXCEPTION_ILLEGAL_INSTRUCTION
+00000002 a CYGNUM_HAL_EXCEPTION_INTERRUPT
+00000002 a CYGNUM_HAL_EXCEPTION_INTERRUPT
+00000003 a CYGNUM_HAL_EXCEPTION_CODE_ACCESS
+00000003 a CYGNUM_HAL_EXCEPTION_CODE_ACCESS
+00000004 a CYGNUM_HAL_EXCEPTION_DATA_ACCESS
+00000004 a CYGNUM_HAL_EXCEPTION_DATA_ACCESS
+00000004 a HAL_ARM_UNDEFINED_VECTOR
+00000004 a HAL_ARM_UNDEFINED_VECTOR
+00000006 a CYGNUM_HAL_VECTOR_IRQ
+00000006 a CYGNUM_HAL_VECTOR_IRQ
+00000008 a CYGNUM_HAL_VSR_COUNT
+00000008 a CYGNUM_HAL_VSR_COUNT
+00000008 a HAL_ARM_SWI_VECTOR
+00000008 a HAL_ARM_SWI_VECTOR
+0000000c a HAL_ARM_PREFETCH_VECTOR
+0000000c a HAL_ARM_PREFETCH_VECTOR
+00000010 a armreg_r4
+00000010 a armreg_r4
+00000010 a CPSR_USER_MODE
+00000010 a CPSR_USER_MODE
+00000010 a HAL_ARM_ABORT_VECTOR
+00000010 a HAL_ARM_ABORT_VECTOR
+00000011 a CPSR_FIQ_MODE
+00000011 a CPSR_FIQ_MODE
+00000012 a CPSR_IRQ_MODE
+00000012 a CPSR_IRQ_MODE
+00000013 a CPSR_SUPERVISOR_MODE
+00000013 a CPSR_SUPERVISOR_MODE
+00000013 a CPSR_THREAD_INITIAL
+00000013 a CPSR_THREAD_INITIAL
+00000014 a HAL_ARM_RESERVED_VECTOR
+00000014 a HAL_ARM_RESERVED_VECTOR
+00000017 a CPSR_ABORT_MODE
+00000017 a CPSR_ABORT_MODE
+00000018 a HAL_ARM_IRQ_VECTOR
+00000018 a HAL_ARM_IRQ_VECTOR
+0000001b a CPSR_UNDEF_MODE
+0000001b a CPSR_UNDEF_MODE
+0000001c a HAL_ARM_FIQ_VECTOR
+0000001c a HAL_ARM_FIQ_VECTOR
+0000001f a CPSR_MODE_BITS
+0000001f a CPSR_MODE_BITS
+00000020 a armreg_r8
+00000020 a armreg_r8
+00000020 a CPSR_THUMB_ENABLE
+00000020 a CPSR_THUMB_ENABLE
+00000020 a HAL_ARM_RESET_VECTOR_ADDR
+00000020 a HAL_ARM_RESET_VECTOR_ADDR
+00000024 a armreg_r9
+00000024 a armreg_r9
+00000024 a HAL_ARM_UNDEFINED_VECTOR_ADDR
+00000024 a HAL_ARM_UNDEFINED_VECTOR_ADDR
+00000028 a armreg_r10
+00000028 a armreg_r10
+00000028 a HAL_ARM_SWI_VECTOR_ADDR
+00000028 a HAL_ARM_SWI_VECTOR_ADDR
+0000002c a armreg_fp
+0000002c a armreg_fp
+0000002c a HAL_ARM_PREFETCH_VECTOR_ADDR
+0000002c a HAL_ARM_PREFETCH_VECTOR_ADDR
+00000030 a armreg_ip
+00000030 a armreg_ip
+00000030 a HAL_ARM_ABORT_VECTOR_ADDR
+00000030 a HAL_ARM_ABORT_VECTOR_ADDR
+00000034 a armreg_sp
+00000034 a armreg_sp
+00000034 a HAL_ARM_RESERVED_VECTOR_ADDR
+00000034 a HAL_ARM_RESERVED_VECTOR_ADDR
+00000038 a armreg_lr
+00000038 a armreg_lr
+00000038 a HAL_ARM_IRQ_VECTOR_ADDR
+00000038 a HAL_ARM_IRQ_VECTOR_ADDR
+0000003c a armreg_pc
+0000003c a armreg_pc
+0000003c a HAL_ARM_FIQ_VECTOR_ADDR
+0000003c a HAL_ARM_FIQ_VECTOR_ADDR
+00000040 a armreg_cpsr
+00000040 a armreg_cpsr
+00000040 a CPSR_FIQ_DISABLE
+00000040 a CPSR_FIQ_DISABLE
+00000040 a CYGNUM_CALL_IF_TABLE_SIZE
+00000040 a CYGNUM_CALL_IF_TABLE_SIZE
+00000044 a armreg_vector
+00000044 a armreg_vector
+00000048 a armreg_svclr
+00000048 a armreg_svclr
+0000004c a armreg_svcsp
+0000004c a armreg_svcsp
+00000050 a armreg_f0
+00000050 a armreg_f0
+00000080 a CPSR_IRQ_DISABLE
+00000080 a CPSR_IRQ_DISABLE
+000000a0 a CYGNUM_HAL_ISR_COUNT
+000000a0 a CYGNUM_HAL_ISR_COUNT
+000000d3 a CPSR_INITIAL
+000000d3 a CPSR_INITIAL
+00000150 a armreg_fpscr
+00000150 a armreg_fpscr
+00000158 a ARMREG_SIZE
+00000158 a ARMREG_SIZE
+00000301 a RAISE_INTR
+00000301 a RAISE_INTR
+0000bebe a HAL_BREAKINST_THUMB
+0000bebe a HAL_BREAKINST_THUMB
+20000000 T __exception_handlers
+20000000 A __rom_vectors_lma
+20000000 A __rom_vectors_vma
+20000020 t .reset_vector
+20000020 T vectors
+20000024 t .undefined_instruction
+20000028 t .software_interrupt
+2000002c t .abort_prefetch
+20000030 t .abort_data
+20000038 t .IRQ
+2000003c t .FIQ
+20000040 A __exidx_end
+20000040 A __exidx_start
+20000040 A _stext
+20000040 t v7_inv_l1_l2_dcache_
+20000054 t Loop1
+20000090 t Loop2
+20000094 t Loop3
+200000b0 t Skip
+200000bc t Finished
+200000c0 T reset_vector
+20000170 t warm_reset
+200001a0 T start
+2000027c t _start_hang
+20000280 T reset_platform
+20000288 t init_done
+2000028c t undefined_instruction
+200002b0 t software_interrupt
+200002dc t abort_prefetch
+200002f8 t abort_data
+20000314 t call_exception_handler
+200003a4 t return_from_exception
+20000404 t __dump_procs
+2000041c t FIQ
+20000454 t IRQ
+20000580 t spurious_IRQ
+200005b0 T hal_interrupt_stack_call_pending_DSRs
+20000610 T __gccmain
+20000614 T _psr
+2000061c T _sp
+20000624 t .__startup_stack
+20000628 t .__exception_stack
+2000062c t .__undef_exception_stack
+20000630 t .__bss_start
+20000634 t .__bss_end
+20000638 t ._end
+2000063c t .__rom_data_start
+20000640 t .__ram_data_start
+20000644 t .__ram_data_end
+20000648 t .hal_interrupt_handlers
+2000064c t .hal_interrupt_data
+20000650 t .hal_interrupt_objects
+20000654 t .__exception_handlers
+20000658 t .init_flag
+2000065c t .cyg_scheduler_sched_lock
+20000660 t .irq_level
+20000664 t .__interrupt_stack
+20000668 t .__dump_procs
+2000066c t _eCos_id
+20000694 000004a4 T do_dma_testing
+20000b38 00000084 t dump_i2c_buffer
+20000bbc 00000470 T do_i2c_testing
+2000102c 000000a0 t set_reg
+200010cc 00000098 t read_reg
+20001164 00000034 t gpio_isr
+20001198 00000078 t gpio_dsr
+20001210 0000007c t gpio_interrupt_init
+2000128c 00000114 t init_for_rtc
+200013a0 000001cc t init_interrupt
+2000156c 000000dc T dump_time_info
+20001648 000001f8 T do_rtc_testing
+20001840 00000074 T rtc_clr_interrupt
+200018b4 000004a8 T do_pwm_testing
+20001d5c 000000a4 t dump_qspi_buffer
+20001e00 00001740 T do_qspi_testing
+20003540 000000a4 t dump_qspi_buffer
+200035e4 00000918 T qspi_entry
+20003efc 00000100 T qspi_thread_test
+20003ffc 00000084 t dump_sim_buffer
+20004080 000008ec T do_sim_testing
+2000496c 0000017c T do_spi3wire_testing
+20004ae8 00000354 T do_spi4_gpio_testing
+20004e3c 0000009c t dump_spi_buffer
+20004ed8 000003e8 T do_bmi160_testing
+200052c0 000000a8 t dump_spi_buffer
+20005368 000006b4 T do_flash_testing
+20005a1c 0000009c t dump_spi_buffer
+20005ab8 00000448 T do_mcp2515_testing
+20005f00 000000a8 t dump_spi_buffer
+20005fa8 00000078 T w5500_ext_pin_init
+20006020 00000438 T do_w5500_testing
+20006458 00000018 T trigger_swi
+20006470 00000018 T trigger_undefined
+20006488 00000018 T trigger_prefetch
+200064a0 0000003c T pointer_exception
+200064dc 00000030 t test_do_go_exec
+2000650c 00000290 T do_thread_testing
+2000679c 00000268 T serial_send
+20006a04 000001a0 T serial_recv
+20006ba4 00000874 T do_uart_testing
+20007418 00000074 T cyg_user_start
+2000748c 0000003c T uart_getc
+200074c8 00000044 T uart_putc
+2000750c 00000044 T uart_puts
+20007550 000000ac T DVT
+200075fc 00000024 T cli_program
+20007620 000001ac T __div64_32
+200077cc 00000094 t skip_atoi
+20007860 000002b8 t put_dec_trunc
+20007b18 0000027c t put_dec_full
+20007d94 000000f0 t put_dec
+20007e84 00000490 t number
+20008314 00000080 T strnlen
+20008394 0000014c t string
+200084e0 00000098 t pointer
+20008578 000008b8 t vsnprintf_internal
+20008e30 0000003c T vsprintf_self
+20008e6c 00000058 T printf_console
+20008ec4 00000198 T simple_strtoul
+2000905c 000002e4 T print_buffer
+20009340 00000100 T cmd_get_data_size
+20009440 0000017c T do_mem_md
+200095bc 0000018c T do_mem_mw
+20009748 00000588 T register_common_cmd
+20009cd0 0000005c t putnstr
+20009d2c 000000b8 t hist_init
+20009de4 000000d0 t cread_add_to_hist
+20009eb4 000000ec t hist_prev
+20009fa0 000000fc t hist_next
+2000a09c 000001b0 t cread_add_char
+2000a24c 00000088 t cread_add_str
+2000a2d4 000009f4 t cread_line_alt
+2000acc8 00000054 T GetCmdExAlt
+2000ad1c 00000018 T hide_cursor
+2000ad34 00000018 T show_cursor
+2000ad4c 00000170 T get_args
+2000aebc 00000050 T dyn_shell_malloc
+2000af0c 00000058 t dyn_shell_alloc_item
+2000af64 00000088 t str_cpy
+2000afec 00000100 T dyn_shell_append_command
+2000b0ec 00000084 T dyn_shell_add_command
+2000b170 00000074 T dyn_shell_init
+2000b1e4 000000e0 T dyn_shell_append_sub_shell
+2000b2c4 0000006c T dyn_shell_add_sub_shell
+2000b330 00000040 t dyn_shell_get_sub_items
+2000b370 000000ec t dyn_shell_print_help_string
+2000b45c 000002f4 t dyn_shell_do_print_help
+2000b750 00000078 t dyn_shell_print_banner
+2000b7c8 000002e8 T dyn_shell_load
+2000bab0 00000228 T do_mbox_testing
+2000bcd8 00000024 t cyg_libm_get_compat_mode
+2000bcfc 0000003c t my_abs_d
+2000bd38 000002ac t checkErrorAcceptable
+2000bfe4 00000bf0 t doTestVec
+2000cbd4 000000b4 t fabs_vec_test
+2000cc88 0000006c T fabs_test
+2000ccf4 00000084 t dump_max2112_buffer
+2000cd78 00000bf4 T do_max2112_testing
+2000d96c 000000c0 t print_buffer_info
+2000da2c 00000110 t memory_testing
+2000db3c 0000015c T do_bbmem_cache_testing
+2000dc98 00000038 t clk_get_rate_
+2000dcd0 000002b8 t clk_get_rate_testing
+2000df88 000000d4 t clk_set_rate
+2000e05c 00000258 t clk_set_rate_testing
+2000e2b4 00000e54 T do_clk_testing
+2000f108 0000003c t reset_testing_sub_func
+2000f144 000001cc t reset_testing
+2000f310 0000002c T do_reset_testing
+2000f33c 0000015c t gpio_testing
+2000f498 000000d8 T do_gpio_testing
+2000f570 000001dc T do_wdt_testing
+2000f74c 00000208 T do_pll_testing
+2000f954 000000b4 T do_interrupt_stat
+2000fa08 00000098 T do_arch_timer_testing
+2000faa0 00000090 t spi_max2769_config
+2000fb30 0000009c T spi_max2769_test_gpsl1
+2000fbcc 00000034 T spi_max2769_config_bd2b2
+2000fc00 00000164 T spi_max2769_config_all
+2000fd64 00000080 t spi_lo_config
+2000fde4 00000064 T spi_lo_config_all
+2000fe48 000002d0 T do_max2769_testing
+20010118 00000030 T spi_init_rx3902
+20010148 000000f0 T spi_read_rx3902
+20010238 000000f0 T spi_write_rx3902
+20010328 0000060c T spi_read_rx3902_default
+20010934 00000084 T spi_rx3902_config
+200109b8 0000009c T spi_rx3902_test
+20010a54 000002e4 T LCommMsgPro
+20010d38 000000b4 T temp_program
+20010dec 00000194 T thread_list
+20010f80 00000098 T thread_pri
+20011018 0000022c T do_mthread_testing
+20011244 00000100 t hal_ostimer_enable1
+20011344 000000b8 t hal_ostimer_disable1
+200113fc 000002f0 T CommMsgPro
+200116ec 00000094 t timer_ISR
+20011780 0000002c t timer2_DSR
+200117ac 00000024 t timer3_DSR
+200117d0 00000320 T do_timer_testing
+20011af0 0000002c t spi_bp2016_get_config
+20011b1c 00000004 t spi_bp2016_transaction_begin
+20011b20 00000004 t spi_bp2016_transaction_tick
+20011b24 00000004 t spi_bp2016_transaction_end
+20011b28 0000004c t clk_set_spi
+20011b74 00000034 t spi_check_idle
+20011ba8 00000078 t spi_bp2016_init_bus
+20011c20 000004ac t spi_bp2016_DSR
+200120cc 00000020 t spi_bp2016_ISR
+200120ec 000000d4 t spi_bp2016_set_baud
+200121c0 00000060 t spi_bp2016_set_config
+20012220 0000032c t begin_spi_trans
+2001254c 00000080 t end_spi_trans
+200125cc 00000404 t spi_bp2016_transaction_transfer
+200129d0 0000002c T cyg_spi_bp2016_bus_init
+200129fc 0000002c t spi3wire_bp2016_get_config
+20012a28 00000004 t spi3wire_bp2016_transaction_tick
+20012a2c 00000018 t spi3wire_bp2016_transaction_end
+20012a44 00000040 t bp2016_spi3wire_is_busy
+20012a84 00000058 t spi3wire_bp2016_transaction_begin
+20012adc 00000060 t spi3wire_bp2016_set_config
+20012b3c 00000178 t spi3wire_bp2016_transaction_transfer
+20012cb4 00000030 T cyg_spi3wire_bp2016_bus_init
+20012ce4 00000084 t SpiGetdev
+20012d68 0000010c T SpiInit
+20012e74 0000006c T SpiWrite
+20012ee0 00000070 T SpiRead
+20012f50 000000ac T SpiWritethenRead
+20012ffc 000000b4 T SpiReadFlash
+200130b0 00000088 T SpiReadFlashStatus
+20013138 00000074 T SpiEraseFlash
+200131ac 00000010 T SpiDone
+200131bc 00000048 T SpiGetBaud
+20013204 0000005c T SpiSetBaud
+20013260 00000008 t bp2016_serial_init
+20013268 00000008 t bp2016_serial_select
+20013270 0000026c t bp2016_uart_config_port
+200134dc 00000088 t bp2016_serial_set_config
+20013564 000001b0 t bp2016_serial_DSR
+20013714 000000d0 t bp2016_serial_get_config
+200137e4 00000020 t bp2016_serial_ISR
+20013804 00000128 t bp2016_serial_read
+2001392c 00000150 t bp2016_serial_write
+20013a7c 000000c4 t bp2016_serial_lookup
+20013b40 0000012c T UartOpen
+20013c6c 000000b0 T UartWrite
+20013d1c 000000b4 T UartRead
+20013dd0 000000b8 T UartReadTimeOut
+20013e88 0000009c T UartSetConfig
+20013f24 00000078 T UartGetConfig
+20013f9c 00000078 T UartGetBufInfo
+20014014 00000064 T UartAbort
+20014078 0000005c T UartClose
+200140d4 00000094 T UartPollingSetBaud
+20014168 00000094 T UartPollingInit
+200141fc 00000050 T UartPollingDeInit
+2001424c 00000058 T UartPollingPutC
+200142a4 00000064 T UartPollingPutS
+20014308 0000006c T UartPollingGetC
+20014374 00000008 t sim_select
+2001437c 00000008 t sim_lookup
+20014384 00000080 t sim_init
+20014404 0000017c t bp2016_sim_DSR
+20014580 0000001c t bp2016_sim_ISR
+2001459c 00000064 t sim_get_config
+20014600 00000110 t sim_set_config
+20014710 000000f8 t sim_read
+20014808 000000c4 t sim_write
+200148cc 000000d0 T SimCardInit
+2001499c 000001b4 T SimCardAtr
+20014b50 00000088 T SimCardSetetu
+20014bd8 000000d4 T SimCardWrite
+20014cac 00000160 T SimCardRead
+20014e0c 00000008 T SimCardRequest
+20014e14 000000ac T SimCardGetConfig
+20014ec0 00000044 T SimCardPollingInit
+20014f04 00000070 T SimCardPollingWrite
+20014f74 00000070 T SimCardPollingRead
+20014fe4 00000170 T SimCardPollingAtr
+20015154 00000058 T SimCardPollingSetetu
+200151ac 00000030 T cyg_dw_i2c_stop
+200151dc 00000038 t __i2c_dw_enable
+20015214 00000008 t dw_i2c_dsr
+2001521c 00000378 t dw_i2c_isr
+20015594 0000008c T print_i2c_regs
+20015620 00000050 T i2c_dw_init
+20015670 00000074 T cyg_dw_i2c_init
+200156e4 00000084 T i2c_dw_xfer_init
+20015768 000001a8 T i2c_dw_xfer
+20015910 00000088 T cyg_dw_i2c_rx
+20015998 00000074 T cyg_dw_i2c_tx
+20015a0c 00000030 T i2c_api_init
+20015a3c 0000002c T I2C_dev_deinit
+20015a68 0000011c T I2C_dev_init
+20015b84 000000e4 T I2C_dev_read
+20015c68 00000074 T I2C_dev_write
+20015cdc 00000008 t max2112_select
+20015ce4 00000008 t max2112_lookup
+20015cec 0000004c t max2112_init
+20015d38 00000048 t max2112_set_gpio
+20015d80 000001c8 t max2112_set_config
+20015f48 0000010c t max2112_get_config
+20016054 000000ec t max2112_read
+20016140 00000098 t max2112_write
+200161d8 000000b8 T Max2112_Init
+20016290 00000088 T Max2112_config_gpio
+20016318 000000d4 T Max2112_read
+200163ec 000000f4 T Max2112_write
+200164e0 00000070 T Max2112_set_mode
+20016550 000000cc T Max2112_get_mode
+2001661c 000000b8 t parsenum
+200166d4 00000134 t flashiodev_lookup
+20016808 00000048 t flashiodev_set_config
+20016850 0000006c t flashiodev_init
+200168bc 00000170 t flashiodev_get_config
+20016a2c 0000002c t flashiodev_bread
+20016a58 00000050 t flashiodev_bwrite
+20016aa8 00000020 T flashiodev_region_lock
+20016ac8 00000020 T flashiodev_region_unlock
+20016ae8 00000020 T flashiodev_global_lock
+20016b08 00000020 T flashiodev_global_unlock
+20016b28 00000148 T fl_rescan
+20016c70 0000001c T qspi_fl_read_rdid
+20016c8c 0000001c T qspi_fl_read_devid
+20016ca8 00000004 T qspi_fl_read_page
+20016cac 00000028 T qspi_fl_read_status
+20016cd4 000000e4 t wait_flash_idle_extend
+20016db8 000000e4 t wait_flash_idle_extend
+20016e9c 00000024 t qspi_gd25q512mc_clear_status_for_err_bits
+20016ec0 000000a4 t qspi_gd25q512mc_write_status
+20016f64 00000058 T qspi_gd25q512mc_quad_disable
+20016fbc 000000dc T qspi_gd25q512mc_write_page
+20017098 000000c4 T qspi_gd25q512mc_dma_write_page
+2001715c 000000b8 T qspi_gd25q512mc_erase
+20017214 00000090 T qspi_gd25q512mc_erase_all
+200172a4 00000070 T qspi_gd25q512mc_4byte_extend
+20017314 00000068 T qspi_gd25q512mc_quad
+2001737c 000000a4 T qspi_gd25q512mc_wps_op
+20017420 00000094 T qspi_gd25q512mc_read_status
+200174b4 00000130 T qspi_gd25q512mc_prot_region
+200175e4 00000040 T qspi_gd25q512mc_reset
+20017624 000000c0 t wait_flash_idle_extend.constprop.5
+200176e4 00000020 t qspi_f25fl512s_clear_status.constprop.6
+20017704 000000c4 t qspi_s25fl512s_write_status
+200177c8 00000108 T qspi_s25fl512s_write_page
+200178d0 000000dc T qspi_s25fl512s_dma_write_page
+200179ac 000000f8 T qspi_s25fl512s_erase
+20017aa4 0000009c T qspi_s25fl512s_erase_all
+20017b40 000000c0 T qspi_s25fl512s_4byte_extend
+20017c00 000000e8 T qspi_s25fl512s_quad
+20017ce8 000000dc T qspi_s25fl512s_prot_region
+20017dc4 00000074 T qspi_s25fl512s_read_status
+20017e38 00000038 T qspi_s25fl512s_reset
+20017e70 00000030 T qspi_fl_read_registers
+20017ea0 000001a4 T qspi_s25fl512s_asp_mode_set
+20018044 0000009c T qspi_s25fl512s_asp_ppb_read
+200180e0 00000104 T qspi_s25fl512s_asp_ppb_program
+200181e4 000000ac T qspi_s25fl512s_asp_ppb_erase
+20018290 00000050 T qspi_s25fl512s_asp_ppb_lockbit_read
+200182e0 0000009c T qspi_s25fl512s_asp_dyb_read
+2001837c 0000010c T qspi_s25fl512s_asp_dyb_program
+20018488 00000020 T qspi_s25fl512s_block_lock
+200184a8 00000030 T qspi_s25fl512s_block_unlock
+200184d8 00000028 T qspi_s25fl512s_read_block_status
+20018500 000000dc t wait_flash_idle_extend.constprop.6
+200185dc 0000009c t qspi_w25q256fv_write_status
+20018678 00000058 T qspi_w25q256fv_quad_disable
+200186d0 000000e0 T qspi_w25q256fv_write_page
+200187b0 000000c8 T qspi_w25q256fv_dma_write_page
+20018878 000000b8 T qspi_w25q256fv_erase
+20018930 00000094 T qspi_w25q256fv_erase_all
+200189c4 0000005c T qspi_w25q256fv_4byte_extend
+20018a20 00000068 T qspi_w25q256fv_quad
+20018a88 000000a0 T qspi_w25q256fv_wps_op
+20018b28 00000094 T qspi_w25q256fv_read_status
+20018bbc 00000118 T qspi_w25q256fv_prot_region
+20018cd4 00000040 T qspi_w25q256fv_reset
+20018d14 00000088 T qspi_w25q256fv_read_block_lock_status
+20018d9c 0000007c T qspi_w25q256fv_block_lock
+20018e18 0000007c T qspi_w25q256fv_block_unlock
+20018e94 00000028 T qspi_w25q256fv_global_lock
+20018ebc 00000028 T qspi_w25q256fv_global_unlock
+20018ee4 00000084 t qspi_gd25q256d_clear_status_for_err_bits
+20018f68 000000ac t qspi_gd25q256d_write_status
+20019014 0000008c T qspi_gd25q256d_quad_disable
+200190a0 000000dc T qspi_gd25q256d_write_page
+2001917c 000000c4 T qspi_gd25q256d_dma_write_page
+20019240 000000bc T qspi_gd25q256d_erase
+200192fc 00000090 T qspi_gd25q256d_erase_all
+2001938c 0000005c T qspi_gd25q256d_4byte_extend
+200193e8 000000a4 T qspi_gd25q256d_quad
+2001948c 00000094 T qspi_gd25q256d_read_status
+20019520 000000e0 T qspi_gd25q256d_prot_region
+20019600 00000040 T qspi_gd25q256d_reset
+20019640 0000001c T qspi_hw_init
+2001965c 00000010 T qspi_ahb_enable
+2001966c 00000010 T qspi_reg_enable
+2001967c 0000000c T qspi_push_data_8bit
+20019688 0000000c T qspi_push_data_16bit
+20019694 0000000c T qspi_push_data_32bit
+200196a0 00000010 T qspi_get_data_8bit
+200196b0 00000010 T qspi_get_data_16bit
+200196c0 0000000c T qspi_get_data_32bit
+200196cc 00000010 T qspi_set_rx_fifo_level
+200196dc 00000010 T qspi_set_tx_fifo_level
+200196ec 0000000c T qspi_get_rx_fifo_d_num
+200196f8 0000000c T qspi_get_tx_fifo_d_num
+20019704 00000014 T qspi_set_baudr
+20019718 00000014 T mask_all_interrupts
+2001972c 0000000c T set_interrupts_mask
+20019738 0000000c T qspi_clr_all_interrupts
+20019744 0000000c T qspi_get_interrupt_status
+20019750 0000001c T qspi_rx_full_inten
+2001976c 0000001c T qspi_tx_empty_inten
+20019788 00000010 T qspi_set_rx_ndf
+20019798 0000000c T qspi_rx_fifo_flush
+200197a4 0000000c T qspi_tx_fifo_flush
+200197b0 0000000c T qspi_cache_flush
+200197bc 00000010 T qspi_is_busy
+200197cc 00000020 T qspi_tx_init
+200197ec 0000002c T qspi_tx_init_4
+20019818 000000c4 T qspi_rx_init
+200198dc 0000000c T qspi_set_dma_ctrl
+200198e8 0000000c T qspi_set_dma_tdlr
+200198f4 0000000c T qspi_set_dma_rdlr
+20019900 0000005c T qspi_polling_raw_status
+2001995c 0000005c T qspi_irq_read_status
+200199b8 0000000c T get_qspiflash_dr
+200199c4 00000034 t wait_qspi_hw_idle
+200199f8 0000002c t qspi_xfer_wait_done
+20019a24 00000074 t qspi_dma_write_start
+20019a98 00000010 T qspi_get_timer_tick_save
+20019aa8 000000a4 T qspi_wren
+20019b4c 00000084 T qspi_xfer_tx_process
+20019bd0 00000178 T qspi_xfer_rx_process
+20019d48 00000050 T qspi_ahb_read_enable
+20019d98 00000010 T qspi_ahb_write_enable
+20019da8 00000098 T qspi_send_xx_data
+20019e40 0000006c T qspi_get_rx_ndf
+20019eac 00000030 T qspi_get_rx_thr
+20019edc 00000118 T qspi_dma_read_start
+20019ff4 00000114 T qspi_dma_read_page
+2001a108 00000194 T qspi_read_page_data
+2001a29c 00000160 T qspi_dma_write_page
+2001a3fc 000000f0 T qspi_dma_send_cmd_data
+2001a4ec 000000f0 T qspi_read_xx_data
+2001a5dc 000000fc T qspi_read_spansion_data
+2001a6d8 0000002c T bp2016_qspi_get_sector_size
+2001a704 00000034 T bp2016_qspi_chip_erase
+2001a738 0000005c T bp2016_qspi_read_id
+2001a794 00000048 T bp2016_qspi_region_unlock
+2001a7dc 00000048 T bp2016_qspi_region_lock
+2001a824 000000c8 T bp2016_qspi_program
+2001a8ec 000000a8 T bp2016_qspi_block_unlock
+2001a994 000000a4 T bp2016_qspi_block_lock
+2001aa38 000000e0 T bp2016_qspi_erase_block
+2001ab18 000000dc T bp2016_qspi_read
+2001abf4 000001ac T bp2016_qspi_query
+2001ada0 0000007c T bp2016_qspi_init
+2001ae1c 0000004c t bp2016_qspi_dsr
+2001ae68 0000001c t bp2016_qspi_isr
+2001ae84 00000064 T bp2016_qspi_global_unlock
+2001aee8 00000064 T bp2016_qspi_global_lock
+2001af4c 00000004 T qspi_dsr_lock
+2001af50 00000018 T qspi_dsr_unlock_cond_wait
+2001af68 00000050 T qspi_flash_init
+2001afb8 00000074 T qspi_flash_lock
+2001b02c 00000074 T qspi_flash_unlock
+2001b0a0 000000a4 T qspi_flash_erase
+2001b144 000000a4 T qspi_flash_sector_erase
+2001b1e8 00000048 T qspi_flash_get_flashsize
+2001b230 00000048 T qspi_flash_get_flashmem
+2001b278 00000054 T qspi_flash_get_blocksize
+2001b2cc 00000054 T qspi_flash_get_sectorsize
+2001b320 00000004 T qspi_flash_read
+2001b324 00000004 T qspi_flash_write
+2001b328 0000007c T qspi_flash_chip_erase
+2001b3a4 00000048 T qspi_flash_read_id
+2001b3ec 00000008 t dma_lookup
+2001b3f4 000000f0 t dmac_dsr
+2001b4e4 0000001c t dmac_isr
+2001b500 00000034 t get_tr_width
+2001b534 00000068 t dma_wait_ch_done
+2001b59c 00000254 t DMA_set_config
+2001b7f0 000000f8 T DMA_init
+2001b8e8 00000010 t dma_init
+2001b8f8 000000a0 T DMA_alloc
+2001b998 0000005c T DMA_free
+2001b9f4 00000028 T DMA_wait_ch_done
+2001ba1c 00000084 T DMA_m2m_set_config
+2001baa0 000000b0 T DMA_m2p_set_config
+2001bb50 000000b8 T DMA_p2m_set_config
+2001bc08 000001cc T DMA_trans
+2001bdd4 00000040 T DMA_abort
+2001be14 00000004 t _GLOBAL__sub_I.49000_ioinit.cxx
+2001be18 00000008 t serial_select
+2001be20 00000018 t serial_set_config
+2001be38 0000028c t serial_get_config
+2001c0c4 00000120 t serial_read
+2001c1e4 00000168 t serial_write
+2001c34c 00000060 t serial_rcv_char
+2001c3ac 000000c4 t serial_xmt_char
+2001c470 00000090 t serial_init
+2001c500 00000014 t tty_init
+2001c514 00000014 t tty_lookup
+2001c528 0000004c t tty_set_config
+2001c574 00000054 t tty_get_config
+2001c5c8 0000000c t tty_select
+2001c5d4 0000014c t tty_read
+2001c720 000000cc t tty_write
+2001c7ec 00000008 t haldiag_init
+2001c7f4 00000034 t haldiag_set_config
+2001c828 00000014 t haldiag_getc
+2001c83c 00000014 t haldiag_putc
+2001c850 00000028 T cyg_iso_c_start
+2001c878 00000004 t _GLOBAL__sub_I.56100_cyg_iso_c_start
+2001c87c 0000000c T exception_handler
+2001c888 00000004 W hal_spurious_IRQ
+2001c88c 0000002c T cyg_hal_invoke_constructors
+2001c8b8 0000001c T hal_arch_default_isr
+2001c8d4 00000028 T hal_lsbindex
+2001c8fc 00000020 T hal_msbindex
+2001c91c 0000009c T dump_frame
+2001c9b8 0000004c T cyg_hal_report_undefined_instruction
+2001ca04 0000004c T cyg_hal_report_software_interrupt
+2001ca50 0000004c T cyg_hal_report_abort_prefetch
+2001ca9c 0000004c T cyg_hal_report_abort_data
+2001cae8 0000004c T cyg_hal_report_exception_handler_returned
+2001cb34 00000054 T cyg_spi_get_config
+2001cb88 00000054 T cyg_spi_set_config
+2001cbdc 0000002c T cyg_spi_transaction_begin
+2001cc08 00000030 T cyg_spi_transaction_begin_nb
+2001cc38 00000024 T cyg_spi_transaction_transfer
+2001cc5c 00000014 T cyg_spi_transaction_tick
+2001cc70 0000001c T cyg_spi_transaction_end
+2001cc8c 00000030 T cyg_spi_tick
+2001ccbc 0000004c T cyg_spi_transfer
+2001cd08 00000028 T hal_clock_initialize
+2001cd30 00000030 T hal_clock_reset
+2001cd60 00000028 T hal_clock_read
+2001cd88 00000054 T hal_ostimer_get_counter_value
+2001cddc 0000003c T hal_delay_us
+2001ce18 00000004 T hal_interrupt_init
+2001ce1c 0000002c T hal_IRQ_handler
+2001ce48 00000004 T hal_interrupt_mask
+2001ce4c 00000004 T hal_interrupt_unmask
+2001ce50 0000000c T hal_interrupt_acknowledge
+2001ce5c 00000010 T hal_interrupt_configure
+2001ce6c 00000004 T hal_interrupt_set_level
+2001ce70 00000018 T hal_interrupt_irq_early_enter
+2001ce88 00000068 T hal_interrupt_irq_enter
+2001cef0 00000044 T hal_interrupt_isr_exit
+2001cf34 00000040 T hal_interrupt_dsr_enter
+2001cf74 0000007c T hal_interrupt_irq_leave
+2001cff0 000000f4 T hal_interrupt_stats_display
+2001d0e4 000000bc T hal_get_interrupt_stats
+2001d1a0 00000018 t __call_vv_CYGNUM_CALL_IF_SET_CONSOLE_COMM
+2001d1b8 000000b8 T cyg_hal_plf_comms_init
+2001d270 00000004 T cyg_hal_bp2016_soft_reset
+2001d274 00000020 T cyg_hal_uart_init
+2001d294 00000020 T cyg_hal_uart_putc
+2001d2b4 00000028 T cyg_hal_uart_puts
+2001d2dc 00000020 T cyg_hal_uart_getc
+2001d2fc 0000000c T hal_clk_init
+2001d308 0000004c T hal_clk_get_rate_kHz
+2001d354 0000003c T hal_clk_set_rate_kHz
+2001d390 00000034 T hal_clk_disable
+2001d3c4 00000034 T hal_clk_enable
+2001d3f8 0000000c T hal_reset_init
+2001d404 000001a8 T hal_sw_reset
+2001d5ac 0000002c T hal_ostimer_enable_get
+2001d5d8 00000058 T hal_ostimer_enable
+2001d630 0000003c T hal_ostimer_disable
+2001d66c 0000002c T hal_ostimer_get_cur_value
+2001d698 0000002c T hal_ostimer_get_counter_hvalue
+2001d6c4 0000002c T hal_ostimer_get_counter_lvalue
+2001d6f0 0000006c T cyg_hal_plf_serial_init_channel
+2001d75c 00000014 T cyg_hal_plf_serial_getc
+2001d770 00000054 T cyg_hal_plf_serial_getc_timeout
+2001d7c4 00000014 T cyg_hal_plf_serial_putc
+2001d7d8 0000002c T cyg_hal_plf_serial_write
+2001d804 0000002c T cyg_hal_plf_serial_read
+2001d830 00000010 T cyg_hal_plf_serial_control
+2001d840 00000008 T cyg_hal_plf_serial_isr
+2001d848 00000018 T serial_hwp_get
+2001d860 0000018c T gic_init
+2001d9ec 00000040 T gic_mask_irq
+2001da2c 00000040 T gic_unmask_irq
+2001da6c 00000018 T gic_eoi_irq
+2001da84 0000001c T gic_ack_irq
+2001daa0 00000090 T gic_set_type
+2001db30 0000005c T gic_set_pri
+2001db8c 0000004c T gic_get_pri
+2001dbd8 0000001c t set_section_dcache
+2001dbf4 00000010 T hal_get_pagetable_base
+2001dc04 00000024 T bbiram_mmu_setup
+2001dc28 00000038 T per_common_mmu_setup
+2001dc60 0000000c T dap_mmu_setup
+2001dc6c 0000000c T gic_mmu_setup
+2001dc78 0000000c T apb0_mmu_setup
+2001dc84 0000000c T apb1_mmu_setup
+2001dc90 00000010 T apb2_mmu_setup
+2001dca0 0000000c T asram_mmu_setup
+2001dcac 0000000c T qspi_mem_mmu_setup
+2001dcb8 00000014 T peripheral_mmu_setup
+2001dccc 00000054 T hal_bbram_cache_enable
+2001dd20 00000054 T hal_bbram_cache_disable
+2001dd74 00000088 T mmu_setup
+2001ddfc 00000008 T arch_timer_get_cntfrq
+2001de04 00000014 T arch_counter_get_cntpct
+2001de18 00000014 T arch_counter_get_cntvct
+2001de2c 00000068 T arch_timer_starting_cpu
+2001de94 T v7_dma_inv_range
+2001dedc T v7_dma_clean_range
+2001df10 T v7_dma_flush_range
+2001df44 T v7_inv_l1_l2_dcache
+2001df58 t Loop1
+2001df94 t Loop2
+2001df98 t Loop3
+2001dfb4 t Skip
+2001dfc0 t Finished
+2001dfcc 00000008 T sim_tx_byte
+2001dfd4 0000000c T sim_rx_byte
+2001dfe0 0000000c T sim_disable
+2001dfec 00000010 T sim_upper_reset
+2001dffc 0000005c T sim_set_etu
+2001e058 0000000c T sim_clr_gpcnt_flag
+2001e064 00000018 T sim_tx_halfempty_inten
+2001e07c 0000000c T sim_clr_tx_halfempty_flag
+2001e088 00000018 T sim_rx_notempty_inten
+2001e0a0 0000000c T sim_clr_rx_not_empty_flag
+2001e0ac 00000008 T sim_get_intr_stat
+2001e0b4 00000014 T sim_polling_raw_stat
+2001e0c8 00000018 T sim_set_gpcnt_en
+2001e0e0 00000088 T sim_init_controller
+2001e168 00000028 T sim_hal_init_controller
+2001e190 00000034 T sim_hal_upper_reset
+2001e1c4 00000058 T sim_hal_tx_byte
+2001e21c 00000058 T sim_hal_rx_byte
+2001e274 00000028 T sim_hal_set_etu
+2001e29c 00000020 t calc_div_value
+2001e2bc 00000214 t get_clk_div_value
+2001e4d0 000004e0 t set_clk_div_value
+2001e9b0 00000040 T clk_gating_bypass
+2001e9f0 00000300 T clk_disable
+2001ecf0 00000300 T clk_enable
+2001eff0 000001a4 T clk_get_rate_kHz
+2001f194 00000174 T clk_set_rate_kHz
+2001f308 00000034 t control_swrst_ctrl_regs
+2001f33c 00000008 T swrst_cpu1_reset
+2001f344 00000008 T swrst_ddr_reset
+2001f34c 00000008 T swrst_62M_reset
+2001f354 00000008 T swrst_rom_reset
+2001f35c 00000008 T swrst_ram_reset
+2001f364 00000008 T swrst_bb_reset
+2001f36c 00000008 T swrst_mp_reset
+2001f374 00000008 T swrst_dmac0_reset
+2001f37c 00000008 T swrst_dmac1_reset
+2001f384 00000008 T swrst_qspi_reset
+2001f38c 00000008 T swrst_sd_reset
+2001f394 00000008 T swrst_uart0_reset
+2001f39c 00000008 T swrst_uart1_reset
+2001f3a4 00000008 T swrst_uart2_reset
+2001f3ac 00000008 T swrst_uart3_reset
+2001f3b4 00000008 T swrst_uart4_reset
+2001f3bc 00000008 T swrst_uart5_reset
+2001f3c4 00000008 T swrst_uart6_reset
+2001f3cc 00000008 T swrst_uart7_reset
+2001f3d4 00000008 T swrst_i2c0_reset
+2001f3dc 00000008 T swrst_i2c1_reset
+2001f3e4 00000008 T swrst_spi0_reset
+2001f3ec 00000008 T swrst_spi1_reset
+2001f3f4 00000008 T swrst_spi2_reset
+2001f3fc 00000008 T swrst_spi3_reset
+2001f404 00000008 T swrst_sim0_reset
+2001f40c 00000008 T swrst_sim1_reset
+2001f414 00000008 T swrst_sim2_reset
+2001f41c 00000008 T swrst_pwm_reset
+2001f424 00000008 T swrst_gpio_reset
+2001f42c 00000008 T swrst_timer_reset
+2001f434 0000001c T swrst_global_reset
+2001f450 00000064 t gpio_get_portx_dr
+2001f4b4 00000064 t gpio_get_portx_ddr
+2001f518 000000dc t gpio_set_ctl
+2001f5f4 00000094 t gpio_set_direction
+2001f688 0000002c t gpio_set_int_polarity
+2001f6b4 0000004c t gpio_get_direction
+2001f700 000000b8 t gpio_set_output_data
+2001f7b8 00000008 T gpio_enable
+2001f7c0 00000008 T gpio_disable
+2001f7c8 00000038 T gpio_enable_interrupt
+2001f800 00000028 T gpio_disable_interrupt
+2001f828 00000038 T gpio_interrupt_mask
+2001f860 00000028 T gpio_interrupt_unmask
+2001f888 00000028 T gpio_interrupt_type_set_level
+2001f8b0 00000038 T gpio_interrupt_type_set_edge
+2001f8e8 00000008 T gpio_interrupt_polarity_set_lowlevel
+2001f8f0 00000008 T gpio_interrupt_polarity_set_highlevel
+2001f8f8 00000008 T gpio_interrupt_polarity_set_falling_edge
+2001f900 00000008 T gpio_interrupt_polarity_set_rising_edge
+2001f908 00000010 T gpio_interupt_get_intstatus
+2001f918 00000010 T gpio_interupt_get_raw_intstatus
+2001f928 00000014 T gpio_debounce_enable
+2001f93c 00000014 T gpio_debounce_disable
+2001f950 00000008 T gpio_set_output_direction
+2001f958 00000008 T gpio_set_output_high
+2001f960 00000008 T gpio_set_output_low
+2001f968 00000008 T gpio_set_input_direction
+2001f970 00000010 T gpio_interrupt_clr
+2001f980 000000b4 T gpio_get_input_data
+2001fa34 00000070 T gpio_get_output_data
+2001faa4 00000014 T dw_spi_cpmode
+2001fab8 00000014 T dw_spi_tmod
+2001facc 00000020 T dw_spi_bus_width
+2001faec 00000014 T dw_spi_cs_enable
+2001fb00 0000000c T dw_spi_cs_disable
+2001fb0c 00000008 T dw_spi_get_cs
+2001fb14 0000000c T dw_spi_ndf
+2001fb20 00000008 T dw_spi_baud
+2001fb28 00000014 T dw_spi_enable
+2001fb3c 0000000c T dw_spi_disable
+2001fb48 00000008 T dw_spi_read_32bit
+2001fb50 0000000c T dw_spi_read_16bit
+2001fb5c 0000000c T dw_spi_read_8bit
+2001fb68 00000008 T dw_spi_write_32bit
+2001fb70 00000008 T dw_spi_write_16bit
+2001fb78 00000008 T dw_spi_write_8bit
+2001fb80 0000000c T dw_spi_is_busy
+2001fb8c 0000000c T dw_spi_is_rx_not_empty
+2001fb98 00000018 T spi_rx_full_inten
+2001fbb0 00000018 T spi_rx_underflow_inten
+2001fbc8 00000018 T spi_rx_overflow_inten
+2001fbe0 00000018 T spi_tx_empty_inten
+2001fbf8 00000018 T spi_tx_overflow_inten
+2001fc10 0000000c T spi_disable_all_int
+2001fc1c 00000008 T dw_spi_set_rx_fifo_level
+2001fc24 00000008 T dw_spi_set_tx_fifo_level
+2001fc2c 0000000c T dw_spi_get_txfifo_valid_num
+2001fc38 00000008 T dw_spi_get_rxfifo_valid_num
+2001fc40 00000008 T dw_spi_clr_all_interrupts
+2001fc48 00000018 T dw_spi_polling_raw_status
+2001fc60 00000008 T dw_spi_get_isr_status
+2001fc68 00000008 T spi_set_dma_ctrl
+2001fc70 00000008 T spi_set_dma_tdlr
+2001fc78 00000008 T spi_set_dma_rdlr
+2001fc80 00000010 T spi_3wire_bus_width
+2001fc90 00000008 T spi_3wire_div
+2001fc98 00000010 T spi_3wire_is_busy
+2001fca8 00000044 T spi_3wire_cmd_read
+2001fcec 00000008 T spi_3wire_read_value
+2001fcf4 00000048 T spi_3wire_writereg
+2001fd3c 0000006c T gpio_api_init
+2001fda8 00000064 T gpio_api_set_output
+2001fe0c 00000064 T gpio_api_set_high
+2001fe70 00000064 T gpio_api_set_low
+2001fed4 00000064 T gpio_api_set_input
+2001ff38 00000084 T gpio_api_get_data
+2001ffbc 00000038 T gpio_api_get_int_status
+2001fff4 00000014 T gpio_api_int_clear
+20020008 0000014c T gpio_api_set_irq
+20020154 00000018 T get_dmac_controller
+2002016c 00000028 T get_hwp_dma
+20020194 0000002c T dmac_read_id
+200201c0 0000002c T dmac_read_compver
+200201ec 00000028 T dma_enable
+20020214 00000038 T dma_disable
+2002024c 00000028 T dmac_int_enable
+20020274 00000028 T dmac_int_disable
+2002029c 0000003c T dmac_ch_idle
+200202d8 00000028 T dmac_ch_enable
+20020300 0000005c T dmac_ch_disable
+2002035c 0000002c T dmac_ch_suspend
+20020388 00000028 T dmac_ch_abort
+200203b0 00000028 T dmac_int_status_get
+200203d8 00000034 T dmac_reset
+2002040c 00000008 T dmac_ch_sar_set
+20020414 00000008 T dmac_ch_dar_set
+2002041c 00000014 T dmac_ch_block_ts_set
+20020430 00000010 T dmac_ch_ctl_lli_enable
+20020440 00000010 T dmac_ch_ctl_lli_disable
+20020450 00000010 T dmac_ch_ctl_IOC_BlkTfr_enable
+20020460 00000010 T dmac_ch_ctl_IOC_BlkTfr_disable
+20020470 00000014 T dmac_ch_ctl_src_msize_set
+20020484 00000014 T dmac_ch_ctl_dst_msize_set
+20020498 00000014 T dmac_ch_ctl_src_tr_width_set
+200204ac 00000014 T dmac_ch_ctl_dst_tr_width_set
+200204c0 00000014 T dmac_ch_ctl_src_inc_set
+200204d4 00000014 T dmac_ch_ctl_dst_inc_set
+200204e8 00000014 T dmac_ch_cfg_priority_set
+200204fc 00000014 T dmac_ch_cfg_dst_per_set
+20020510 00000014 T dmac_ch_cfg_src_per_set
+20020524 00000014 T dmac_ch_cfg_tt_fc_set
+20020538 00000014 T dmac_ch_cfg_dst_multblk_type_set
+2002054c 00000014 T dmac_ch_cfg_src_multblk_type_set
+20020560 0000000c T dmac_ch_llp_loc_set
+2002056c 00000010 T dmac_ch_data_left_in_fifo
+2002057c 00000010 T dmac_ch_completed_block_trans_size
+2002058c 00000008 T dmac_ch_int_status_get
+20020594 00000038 T dmac_ch_int_status_ctl
+200205cc 00000038 T dmac_ch_int_signal_ctl
+20020604 00000028 T dmac_ch_int_enable
+2002062c 00000028 T dmac_ch_int_disable
+20020654 00000010 T dmac_ch_int_disable_all
+20020664 0000002c T dmac_ch_int_clear
+20020690 00000030 T kernel_text_address
+200206c0 00000070 T kernel_sp_addr_cross
+20020730 00000250 T cyg_hg_dump_frame
+20020980 000001fc T scm_gpioa_en
+20020b7c 000001dc T scm_gpiob_en
+20020d58 000001d0 T scm_gpioc_en
+20020f28 000001e8 T scm_gpiod_en
+20021110 0000005c T scm_io_mux_70
+2002116c 0000005c T scm_io_mux_74
+200211c8 0000005c T scm_io_mux_78
+20021224 0000005c T scm_io_mux_7c
+20021280 0000005c T scm_io_mux_80
+200212dc 0000005c T scm_io_mux_84
+20021338 0000005c T scm_io_mux_88
+20021394 0000005c T scm_io_mux_8c
+200213f0 0000005c T scm_io_mux_90
+2002144c 0000005c T scm_io_mux_94
+200214a8 0000005c T scm_io_mux_98
+20021504 0000005c T scm_io_mux_9c
+20021560 0000005c T scm_io_mux_a0
+200215bc 00000010 T scm_qspi_en
+200215cc 00000048 T scm_spi0_en
+20021614 00000090 T scm_spi1_en
+200216a4 00000150 T scm_spi2_en
+200217f4 00000048 T scm_spi3_en
+2002183c 00000080 T scm_spi4_en
+200218bc 0000000c T iomux_init
+200218c8 0000003c T hal_iomux_spi1_en
+20021904 0000008c T hal_iomux_spi2_en
+20021990 0000003c T hal_iomux_spi4_en
+200219cc 00000084 T hal_iomux_gpio_en
+20021a50 00000208 T hal_iomux_en
+20021c58 000001a4 T show_all_thread_infor
+20021e00 00000154 T show_all_thread_cpuload
+20021f58 0000000c T show_thread_trans_table
+20021f64 00000008 T cyg_get_major_version
+20021f6c 00000008 T cyg_get_minor_version
+20021f74 0000000c T cyg_get_git_version
+20021f80 0000000c T cyg_get_release_date
+20021f8c 00000038 T show_release_message
+20021fc4 00000030 T wdt_api_init
+20021ff4 0000004c T wdt_api_enable
+20022040 00000044 T wdt_api_feed
+20022084 00000068 T wdt_api_set_pause
+200220ec 0000004c T wdt_api_get_pause
+20022138 00000028 t get_strip_refclk_rate_kHz
+20022160 00000030 t pow__.constprop.1
+20022190 00000194 T get_M_N_NO
+20022324 000000f8 T pll0_set_rate_kHz
+2002241c 00000038 T pll0_get_rate_kHz
+20022454 00000114 T pll1_set_rate_kHz
+20022568 0000003c T pll1_get_rate_kHz
+200225a4 000000dc T pll2_set_rate_kHz
+20022680 00000038 T pll2_get_rate_kHz
+200226b8 000000ec T pll3_set_rate_kHz
+200227a4 00000058 T pll3_get_rate_kHz
+200227fc 00000030 T pll_api_init
+2002282c 000000a4 T pll_api_get_rate_kHz
+200228d0 000000ac T pll_api_set_rate_kHz
+2002297c 0000005c T pll_api_force_set_pll3_ref_KHz
+200229d8 000000a4 T pll_api_set_pll3_ref_KHz
+20022a7c 00000010 T pll_api_get_pll3_ref_KHz
+20022a8c 0000009c t assert_handler
+20022b28 00000034 T spi4_bitbang_api_init
+20022b5c 0000017c T spi4_bitbang_api_tx
+20022cd8 000001f4 T spi4_bitbang_api_rx
+20022ecc 00000040 T pwm_api_init
+20022f0c 00000084 T pwm_api_set_enable
+20022f90 00000084 T pwm_api_set_disable
+20023014 000000c8 T pwm_api_config
+200230dc 00000004 T hal_misc_init
+200230e0 00000034 T platform_init
+20023114 00000004 T hal_hardware_init
+20023118 00000044 t cyg_i2c_bitbang_send_stop(cyg_i2c_bus*, unsigned int)
+2002315c 00000058 t cyg_i2c_bitbang_send_start(cyg_i2c_bus*, unsigned int)
+200231b4 000000c8 t cyg_i2c_bitbang_send_byte(cyg_i2c_bus*, cyg_i2c_device const*, unsigned int, unsigned char, int) [clone .isra.0]
+2002327c 0000005c T cyg_i2c_init::cyg_i2c_init()
+2002327c 0000005c T cyg_i2c_init::cyg_i2c_init()
+200232d8 0000001c T cyg_i2c_transaction_begin
+200232f4 00000018 T cyg_i2c_transaction_begin_nb
+2002330c 00000020 T cyg_i2c_transaction_end
+2002332c 0000001c T cyg_i2c_transaction_tx
+20023348 00000040 T cyg_i2c_tx
+20023388 00000024 T cyg_i2c_transaction_rx
+200233ac 00000044 T cyg_i2c_rx
+200233f0 00000014 T cyg_i2c_transaction_stop
+20023404 00000014 T cyg_i2c_bitbang_init
+20023418 000000d0 T cyg_i2c_bitbang_tx
+200234e8 000001a4 T cyg_i2c_bitbang_rx
+2002368c 00000024 T cyg_i2c_bitbang_stop
+200236b0 0000000c t _GLOBAL__sub_I.32000__ZN12cyg_i2c_initC2Ev
+200236bc 0000006c t find_dev
+20023728 00000050 t flash_block_size
+20023778 0000002c t flash_block_begin
+200237a4 00000014 t flash_sector_size.isra.0
+200237b8 00000054 T cyg_flash_set_printf
+2002380c 00000058 T cyg_flash_set_global_printf
+20023864 00000078 T cyg_flash_init
+200238dc 0000001c T cyg_flash_verify_addr
+200238f8 00000064 T cyg_flash_get_info
+2002395c 00000048 T cyg_flash_get_info_addr
+200239a4 00000070 T cyg_flash_mutex_lock
+20023a14 00000070 T cyg_flash_mutex_unlock
+20023a84 00000020 T cyg_flash_sector_size
+20023aa4 000001b8 T cyg_flash_sector_erase
+20023c5c 00000028 T cyg_flash_block_size
+20023c84 00000188 T cyg_flash_erase
+20023e0c 0000004c T cyg_flash_chip_erase
+20023e58 00000044 T cyg_flash_read_id
+20023e9c 00000188 T cyg_flash_program
+20024024 00000158 T cyg_flash_read
+2002417c 00000168 T cyg_flash_lock
+200242e4 00000168 T cyg_flash_unlock
+2002444c 00000080 T cyg_flash_region_lock
+200244cc 00000080 T cyg_flash_region_unlock
+2002454c 00000078 T cyg_flash_global_lock
+200245c4 00000078 T cyg_flash_global_unlock
+2002463c 0000001c T cyg_flash_errmsg
+20024658 00000008 T cyg_flash_devfn_init_nop
+20024660 00000008 T cyg_flash_devfn_query_nop
+20024668 00000008 T cyg_flash_devfn_lock_nop
+20024670 00000008 T cyg_flash_devfn_unlock_nop
+20024678 00000004 T cyg_flash_anonymizer
+2002467c 000000a8 T cyg_flash_scan
+20024724 00000018 t __call_COMM_IF_PUTC
+2002473c 00000018 t __call_COMM_IF_GETC
+20024754 00000018 t __call_vv_CYGNUM_CALL_IF_SET_CONSOLE_COMM
+2002476c 00000008 t nop_service
+20024774 000000c8 t set_debug_comm
+2002483c 00000080 t set_console_comm
+200248bc 00000010 t cyg_hal_diag_mangler_gdb_getc
+200248cc 0000002c t cyg_hal_diag_mangler_gdb_read
+200248f8 00000010 t cyg_hal_diag_mangler_null_getc
+20024908 00000010 t cyg_hal_diag_mangler_null_putc
+20024918 0000002c t cyg_hal_diag_mangler_null_write
+20024944 0000002c t cyg_hal_diag_mangler_null_read
+20024970 00000010 t cyg_hal_diag_mangler_null_control
+20024980 0000006c t delay_us
+200249ec 00000010 t reset
+200249fc 00000150 t cyg_hal_diag_mangler_gdb_flush.isra.0
+20024b4c 00000028 t cyg_hal_diag_mangler_gdb_control
+20024b74 0000003c t cyg_hal_diag_mangler_gdb_putc
+20024bb0 0000002c t cyg_hal_diag_mangler_gdb_write
+20024bdc 0000006c T cyg_hal_diag_mangler_gdb_init
+20024c48 0000006c T cyg_hal_diag_mangler_null_init
+20024cb4 00000020 T hal_if_diag_init
+20024cd4 00000040 T hal_if_diag_write_char
+20024d14 00000028 T hal_if_diag_read_char
+20024d3c 000000e4 T hal_if_init
+20024e20 0000002c T cyg_hal_is_break
+20024e4c T breakinst
+20024e4c 00000008 T cyg_hal_user_break
+20024e54 00000004 T hal_default_isr
+20024e58 00000068 T cyg_io_init
+20024ec0 000000fc T cyg_io_lookup
+20024fbc 00000040 T cyg_io_write
+20024ffc 00000040 T cyg_io_read
+2002503c 00000040 T cyg_io_bwrite
+2002507c 00000040 T cyg_io_bread
+200250bc 00000024 T cyg_io_select
+200250e0 00000040 T cyg_io_get_config
+20025120 00000040 T cyg_io_set_config
+20025160 00000008 T cyg_devio_cwrite
+20025168 00000008 T cyg_devio_cread
+20025170 00000008 T cyg_devio_bwrite
+20025178 00000008 T cyg_devio_bread
+20025180 00000008 T cyg_devio_select
+20025188 00000008 T cyg_devio_get_config
+20025190 00000008 T cyg_devio_set_config
+20025198 00000014 W cyg_start
+200251ac 00000004 W cyg_prestart
+200251b0 00000004 W cyg_package_start
+200251b4 00000170 T cyg_hg_trace_dump
+20025324 00000088 t diag_check_string(char const*)
+200253ac 000000bc t _cvt(unsigned long long, char*, long, char*)
+20025468 00000038 t _sputc(char, void**)
+200254a0 000000f8 t diag_round(double, int*, char*, char*, char, char*)
+20025598 00000024 T diag_write_char
+200255bc 00000004 t _diag_write_char(char, void**)
+200255c0 00000004 T diag_init
+200255c4 00000010 T diag_init_putc
+200255d4 00000020 T diag_write_string
+200255f4 000000f4 T diag_write_long_num
+200256e8 0000002c T diag_write_num
+20025714 0000001c T diag_write_hex
+20025730 00000e0c t _vprintf(void (*)(char, void**), void**, char const*, std::__va_list)
+20026540 00000034 T diag_printf
+20026574 00000028 T diag_write_dec
+2002659c 0000004c T diag_sprintf
+200265e8 0000004c T diag_snprintf
+20026634 00000040 T diag_vsprintf
+20026674 0000001c T diag_vprintf
+20026690 000000f0 T diag_vdump_buf_with_offset
+20026780 00000028 T diag_dump_buf_with_offset
+200267a8 00000008 T diag_dump_buf
+200267b0 00000090 T diag_dump_buf_with_offset_32bit
+20026840 00000008 T diag_dump_buf_32bit
+20026848 000000a4 T diag_dump_buf_with_offset_16bit
+200268ec 00000008 T diag_dump_buf_16bit
+200268f4 00000004 t _GLOBAL__sub_I.10100_diag_write_char
+200268f8 00000018 t __call_vv_CYGNUM_CALL_IF_SET_CONSOLE_COMM(int)
+20026910 000001f8 T cyg_assert_msg
+20026b08 00000004 T cyg_test_init
+20026b0c 00000084 T cyg_test_output
+20026b90 00000004 T cyg_test_exit
+20026b94 00000020 W memcpy
+20026b94 00000020 T _memcpy
+20026bb4 0000001c W memset
+20026bb4 0000001c T _memset
+20026bd0 00000018 W Cyg_Scheduler_SchedLock::inc_sched_lock()
+20026be8 00000028 W Cyg_Scheduler::unlock()
+20026c10 00000008 T cyg_scheduler_start
+20026c18 0000000c T cyg_scheduler_lock
+20026c24 00000024 T cyg_scheduler_safe_lock
+20026c48 00000020 T cyg_scheduler_unlock
+20026c68 00000010 T cyg_scheduler_read_lock
+20026c78 00000050 T cyg_thread_create
+20026cc8 00000004 T cyg_thread_exit
+20026ccc 0000003c T cyg_thread_delete
+20026d08 00000004 T cyg_thread_suspend
+20026d0c 00000024 T cyg_thread_resume
+20026d30 00000004 T cyg_thread_kill
+20026d34 00000004 T cyg_thread_release
+20026d38 00000014 T cyg_thread_yield
+20026d4c 00000010 T cyg_thread_self
+20026d5c 00000008 T cyg_thread_get_id
+20026d64 0000000c T cyg_thread_idle_thread
+20026d70 00000004 T cyg_thread_set_priority
+20026d74 00000014 T cyg_thread_get_priority
+20026d88 00000008 T cyg_thread_get_current_priority
+20026d90 00000004 T cyg_thread_deadline_wait
+20026d94 00000018 T cyg_thread_delay
+20026dac 00000008 T cyg_thread_get_stack_base
+20026db4 00000008 T cyg_thread_get_stack_size
+20026dbc 00000090 T cyg_thread_get_next
+20026e4c 00000058 T cyg_thread_find
+20026ea4 00000068 T cyg_thread_cpuload_reset
+20026f0c 000000a4 T cyg_thread_get_info
+20026fb0 000000a0 T cyg_thread_get_cpuload
+20027050 00000004 T cyg_thread_new_data_index
+20027054 00000004 T cyg_thread_free_data_index
+20027058 00000018 T cyg_thread_get_data
+20027070 00000018 T cyg_thread_get_data_ptr
+20027088 00000018 T cyg_thread_set_data
+200270a0 00000044 T cyg_exception_set_handler
+200270e4 0000001c T cyg_exception_clear_handler
+20027100 00000004 T cyg_exception_call_handler
+20027104 00000040 T cyg_interrupt_create
+20027144 00000004 T cyg_interrupt_delete
+20027148 00000004 T cyg_interrupt_attach
+2002714c 00000004 T cyg_interrupt_detach
+20027150 00000004 T cyg_interrupt_get_vsr
+20027154 00000008 T cyg_interrupt_set_vsr
+2002715c 00000004 T cyg_interrupt_disable
+20027160 00000004 T cyg_interrupt_enable
+20027164 00000004 T cyg_interrupt_mask
+20027168 00000004 T cyg_interrupt_mask_intunsafe
+2002716c 00000004 T cyg_interrupt_unmask
+20027170 00000004 T cyg_interrupt_unmask_intunsafe
+20027174 00000004 T cyg_interrupt_acknowledge
+20027178 00000004 T cyg_interrupt_configure
+2002717c 00000004 T cyg_interrupt_set_cpu
+20027180 00000008 T cyg_interrupt_get_cpu
+20027188 00000020 T cyg_counter_create
+200271a8 00000004 T cyg_counter_delete
+200271ac 00000010 T cyg_counter_current_value
+200271bc 00000008 T cyg_counter_set_value
+200271c4 00000008 T cyg_counter_tick
+200271cc 00000008 T cyg_counter_multi_tick
+200271d4 00000038 T cyg_clock_create
+2002720c 00000004 T cyg_clock_delete
+20027210 00000008 T cyg_clock_to_counter
+20027218 00000028 T cyg_clock_set_resolution
+20027240 00000034 T cyg_clock_get_resolution
+20027274 00000010 T cyg_real_time_clock
+20027284 0000001c T cyg_current_time
+200272a0 00000034 T cyg_alarm_create
+200272d4 00000004 T cyg_alarm_delete
+200272d8 00000004 T cyg_alarm_initialize
+200272dc 00000004 T cyg_alarm_get_times
+200272e0 00000004 T cyg_alarm_enable
+200272e4 00000004 T cyg_alarm_disable
+200272e8 0000001c T cyg_mbox_create
+20027304 00000004 T cyg_mbox_delete
+20027308 00000004 T cyg_mbox_get
+2002730c 00000004 T cyg_mbox_timed_get
+20027310 00000004 T cyg_mbox_tryget
+20027314 00000004 T cyg_mbox_peek_item
+20027318 00000004 T cyg_mbox_put
+2002731c 00000004 T cyg_mbox_timed_put
+20027320 00000004 T cyg_mbox_tryput
+20027324 00000008 T cyg_mbox_peek
+2002732c 00000010 T cyg_mbox_waiting_to_get
+2002733c 00000010 T cyg_mbox_waiting_to_put
+2002734c 00000004 T cyg_semaphore_init
+20027350 00000004 T cyg_semaphore_destroy
+20027354 00000004 T cyg_semaphore_wait
+20027358 00000004 T cyg_semaphore_timed_wait
+2002735c 00000004 T cyg_semaphore_trywait
+20027360 00000004 T cyg_semaphore_post
+20027364 00000014 T cyg_semaphore_peek
+20027378 00000008 T cyg_flag_init
+20027380 00000004 T cyg_flag_destroy
+20027384 00000004 T cyg_flag_setbits
+20027388 00000004 T cyg_flag_maskbits
+2002738c 0000001c T cyg_flag_wait
+200273a8 00000028 T cyg_flag_timed_wait
+200273d0 0000001c T cyg_flag_poll
+200273ec 00000008 T cyg_flag_peek
+200273f4 00000010 T cyg_flag_waiting
+20027404 00000004 T cyg_mutex_init
+20027408 00000004 T cyg_mutex_destroy
+2002740c 00000004 T cyg_mutex_lock
+20027410 00000004 T cyg_mutex_trylock
+20027414 00000004 T cyg_mutex_unlock
+20027418 00000004 T cyg_mutex_release
+2002741c 00000004 T cyg_mutex_set_ceiling
+20027420 00000004 T cyg_mutex_set_protocol
+20027424 00000004 T cyg_cond_init
+20027428 00000004 T cyg_cond_destroy
+2002742c 00000008 T cyg_cond_wait
+20027434 00000004 T cyg_cond_signal
+20027438 00000004 T cyg_cond_broadcast
+2002743c 00000008 T cyg_cond_timed_wait
+20027444 00000018 T cyg_spinlock_init
+2002745c 00000004 T cyg_spinlock_destroy
+20027460 0000000c T cyg_spinlock_spin
+2002746c 0000000c T cyg_spinlock_clear
+20027478 0000001c T cyg_spinlock_try
+20027494 00000008 T cyg_spinlock_test
+2002749c 00000024 T cyg_spinlock_spin_intsave
+200274c0 00000024 T cyg_spinlock_clear_intsave
+200274e4 00000008 T idle_thread_main(unsigned int)
+200274ec 00000028 W Cyg_DNode::~Cyg_DNode()
+200274ec 00000028 W Cyg_DNode::~Cyg_DNode()
+20027514 0000004c W Cyg_Thread::set_timer(unsigned long long, Cyg_Thread::cyg_reason)
+20027560 00000014 W Cyg_Thread::clear_timer()
+20027574 00000028 W Cyg_SchedThread::remove()
+2002759c 000001b8 T Cyg_Thread::Cyg_Thread(unsigned int, void (*)(unsigned int), unsigned int, char*, unsigned int, unsigned int)
+2002759c 000001b8 T Cyg_Thread::Cyg_Thread(unsigned int, void (*)(unsigned int), unsigned int, char*, unsigned int, unsigned int)
+20027754 0000005c T Cyg_Thread::reinitialize()
+200277b0 00000084 T Cyg_Thread::~Cyg_Thread()
+200277b0 00000084 T Cyg_Thread::~Cyg_Thread()
+20027834 0000000c t __static_initialization_and_destruction_0(int, int) [clone .part.3]
+20027840 00000044 T Cyg_Thread::sleep()
+20027884 0000004c T Cyg_Thread::wake()
+200278d0 00000064 T Cyg_ThreadTimer::alarm(Cyg_Alarm*, unsigned int)
+20027934 00000044 T Cyg_Thread::counted_wake()
+20027978 00000024 T Cyg_Thread::cancel_counted_wake()
+2002799c 00000048 T Cyg_Thread::suspend()
+200279e4 0000005c T Cyg_Thread::resume()
+20027a40 0000004c T Cyg_Thread::force_resume()
+20027a8c 0000004c T Cyg_Thread::release()
+20027ad8 00000050 T Cyg_Thread::exit()
+20027b28 000000b4 T Cyg_Thread::counted_sleep(unsigned long long)
+20027bdc 0000006c T Cyg_Thread::counted_sleep()
+20027c48 0000002c T Cyg_HardwareThread::thread_entry(Cyg_Thread*)
+20027c74 000000b8 T Cyg_Thread::kill()
+20027d2c 000000f0 T Cyg_Thread::set_priority(int)
+20027e1c 00000058 T Cyg_Thread::delay(unsigned long long)
+20027e74 00000020 T Cyg_Thread::deliver_exception(int, unsigned int)
+20027e94 00000048 T Cyg_Thread::new_data_index()
+20027edc 0000002c T Cyg_Thread::free_data_index(int)
+20027f08 0000007c T Cyg_IdleThread::Cyg_IdleThread()
+20027f08 0000007c T Cyg_IdleThread::Cyg_IdleThread()
+20027f84 0000000c t _GLOBAL__sub_I.11100__ZN18Cyg_HardwareThread12thread_entryEP10Cyg_Thread
+20027f90 00000004 t _GLOBAL__sub_D.11100__ZN18Cyg_HardwareThread12thread_entryEP10Cyg_Thread
+20027f94 00000004 T cyg_null_exception_handler(unsigned int, int, unsigned int)
+20027f98 00000018 T Cyg_Exception_Control::Cyg_Exception_Control()
+20027f98 00000018 T Cyg_Exception_Control::Cyg_Exception_Control()
+20027fb0 0000002c T Cyg_Exception_Control::register_exception(int, void (*)(unsigned int, int, unsigned int), unsigned int, void (**)(unsigned int, int, unsigned int), unsigned int*)
+20027fdc 00000018 T Cyg_Exception_Control::deregister_exception(int)
+20027ff4 00000014 T Cyg_Exception_Control::deliver_exception(int, unsigned int)
+20028008 0000001c T cyg_hal_deliver_exception
+20028024 00000020 t _GLOBAL__sub_I.12000__Z26cyg_null_exception_handlerjij
+20028044 00000028 T Cyg_Interrupt::Cyg_Interrupt(unsigned int, int, unsigned int, unsigned int (*)(unsigned int, unsigned int), void (*)(unsigned int, unsigned int, unsigned int))
+20028044 00000028 T Cyg_Interrupt::Cyg_Interrupt(unsigned int, int, unsigned int, unsigned int (*)(unsigned int, unsigned int), void (*)(unsigned int, unsigned int, unsigned int))
+2002806c 000000a0 T Cyg_Interrupt::call_pending_DSRs_inner()
+2002810c 00000004 T cyg_interrupt_call_pending_DSRs
+20028110 00000004 T Cyg_Interrupt::call_pending_DSRs()
+20028114 00000064 T Cyg_Interrupt::post_dsr()
+20028178 00000004 T cyg_interrupt_post_dsr
+2002817c 00000074 T interrupt_end
+200281f0 00000060 T Cyg_Interrupt::attach()
+20028250 00000050 T Cyg_Interrupt::detach()
+200282a0 00000014 T Cyg_Interrupt::~Cyg_Interrupt()
+200282a0 00000014 T Cyg_Interrupt::~Cyg_Interrupt()
+200282b4 00000014 T Cyg_Interrupt::get_vsr(unsigned int, void (**)())
+200282c8 00000044 T Cyg_Interrupt::set_vsr(unsigned int, void (*)(), void (**)())
+2002830c 00000054 T Cyg_Interrupt::disable_interrupts()
+20028360 00000050 T Cyg_Interrupt::enable_interrupts()
+200283b0 00000030 T Cyg_Interrupt::mask_interrupt(unsigned int)
+200283e0 00000004 T Cyg_Interrupt::mask_interrupt_intunsafe(unsigned int)
+200283e4 00000030 T Cyg_Interrupt::unmask_interrupt(unsigned int)
+20028414 00000004 T Cyg_Interrupt::unmask_interrupt_intunsafe(unsigned int)
+20028418 00000004 T Cyg_Interrupt::acknowledge_interrupt(unsigned int)
+2002841c 00000004 T Cyg_Interrupt::configure_interrupt(unsigned int, int, int)
+20028420 00000014 t _GLOBAL__sub_I.12000__ZN13Cyg_Interrupt15disable_counterE
+20028434 00000004 t _GLOBAL__sub_D.12000__ZN13Cyg_Interrupt15disable_counterE
+20028438 0000003c W Cyg_CList::rem_head()
+20028474 00000038 W Cyg_CList::remove(Cyg_DNode*)
+200284ac 00000058 T Cyg_Scheduler_Implementation::Cyg_Scheduler_Implementation()
+200284ac 00000058 T Cyg_Scheduler_Implementation::Cyg_Scheduler_Implementation()
+20028504 00000024 T Cyg_Scheduler_Implementation::schedule()
+20028528 00000038 T Cyg_Scheduler_Implementation::rem_thread(Cyg_Thread*)
+20028560 00000040 T Cyg_Scheduler_Implementation::set_need_reschedule(Cyg_Thread*)
+200285a0 00000014 T Cyg_Scheduler_Implementation::set_idle_thread(Cyg_Thread*, unsigned int)
+200285b4 00000004 T Cyg_Scheduler_Implementation::register_thread(Cyg_Thread*)
+200285b8 00000004 T Cyg_Scheduler_Implementation::deregister_thread(Cyg_Thread*)
+200285bc 00000008 T Cyg_Scheduler_Implementation::unique(int)
+200285c4 00000084 T Cyg_Scheduler_Implementation::timeslice_cpu()
+20028648 00000020 T Cyg_Scheduler_Implementation::timeslice()
+20028668 0000000c T cyg_scheduler_timeslice_cpu
+20028674 00000014 T Cyg_SchedThread_Implementation::Cyg_SchedThread_Implementation(unsigned int)
+20028674 00000014 T Cyg_SchedThread_Implementation::Cyg_SchedThread_Implementation(unsigned int)
+20028688 00000088 T Cyg_SchedThread_Implementation::yield()
+20028710 00000040 T Cyg_SchedThread_Implementation::rotate_queue(int)
+20028750 0000004c T Cyg_SchedThread_Implementation::to_queue_head()
+2002879c 00000038 T Cyg_ThreadQueue_Implementation::enqueue(Cyg_Thread*)
+200287d4 00000020 T Cyg_ThreadQueue_Implementation::dequeue()
+200287f4 00000018 T Cyg_ThreadQueue_Implementation::remove(Cyg_Thread*)
+2002880c 00000074 T Cyg_Scheduler_Implementation::add_thread(Cyg_Thread*)
+20028880 00000010 T Cyg_ThreadQueue_Implementation::highpri()
+20028890 0000003c W Cyg_CList::~Cyg_CList()
+20028890 0000003c W Cyg_CList::~Cyg_CList()
+200288cc 00000034 W Cyg_Scheduler_Implementation::~Cyg_Scheduler_Implementation()
+200288cc 00000034 W Cyg_Scheduler_Implementation::~Cyg_Scheduler_Implementation()
+20028900 00000114 T Cyg_Scheduler::unlock_inner(unsigned int)
+20028a14 00000068 T Cyg_Scheduler::thread_entry(Cyg_Thread*)
+20028a7c 0000006c T Cyg_Scheduler::start_cpu()
+20028ae8 00000008 T Cyg_Scheduler::start()
+20028af0 00000028 T Cyg_SchedThread::Cyg_SchedThread(Cyg_Thread*, unsigned int)
+20028af0 00000028 T Cyg_SchedThread::Cyg_SchedThread(Cyg_Thread*, unsigned int)
+20028b18 0000003c T Cyg_SchedThread::set_inherited_priority(int, Cyg_Thread*)
+20028b54 0000001c T Cyg_SchedThread::relay_inherited_priority(Cyg_Thread*, Cyg_ThreadQueue*)
+20028b70 00000034 T Cyg_SchedThread::clear_inherited_priority()
+20028ba4 0000000c T Cyg_SchedThread::inherit_priority(Cyg_Thread*)
+20028bb0 00000004 T Cyg_SchedThread::relay_priority(Cyg_Thread*, Cyg_ThreadQueue*)
+20028bb4 00000004 T Cyg_SchedThread::disinherit_priority()
+20028bb8 00000008 T Cyg_SchedThread::set_priority_ceiling(int)
+20028bc0 00000004 T Cyg_SchedThread::clear_priority_ceiling()
+20028bc4 0000000c t _GLOBAL__sub_I.11000_cyg_scheduler_sched_lock
+20028bd0 00000014 t _GLOBAL__sub_D.11000_cyg_scheduler_sched_lock
+20028be4 0000000c T Cyg_Counting_Semaphore::Cyg_Counting_Semaphore(int)
+20028be4 0000000c T Cyg_Counting_Semaphore::Cyg_Counting_Semaphore(int)
+20028bf0 00000018 T Cyg_Counting_Semaphore::~Cyg_Counting_Semaphore()
+20028bf0 00000018 T Cyg_Counting_Semaphore::~Cyg_Counting_Semaphore()
+20028c08 000000bc T Cyg_Counting_Semaphore::wait()
+20028cc4 00000134 T Cyg_Counting_Semaphore::wait(unsigned long long)
+20028df8 00000030 T Cyg_Counting_Semaphore::trywait()
+20028e28 00000048 T Cyg_Counting_Semaphore::post()
+20028e70 00000008 T Cyg_Counting_Semaphore::peek() const
+20028e78 0000000c T Cyg_Flag::Cyg_Flag(unsigned int)
+20028e78 0000000c T Cyg_Flag::Cyg_Flag(unsigned int)
+20028e84 00000050 T Cyg_Flag::~Cyg_Flag()
+20028e84 00000050 T Cyg_Flag::~Cyg_Flag()
+20028ed4 00000024 T Cyg_Flag::maskbits(unsigned int)
+20028ef8 000000e4 T Cyg_Flag::setbits(unsigned int)
+20028fdc 0000007c T Cyg_Flag::poll(unsigned int, unsigned char)
+20029058 0000013c T Cyg_Flag::wait(unsigned int, unsigned char, unsigned long long)
+20029194 000000f0 T Cyg_Flag::wait(unsigned int, unsigned char)
+20029284 0000002c t Cyg_Mboxt<void*, 128>::wakeup_waiter(Cyg_ThreadQueue&) [clone .isra.1]
+200292b0 00000020 W Cyg_Thread::set_sleep_reason(Cyg_Thread::cyg_reason)
+200292d0 00000010 W Cyg_Scheduler::reschedule()
+200292e0 00000018 T Cyg_Mbox::Cyg_Mbox()
+200292e0 00000018 T Cyg_Mbox::Cyg_Mbox()
+200292f8 00000020 T Cyg_Mbox::~Cyg_Mbox()
+200292f8 00000020 T Cyg_Mbox::~Cyg_Mbox()
+20029318 000000bc T Cyg_Mbox::get()
+200293d4 00000114 T Cyg_Mbox::get(unsigned long long)
+200294e8 0000006c T Cyg_Mbox::tryget()
+20029554 000000b4 T Cyg_Mbox::put(void*)
+20029608 0000010c T Cyg_Mbox::put(void*, unsigned long long)
+20029714 0000005c T Cyg_Mbox::tryput(void*)
+20029770 00000044 T Cyg_Mbox::peek_item()
+200297b4 0000001c T Cyg_Mutex::Cyg_Mutex()
+200297b4 0000001c T Cyg_Mutex::Cyg_Mutex()
+200297d0 0000001c T Cyg_Mutex::Cyg_Mutex(Cyg_Mutex::cyg_protcol)
+200297d0 0000001c T Cyg_Mutex::Cyg_Mutex(Cyg_Mutex::cyg_protcol)
+200297ec 00000018 T Cyg_Mutex::~Cyg_Mutex()
+200297ec 00000018 T Cyg_Mutex::~Cyg_Mutex()
+20029804 00000154 T Cyg_Mutex::lock()
+20029958 00000078 T Cyg_Mutex::trylock()
+200299d0 000000b4 T Cyg_Mutex::unlock()
+20029a84 00000034 T Cyg_Mutex::release()
+20029ab8 0000001c T Cyg_Mutex::set_ceiling(int)
+20029ad4 0000001c T Cyg_Mutex::set_protocol(Cyg_Mutex::cyg_protcol)
+20029af0 0000000c T Cyg_Condition_Variable::Cyg_Condition_Variable(Cyg_Mutex&)
+20029af0 0000000c T Cyg_Condition_Variable::Cyg_Condition_Variable(Cyg_Mutex&)
+20029afc 00000010 T Cyg_Condition_Variable::Cyg_Condition_Variable()
+20029afc 00000010 T Cyg_Condition_Variable::Cyg_Condition_Variable()
+20029b0c 00000018 T Cyg_Condition_Variable::~Cyg_Condition_Variable()
+20029b0c 00000018 T Cyg_Condition_Variable::~Cyg_Condition_Variable()
+20029b24 000000a4 T Cyg_Condition_Variable::wait_inner(Cyg_Mutex*)
+20029bc8 0000003c T Cyg_Condition_Variable::signal()
+20029c04 00000044 T Cyg_Condition_Variable::broadcast()
+20029c48 000000e8 T Cyg_Condition_Variable::wait_inner(Cyg_Mutex*, unsigned long long)
+20029d30 00000034 T malloc
+20029d64 0000002c T calloc
+20029d90 000000b8 T mallinfo
+20029e48 000000d4 W Cyg_Mempolt2<Cyg_Mempool_dlmalloc_Implementation>::free(unsigned char*, int)
+20029f1c 00000024 T free
+20029f40 00000098 T realloc
+20029fd8 00000078 W Cyg_Mempolt2<Cyg_Mempool_dlmalloc_Implementation>::~Cyg_Mempolt2()
+20029fd8 00000078 W Cyg_Mempolt2<Cyg_Mempool_dlmalloc_Implementation>::~Cyg_Mempolt2()
+2002a050 00000034 t _GLOBAL__sub_I.19900_cygmem_pool_heap1
+2002a084 00000014 t _GLOBAL__sub_D.19900_cygmem_pool_heap1
+2002a098 00000014 T isupper
+2002a0ac 00000014 T islower
+2002a0c0 00000028 T isalpha
+2002a0e8 00000014 T isdigit
+2002a0fc 00000030 T isalnum
+2002a12c 00000014 T iscntrl
+2002a140 00000014 T isgraph
+2002a154 00000014 T isprint
+2002a168 0000003c T ispunct
+2002a1a4 00000034 T isspace
+2002a1d8 00000034 T isxdigit
+2002a20c 00000010 T tolower
+2002a21c 00000010 T toupper
+2002a22c 00000048 t _GLOBAL__sub_I.56000_cyg_libc_main_thread
+2002a274 0000000c t _GLOBAL__sub_D.56000_cyg_libc_main_thread
+2002a280 00000028 T sprintf
+2002a2a8 00000014 T setbuf
+2002a2bc 00000014 T vfprintf
+2002a2d0 0000001c T vprintf
+2002a2ec 00000014 T vsprintf
+2002a300 0000002c T puts
+2002a32c 00000064 T perror
+2002a390 0000001c T vscanf
+2002a3ac 00000090 W Cyg_StdioStream::~Cyg_StdioStream()
+2002a3ac 00000090 W Cyg_StdioStream::~Cyg_StdioStream()
+2002a43c 0000001c W Cyg_StdioStream::~Cyg_StdioStream()
+2002a458 0000005c t _GLOBAL__sub_I.56001_cyg_libc_stdio_stdout
+2002a4b4 00000014 t _GLOBAL__sub_D.56001_cyg_libc_stdio_stdout
+2002a4c8 00000010 W Cyg_OutputStream::~Cyg_OutputStream()
+2002a4c8 00000010 W Cyg_OutputStream::~Cyg_OutputStream()
+2002a4d8 00000008 T Cyg_OutputStream::write(unsigned char const*, unsigned int, unsigned int*)
+2002a4e0 00000008 T Cyg_OutputStream::get_error()
+2002a4e8 00000020 W Cyg_OutputStream::~Cyg_OutputStream()
+2002a508 00000008 W Cyg_StdioStream::lock_me()
+2002a510 00000008 W Cyg_StdioStream::unlock_me()
+2002a518 00000030 W Cyg_StdioStream::get_error()
+2002a548 00000150 T Cyg_StdioStream::initialize(void*, Cyg_StdioStream::OpenMode, int, int, int, unsigned int, unsigned char*)
+2002a698 00000090 T Cyg_StdioStream::Cyg_StdioStream(void*, Cyg_StdioStream::OpenMode, int, int, int, unsigned int, unsigned char*)
+2002a698 00000090 T Cyg_StdioStream::Cyg_StdioStream(void*, Cyg_StdioStream::OpenMode, int, int, int, unsigned int, unsigned char*)
+2002a728 000000b0 T Cyg_StdioStream::Cyg_StdioStream(Cyg_StdioStream::OpenMode, unsigned int, unsigned char*)
+2002a728 000000b0 T Cyg_StdioStream::Cyg_StdioStream(Cyg_StdioStream::OpenMode, unsigned int, unsigned char*)
+2002a7d8 0000008c T Cyg_StdioStream::flush_output_unlocked()
+2002a864 000001c8 T Cyg_StdioStream::write(unsigned char const*, unsigned int, unsigned int*)
+2002aa2c 000000f8 T Cyg_StdioStream::peek_byte(unsigned char*)
+2002ab24 00000150 T Cyg_StdioStream::read_byte(unsigned char*)
+2002ac74 000001cc T Cyg_StdioStream::read(unsigned char*, unsigned int, unsigned int*)
+2002ae40 00000154 T Cyg_StdioStream::refill_read_buffer()
+2002af94 00000094 T Cyg_StdioStreamBuffer::set_buffer(unsigned int, unsigned char*)
+2002b028 0000001c W Cyg_VsnprintfStream::~Cyg_VsnprintfStream()
+2002b028 0000001c W Cyg_VsnprintfStream::~Cyg_VsnprintfStream()
+2002b044 00000008 W Cyg_VsnprintfStream::get_error()
+2002b04c 00000030 T Cyg_VsnprintfStream::write(unsigned char const*, unsigned int, unsigned int*)
+2002b07c 0000001c W Cyg_VsnprintfStream::~Cyg_VsnprintfStream()
+2002b098 00000030 T vsnprintf
+2002b0fc 0000004c W Cyg_StdioStream::bytes_available_to_read()
+2002b148 00000098 W Cyg_StdioStream::set_position(int, int)
+2002b1e0 00000c80 T vfscanf
+2002be60 00000028 T fprintf
+2002be88 00000098 T fputc
+2002be88 00000098 W putc
+2002bf20 00000010 T putchar
+2002bf30 00000098 T fputs
+2002bfc8 00000034 T printf
+2002bffc 000000f8 t round(double, int*, char*, char*, char, char*)
+2002c0f8 00001670 T vfnprintf
+2002d768 00000008 T atof
+2002d770 0000000c T atoi
+2002d77c 0000000c T atol
+2002d788 0000000c T atoll
+2002d794 00000054 T rand_r
+2002d7e8 0000000c T rand
+2002d7f4 00000010 T srand
+2002d804 0000004c t exp10(unsigned int)
+2002d850 00000254 T strtod
+2002daa8 00000198 T strtol
+2002dc40 00000184 T strtoul
+2002ddc8 00000260 T strtoll
+2002e028 0000021c T strtoull
+2002e244 00000034 W memchr
+2002e244 00000034 T __memchr
+2002e278 0000003c W memcmp
+2002e278 0000003c T __memcmp
+2002e2b4 0000005c W memmove
+2002e2b4 0000005c T __memmove
+2002e310 00000034 W strcmp
+2002e310 00000034 T __strcmp
+2002e344 0000001c W strcpy
+2002e344 0000001c T __strcpy
+2002e360 00000020 W strlen
+2002e360 00000020 T __strlen
+2002e380 00000020 T fabs
+2002e3a0 00000010 T finite
+2002e3b0 00000020 T isnan
+2002e3d0 000000f0 T modf
+2002e4c0 00000020 W strerror
+2002e4c0 00000020 T __strerror
+2002e4e0 00000018 T cyg_error_get_errno_p
+2002e4f8 T hal_thread_switch_context
+2002e528 T hal_thread_load_context
+2002e55c T hal_setjmp
+2002e568 T hal_longjmp
+2002e574 0000000c T hal_gpio_init
+2002e580 00000040 T hal_gpio_set_output
+2002e5c0 00000040 T hal_gpio_set_high
+2002e600 00000034 T hal_gpio_set_low
+2002e634 00000040 T hal_gpio_set_input
+2002e674 0000005c T hal_gpio_get_input_data
+2002e6d0 0000005c T hal_gpio_get_output_data
+2002e72c 00000030 T hal_gpio_get_int_status
+2002e75c 00000014 T hal_gpio_int_clear
+2002e770 00000148 T scm_mmc_en
+2002e8b8 00000010 T scm_hwpwm0
+2002e8c8 00000010 T scm_hwpwm1
+2002e8d8 00000010 T scm_hwpwm2
+2002e8e8 00000010 T scm_hwpwm3
+2002e8f8 00000010 T scm_swpwm0
+2002e908 00000010 T scm_swpwm1
+2002e918 000000d4 T scm_sim_en
+2002e9ec 000000f8 T scm_asram_en
+2002eae4 00000010 T scm_if0_0_if4_12
+2002eaf4 00000010 T scm_if0_1_if4_13
+2002eb04 00000010 T scm_if0_2_if4_14
+2002eb14 00000010 T scm_if0_3_if4_15
+2002eb24 00000010 T scm_if0_4_if6_12_if4_6
+2002eb34 00000010 T scm_if0_5_if6_13_if4_7
+2002eb44 00000010 T scm_if0_6_if6_14
+2002eb54 00000010 T scm_if0_7_if6_15
+2002eb64 00000010 T scm_if0_8
+2002eb74 00000010 T scm_if0_9
+2002eb84 00000010 T scm_if0_10
+2002eb94 00000010 T scm_if0_11
+2002eba4 00000010 T scm_if0_12
+2002ebb4 00000010 T scm_if0_13
+2002ebc4 00000010 T scm_if0_14
+2002ebd4 00000010 T scm_if0_15
+2002ebe4 00000010 T scm_if1_0_if4_8
+2002ebf4 00000010 T scm_if1_1_if4_9
+2002ec04 00000010 T scm_if1_2_if4_10
+2002ec14 00000010 T scm_if1_3_if4_11
+2002ec24 00000010 T scm_if1_4_if6_8
+2002ec34 00000010 T scm_if1_5_if6_9
+2002ec44 00000010 T scm_if1_6_if6_10
+2002ec54 00000010 T scm_if1_7_if6_11
+2002ec64 00000010 T scm_if1_8
+2002ec74 00000010 T scm_if1_9
+2002ec84 00000010 T scm_if1_10
+2002ec94 00000010 T scm_if1_11
+2002eca4 00000010 T scm_if1_12
+2002ecb4 00000010 T scm_if1_13
+2002ecc4 00000010 T scm_if1_14
+2002ecd4 00000010 T scm_if1_15
+2002ece4 00000010 T scm_if2_0_if4_4_if5_12
+2002ecf4 00000010 T scm_if2_1_if4_5_if5_13
+2002ed04 00000010 T scm_if2_2_if4_6_if5_14
+2002ed14 00000010 T scm_if2_3_if4_7_if5_15
+2002ed24 00000010 T scm_if2_4_if7_12
+2002ed34 00000010 T scm_if2_5_if7_13
+2002ed44 00000010 T scm_if2_6_if7_14
+2002ed54 00000010 T scm_if2_7_if7_15
+2002ed64 00000010 T scm_if2_8_if11_12
+2002ed74 00000010 T scm_if2_9_if11_13
+2002ed84 00000010 T scm_if2_10_if11_14
+2002ed94 00000010 T scm_if2_11_if11_15
+2002eda4 00000010 T scm_if2_12
+2002edb4 00000010 T scm_if2_13
+2002edc4 00000010 T scm_if2_14
+2002edd4 00000010 T scm_if2_15
+2002ede4 00000010 T scm_if3_0_if5_8_if9_12
+2002edf4 00000010 T scm_if3_1_if5_9_if9_13
+2002ee04 00000010 T scm_if3_2_if5_10_if9_14
+2002ee14 00000010 T scm_if3_3_if5_11_if9_15
+2002ee24 00000010 T scm_if3_4_if5_6_if7_8_if8_12
+2002ee34 00000010 T scm_if3_5_if5_7_if7_9_if8_13
+2002ee44 00000010 T scm_if3_6_if7_10_if8_14
+2002ee54 00000010 T scm_if3_7_if7_11_if8_15
+2002ee64 00000010 T scm_if3_8_if10_12
+2002ee74 00000010 T scm_if3_9_if10_13
+2002ee84 00000010 T scm_if3_10_if10_14
+2002ee94 00000010 T scm_if3_11_if10_15
+2002eea4 00000010 T scm_if3_12
+2002eeb4 00000010 T scm_if3_13
+2002eec4 00000010 T scm_if3_14
+2002eed4 00000010 T scm_if3_15
+2002eee4 0000014c T scm_if_en
+2002f030 00000228 T scm_prm0_en
+2002f258 00000228 T scm_prm1_en
+2002f480 00000010 T scm_pps0
+2002f490 00000010 T scm_pps1
+2002f4a0 00000010 T scm_clk5m
+2002f4b0 00000028 T scm_i2c0_en
+2002f4d8 00000028 T scm_i2c1_en
+2002f500 00000028 T scm_odo_en
+2002f528 00000048 T scm_irigb_en
+2002f570 00000160 T scm_uart_en
+2002f6d0 00000018 T asram_init
+2002f6e8 00000028 T rsv_data_init
+2002f710 00000078 T is_auth_data_valid
+2002f788 00000018 T is_auth_bbjtag_disabled
+2002f7a0 00000018 T is_auth_apjtag_disabled
+2002f7b8 00000018 T is_auth_bl_verf_disabled
+2002f7d0 00000018 T is_auth_fw_verf_disabled
+2002f7e8 00000018 T is_auth_ap_key_enabled
+2002f800 00000018 T is_auth_trace_disabled
+2002f818 00000018 T get_auth_key_index
+2002f830 00000014 T get_auth_version
+2002f844 00000014 T get_auth_serial_number
+2002f858 000001c4 T print_authcode_info
+2002fa1c 00000024 T wdt_cr
+2002fa40 00000008 T wdt_ccvr
+2002fa48 0000000c T wdt_crr
+2002fa54 0000000c T wdt_stat
+2002fa60 00000008 T wdt_eoi
+2002fa68 00000018 T wdt_torr
+2002fa80 00000138 T get_torr_index
+2002fbb8 00000018 T get_torr_range_max_v
+2002fbd0 00000018 T get_time2torr
+2002fbe8 0000001c T pwm_set_enable
+2002fc04 00000078 T pwm_config
+2002fc7c 00000004 T operator delete(void*)
+2002fc80 00000004 T operator delete[](void*)
+2002fc84 000005fc t construct_converter(Cyg_Clock::converter*, unsigned long long, unsigned long long, unsigned long long, unsigned long long)
+20030280 00000024 T Cyg_RealTimeClock::isr(unsigned int, unsigned int)
+200302a4 00000020 W Cyg_DNode::unlink()
+200302c4 0000001c T Cyg_Counter::Cyg_Counter(unsigned int)
+200302c4 0000001c T Cyg_Counter::Cyg_Counter(unsigned int)
+200302e0 00000024 T Cyg_Counter::~Cyg_Counter()
+200302e0 00000024 T Cyg_Counter::~Cyg_Counter()
+20030304 00000030 T Cyg_Counter::rem_alarm(Cyg_Alarm*)
+20030334 0000003c T Cyg_Clock::Cyg_Clock(Cyg_Clock::cyg_resolution)
+20030334 0000003c T Cyg_Clock::Cyg_Clock(Cyg_Clock::cyg_resolution)
+20030370 00000014 T Cyg_Clock::~Cyg_Clock()
+20030370 00000014 T Cyg_Clock::~Cyg_Clock()
+20030384 00000040 T Cyg_Clock::get_other_to_clock_converter(unsigned long long, Cyg_Clock::converter*)
+200303c4 0000003c T Cyg_Clock::get_clock_to_other_converter(unsigned long long, Cyg_Clock::converter*)
+20030400 00000034 T Cyg_Alarm::Cyg_Alarm(Cyg_Counter*, void (*)(Cyg_Alarm*, unsigned int), unsigned int)
+20030400 00000034 T Cyg_Alarm::Cyg_Alarm(Cyg_Counter*, void (*)(Cyg_Alarm*, unsigned int), unsigned int)
+20030434 00000010 T Cyg_Alarm::Cyg_Alarm()
+20030434 00000010 T Cyg_Alarm::Cyg_Alarm()
+20030444 00000080 T Cyg_Alarm::synchronize()
+200304c4 000000a0 T Cyg_Counter::add_alarm(Cyg_Alarm*)
+20030564 0000004c T Cyg_Alarm::initialize(unsigned long long, unsigned long long)
+200305b0 000000e8 T Cyg_Counter::tick(unsigned int)
+20030698 0000001c T Cyg_RealTimeClock::dsr(unsigned int, unsigned int, unsigned int)
+200306b4 0000003c T Cyg_Alarm::enable()
+200306f0 0000002c T Cyg_Alarm::disable()
+2003071c 00000028 T Cyg_Alarm::~Cyg_Alarm()
+2003071c 00000028 T Cyg_Alarm::~Cyg_Alarm()
+20030744 00000034 T Cyg_Alarm::get_times(unsigned long long*, unsigned long long*)
+20030778 000000a4 T Cyg_RealTimeClock::Cyg_RealTimeClock()
+20030778 000000a4 T Cyg_RealTimeClock::Cyg_RealTimeClock()
+2003081c 0000000c t _GLOBAL__sub_I.14000__ZN9Cyg_Clock15real_time_clockE
+20030828 00000020 t _GLOBAL__sub_D.14000__ZN9Cyg_Clock15real_time_clockE
+20030848 00000060 T Cyg_Mempool_dlmalloc_Implementation::Cyg_Mempool_dlmalloc_Implementation(unsigned char*, int, unsigned int)
+20030848 00000060 T Cyg_Mempool_dlmalloc_Implementation::Cyg_Mempool_dlmalloc_Implementation(unsigned char*, int, unsigned int)
+200308a8 00000430 T Cyg_Mempool_dlmalloc_Implementation::try_alloc(int)
+20030cd8 00000228 T Cyg_Mempool_dlmalloc_Implementation::free(unsigned char*, int)
+20030f00 00000324 T Cyg_Mempool_dlmalloc_Implementation::resize_alloc(unsigned char*, int, int*)
+20031224 000000c4 T Cyg_Mempool_dlmalloc_Implementation::get_status(unsigned short, Cyg_Mempool_Status&)
+200312e8 00000028 T cyg_libc_invoke_main
+20031310 0000001c W main
+2003132c 00000158 T cyg_libc_stdio_flush_all_but
+20031484 00000068 T fflush
+200314ec 000000b4 T setvbuf
+200315a0 00000058 t _GLOBAL__sub_I.56002_cyg_libc_stdio_stderr
+200315f8 00000014 t _GLOBAL__sub_D.56002_cyg_libc_stdio_stderr
+2003160c 0000005c t _GLOBAL__sub_I.56000_cyg_libc_stdio_stdin
+20031668 00000014 t _GLOBAL__sub_D.56000_cyg_libc_stdio_stdin
+2003167c 0000000c t _GLOBAL__sub_I.56000__ZN20Cyg_libc_stdio_files5filesE
+20031688 0000000c t _GLOBAL__sub_D.56000__ZN20Cyg_libc_stdio_files5filesE
+20031694 0000001c T Cyg_libc_stdio_find_filename
+200316b0 00000094 T ungetc
+20031744 0000001c T exit
+20031760 0000000c T _exit
+2003176c 00000040 T cyg_libc_invoke_atexit_handlers
+200317ac 00000030 T atexit
+200317dc T __aeabi_uidiv
+200317dc 000000f4 T __udivsi3
+200317dc t .udivsi3_skip_div0_test
+200318d0 00000020 T __aeabi_uidivmod
+200318f0 T __aeabi_idiv
+200318f0 00000128 T __divsi3
+200318f8 t .divsi3_skip_div0_test
+20031a18 00000020 T __aeabi_idivmod
+20031a38 00000004 W __aeabi_idiv0
+20031a38 00000004 W __aeabi_ldiv0
+20031a3c 0000001c T __aeabi_lasr
+20031a3c 0000001c T __ashrdi3
+20031a58 T __aeabi_drsub
+20031a60 00000314 T __aeabi_dsub
+20031a60 00000314 T __subdf3
+20031a64 00000310 T __adddf3
+20031a64 00000310 T __aeabi_dadd
+20031d74 00000024 T __aeabi_ui2d
+20031d74 00000024 T __floatunsidf
+20031d98 00000028 T __aeabi_i2d
+20031d98 00000028 T __floatsidf
+20031dc0 00000040 T __aeabi_f2d
+20031dc0 00000040 T __extendsfdf2
+20031e00 00000074 T __aeabi_ul2d
+20031e00 00000074 T __floatundidf
+20031e14 00000060 T __aeabi_l2d
+20031e14 00000060 T __floatdidf
+20031e74 00000290 T __aeabi_dmul
+20031e74 00000290 T __muldf3
+20032104 0000020c T __aeabi_ddiv
+20032104 0000020c T __divdf3
+20032310 00000098 T __gedf2
+20032310 00000098 T __gtdf2
+20032318 00000090 T __ledf2
+20032318 00000090 T __ltdf2
+20032320 00000088 T __cmpdf2
+20032320 00000088 T __eqdf2
+20032320 00000088 T __nedf2
+200323a8 00000034 T __aeabi_cdrcmple
+200323c4 00000018 T __aeabi_cdcmpeq
+200323c4 00000018 T __aeabi_cdcmple
+200323dc 00000018 T __aeabi_dcmpeq
+200323f4 00000018 T __aeabi_dcmplt
+2003240c 00000018 T __aeabi_dcmple
+20032424 00000018 T __aeabi_dcmpge
+2003243c 00000018 T __aeabi_dcmpgt
+20032454 00000038 T __aeabi_dcmpun
+20032454 00000038 T __unorddf2
+2003248c T __aeabi_uldivmod
+200324c8 00000044 T __gnu_ldivmod_helper
+2003250c 00000040 T __gnu_uldivmod_helper
+2003254c 000004f0 T __divdi3
+20032a3c 00000488 T __udivdi3
+20032ec4 00000048 T __clzsi2
+20032f0c A __CTOR_END__
+20032f0c A __CTOR_LIST__
+20032f0c A __DTOR_END__
+20032f0c A __DTOR_LIST__
+20032f0c T _etext
+20033cc4 00000010 r __func__.6160
+20034224 00000011 r __func__.6265
+20034238 0000000b r __func__.6241
+2003470c 00000011 r __func__.5870
+20034720 00000011 r __FUNCTION__.5871
+20034898 00000012 r __func__.5588
+20034da8 00000010 r digits.4834
+20035500 0000bb50 r fabs_vec
+2004152c 00000013 r __func__.5616
+20041c20 00000028 R GPSL1_BKP
+20041c48 00000028 R GPSL1
+20041c70 00000028 R BD2B1
+20041c98 00000028 R GLONL1
+20041cc0 00000028 R GPSL2
+20041ce8 00000028 R BD2B2
+20041d10 00000028 R GLONL2
+20041d38 00000028 R BD2B3
+20041d60 00000028 R GPSL5
+20041d88 0000000c R LO2
+20041d94 0000000c R LO1
+20041db8 00000030 R ch1_cfg
+20041de8 00000030 R ch2_cfg
+20041e18 00000030 R ch3_cfg
+20041e8c 00000018 r __FUNCTION__.5866
+20041fdc 00000014 r __func__.6664
+20041ff0 0000001c r spi_scm_clk
+2004200c 0000000e r __func__.6778
+20043b5b 0000000f r __func__.6694
+20043b6a 0000001d r CSWTCH.22
+20043b87 00000003 r CSWTCH.25
+20043b8a 0000000f r __func__.6643
+20043b99 0000000d r __func__.6761
+20043ba6 00000011 r __func__.6813
+20043bb7 00000005 r select_parity
+20043bbc 00000003 r CSWTCH.20
+20043bbf 00000004 r select_word_length
+20043bc3 00000004 r select_stop_bits
+20043bc7 00000017 r __func__.6143
+20043be0 00000034 r abort_sources
+20043c14 00000010 r __func__.6077
+20043c24 00000019 r __func__.6134
+20043c3d 0000000b r __func__.6093
+20043c48 0000000d r __func__.5957
+20043c55 0000000d r __func__.5969
+20043c62 00000013 r __func__.6319
+20043c75 0000000d r __func__.6281
+20043c82 00000013 r __func__.6301
+20043c95 0000001a r __func__.6301
+20043caf 0000000e r __func__.6269
+20043cbd 0000000d r __func__.5714
+20043cca 00000014 r __func__.5724
+20043cde 0000000d r __func__.5734
+20043ceb 0000000e r __func__.5744
+20043cf9 00000011 r __func__.5751
+20043d0a 00000011 r __func__.5759
+20043d1b 0000000a r __func__.6012
+20043d25 0000001f r __func__.6101
+20043d44 0000001c r __func__.6052
+20043d60 00000024 r __func__.6052
+20043d84 0000001f r __FUNCTION__.6102
+20043da3 0000001d r __func__.6058
+20043dc0 00000016 r __func__.6110
+20043dd6 00000015 r __func__.6110
+20043deb 00000019 r __func__.6110
+20043e04 00000023 r __func__.6066
+20043e27 00000022 r __func__.6066
+20043e49 0000001a r __func__.6118
+20043e63 00000024 r __func__.6074
+20043e87 00000017 r __func__.6131
+20043e9e 0000001b r __func__.6131
+20043eb9 0000001b r __func__.6083
+20043ed4 0000001c r __func__.6140
+20043ef0 0000001c r __func__.6136
+20043f0c 0000001d r __func__.6037
+20043f29 0000001c r __func__.6039
+20043f45 0000001c r __func__.6156
+20043f61 0000001c r __func__.6162
+20043f7d 0000001e r __func__.6102
+20043f9b 0000001f r __func__.6145
+20043fba 0000001b r __func__.6059
+20043fd5 0000001c r __func__.6059
+20043ff1 0000001f r __func__.6169
+20044010 0000001f r __func__.6195
+2004402f 00000024 r __func__.6181
+20044053 0000001c r __func__.6187
+2004406f 0000001b r __func__.6132
+2004408a 0000001b r __func__.6132
+200440a5 0000001d r __func__.6176
+200440c2 0000001e r __FUNCTION__.6103
+200440e0 0000001a r __func__.6085
+200440fa 00000022 r __func__.6072
+2004411c 00000019 r __func__.6117
+20044135 00000019 r __func__.6117
+2004414e 0000001a r __func__.6153
+20044168 0000001b r __func__.6047
+20044183 00000015 r __func__.6103
+20044198 0000001c r __func__.6054
+200441b4 00000022 r __func__.6062
+200441d6 00000026 r __func__.6142
+200441fc 00000023 r __func__.6070
+2004421f 0000001e r __FUNCTION__.6096
+2004423d 00000016 r __func__.6123
+20044253 0000001a r __func__.6078
+2004426d 0000001c r __func__.6031
+20044289 0000001c r __func__.6158
+200442a5 0000001e r __func__.6095
+200442c3 0000001c r __func__.6038
+200442df 0000001e r __func__.6100
+200442fd 0000001e r __FUNCTION__.6101
+2004431b 0000001b r __func__.6053
+20044336 00000023 r __func__.6073
+20044359 00000015 r __func__.6109
+2004436e 0000001a r __func__.6082
+20044388 00000029 r __func__.6030
+200443b1 0000000a r __func__.6315
+200443bb 00000012 r __func__.6490
+200443cd 00000018 r __func__.6499
+200443e5 00000014 r __func__.6446
+200443f9 00000013 r __func__.6434
+2004440c 00000017 r __func__.6481
+20044423 00000015 r __func__.6460
+20044438 00000014 r __func__.6472
+2004444c 00000014 r __func__.6363
+20044460 00000012 r __func__.6376
+20044472 00000015 r __func__.6368
+20044487 00000014 r __func__.6403
+2004449c 00000038 r bp2016_qspi_dev_funs
+200444d4 00000018 r __func__.6602
+200444ec 00000012 r __func__.6518
+200444fe 0000001a r __func__.6608
+20044518 00000019 r __func__.6580
+20044531 0000000e r __func__.6505
+2004453f 00000017 r __func__.6571
+20044556 00000018 r __func__.6528
+2004456e 00000019 r __func__.6294
+20044587 00000018 r __func__.6273
+2004459f 00000019 r __func__.6280
+200445b8 00000013 r __func__.6326
+200445cb 00000018 r __func__.6287
+200445e3 00000011 r __func__.6264
+200445f4 00000009 r CSWTCH.17
+200445fd 00000009 r CSWTCH.16
+20044606 00000013 r __FUNCTION__.5935
+200447a8 00000010 r CSWTCH.2
+200447b8 00000020 r CSWTCH.13
+200447d8 00000004 r ttb_addr
+200447dc 0000001c r baudsel_table
+200447f8 0000000c r CSWTCH.5
+2004482c 00000012 r CSWTCH.18
+20044840 00000008 r CSWTCH.12
+20045290 00000024 r CSWTCH.44
+200452b4 0000000b r __func__.5345
+200453d1 00000012 r __func__.5409
+200453e3 00000012 r __func__.5417
+20045680 0000003c r CSWTCH.73
+200456bc 00000011 r hex.5101
+200458a8 00000044 r CSWTCH.24
+200458ec 00000020 r cyg_hg_trace_dump::reasons
+20045a28 00000018 r CSWTCH.20
+20045a54 00000004 R stdout
+20045a58 00000018 R vtable for Cyg_OutputStream
+20045a70 00000018 R vtable for Cyg_StdioStream
+20045a88 00000018 R vtable for Cyg_VsnprintfStream
+20045aa0 00000022 r vfscanf::basefix
+20045ad0 00000028 r exp10(unsigned int)::powtab
+20045af8 00000008 R cyg_libm_infinity
+20046084 000005b8 r CSWTCH.2
+200468e4 00000040 r CSWTCH.9
+20046924 00000040 r CSWTCH.12
+20046964 00000060 r construct_converter(Cyg_Clock::converter*, unsigned long long, unsigned long long, unsigned long long, unsigned long long)::primes
+200469c4 00000004 R stderr
+200469c8 00000004 R stdin
+200469cc A _GOT1_END_
+200469cc A _GOT1_START_
+200469cc A _GOT2_END_
+200469cc A _GOT2_START_
+200469cc d init_flag
+200469cc A __ram_data_start
+200469cc A __rom_data_start
+200469d0 D hal_interrupt_handlers
+20046c50 D hal_interrupt_data
+20046ed0 D hal_interrupt_objects
+20047150 00000004 D src_addr
+20047154 00000004 D dst_addr
+20047158 00000004 D t_len
+2004715c 00000028 d selfcheck_txbuf
+20047184 00000005 d userinfo_txbuf
+2004718c 00000004 d index.5698
+20047190 00000004 d etu.5699
+20047194 00000010 D txbuf
+200471a4 00000054 D rxbuf
+200471f8 00000010 D txbuf1
+20047208 00000054 D rxbuf1
+2004725c 00000018 D rx3902_id0
+20047274 00000018 D rx3902_id1
+2004728c 0000001c d bmi160_8bit_config
+200472a8 0000001c D spi_flash_8bit_config
+200472c4 0000001c D spi_flash_16bit_config
+200472e0 0000001c D spi_flash_32bit_config
+200472fc 0000001c d mcp2515_8bit_config
+20047318 00000004 d mcp_rst_gpio
+2004731c 0000001c D w5500_8bit_config
+20047338 00000004 d gpio_num
+2004733c 00000004 D baud
+20047340 00000004 d dp_last_length
+20047344 00000004 d hist_cur
+20047348 0000000e D test_case0
+20047358 00000038 d lo_cfg
+20047390 000000e0 d max2769_cfg
+20047470 0000001c d spi3wire_3902_config
+2004748c 00000010 D txbuf2
+2004749c 0000009c D rxbuf2
+20047538 000000d4 d bb_src
+2004760c 00000020 D MaxLenMsg
+2004762c 000000d4 D bbsrc
+20047700 000000cc D cyg_spi_bp2016_bus0
+200477cc 000000cc D cyg_spi_bp2016_bus1
+20047898 000000cc D cyg_spi_bp2016_bus2
+20047964 000000cc D cyg_spi3wire_bp2016_bus4
+20047a30 0000001c D cyg_io_bp2016_serial_devio
+20047a4c 0000008c d bp2016_uart_channel0
+20047ad8 00000040 d bp2016_uart_priv0
+20047b18 0000008c d bp2016_uart_channel6
+20047ba4 0000008c d bp2016_uart_channel7
+20047c30 00000040 d bp2016_uart_priv6
+20047c70 00000040 d bp2016_uart_priv7
+20047cb0 0000048c D sim_info0
+2004813c 0000048c D sim_info1
+200485c8 0000048c D sim_info2
+20048a54 0000001c D sim_handler
+20048a70 000000a4 D bp2016_i2c_bus0_dev
+20048b14 0000000c D bp2016_max2112_dev
+20048b20 0000001c D max2112_handler
+20048b3c 0000001c D cyg_io_flashdev_ops
+20048b58 000001e0 D fl_info
+20048d38 00000078 D tm_array
+20048db0 00000015 d query.6517
+20048dc8 00000050 d bp2016_qspi_dev
+20048e18 0000001c D dma_handler
+20048e34 00000014 d dmac_controller_pri
+20048e48 0000001c D cyg_io_serial_devio
+20048e64 0000000c D cyg_io_serial_callbacks
+20048e70 0000001c d tty_devio
+20048e8c 00000014 d haldiag_funs
+20048ea0 0000009c d haldiag_channel0
+20048f3c 00000004 D null_name
+20048f40 00000004 D pll3_ref_clk_khz
+20048f44 00000004 d __selected_id.5081
+20048f48 00000004 d __selected_id.5062
+20048f4c 00000004 d _putc
+20048f50 00000004 D Cyg_Thread::thread_data_map
+20048f54 00000002 d next_unique_id
+20048f58 00000004 D cyg_scheduler_sched_lock
+20048f5c 00000008 D cygmem_memalloc_heaps
+20048f64 00000010 d vfnprintf::zeroes
+20048f74 00000010 d vfnprintf::blanks
+20048f84 00000004 d cyg_libc_rand_seed
+20048f88 00000001 D cygvar_libm_compat_mode
+20048f8c 00000008 D rtc_resolution
+20048f94 00000038 D bp2016_qspi_entry
+20048f94 D cyg_flashdevtab
+20048fcc 0000001c D bp2016_serial_io7
+20048fcc D cyg_flashdevtab_end
+20048fcc D __DEVTAB__
+20048fe8 0000001c D bp2016_serial_io6
+20049004 0000001c D bp2016_serial_io0
+20049020 0000001c D sim2_device
+2004903c 0000001c D sim1_device
+20049058 0000001c D sim0_device
+20049074 0000001c D max2112_device
+20049090 0000001c D cyg_io_flashdev
+200490ac 0000001c D dma_device
+200490c8 0000001c D tty_io_diag
+200490e4 0000001c D haldiag_io0
+20049100 00000028 D bp2016_i2c_bus0
+20049100 D cyg_i2c_buses
+20049100 D __DEVTAB_END__
+20049128 D cyg_i2c_buses_end
+20049128 D cyg_spi_bus_0_devs
+20049128 D cyg_spi_bus_0_devs_end
+20049128 D cyg_spi_bus_1_devs
+20049128 D cyg_spi_bus_1_devs_end
+20049128 D cyg_spi_bus_2_devs
+20049128 D cyg_spi_bus_2_devs_end
+20049128 D cyg_spi_bus_4_devs
+20049128 D cyg_spi_bus_4_devs_end
+20049128 A __init_array_start__
+2004916c A __bss_start
+2004916c D _edata
+2004916c A __init_array_end__
+2004916c D __ram_data_end
+20049170 B __exception_stack_base
+200491f0 B __exception_stack
+20049270 B cyg_interrupt_stack_base
+20049270 b __interrupt_stack_base
+20049270 b __undef_exception_stack
+2004b270 B cyg_interrupt_stack
+2004b270 b __interrupt_stack
+2004b270 b irq_level
+2004b280 B __startup_stack_base
+2004b480 00000004 B irq_count
+2004b480 B __startup_stack
+2004b484 00000040 B i2c_read_buf
+2004b4c4 b i2c_handle
+2004b4c8 b i2c_handle
+2004b4cc b wbuf
+2004b5cc b synrtc
+2004b5d4 b rtc_init_flag.5757
+2004b5d8 b polar.5596
+2004b5dc b duty.5597
+2004b5e0 b freq.5595
+2004c000 b qspi_init
+2004c004 b flash_handle
+2004d000 b test_buf1
+2004f000 b test_buf2
+20051000 b flash_start
+20051004 b flash_end
+20051008 b block_size
+2005100c b flash_num_blocks
+20052000 b thread_s
+20052180 b qspi_thread_0
+20052184 b qspi_thread_1
+20052188 b stack
+20058188 b buffer
+20058588 0000000c B spibaud
+20058594 b wrbuf
+200585a8 b rdbuf
+200585bc b handler
+200585c0 b wrbuf
+200586c4 b rdbuf
+200587c4 b handler
+200587c8 b wrbuf
+20058848 b rdbuf
+200588c8 b handler
+200588cc b wrbuf
+200588e0 b rdbuf
+200588f4 b handler
+200588f8 00000064 B excu
+2005895c b p_root_shell
+20058960 b p_common_shell
+20058964 b dp_last_addr
+20058968 b dp_last_size
+2005896c b base_address
+20058970 b hist_max
+20058974 b hist_add_idx
+20058978 00000004 B hist_num
+2005897c b hist_list
+20058984 b hist_lines
+20058b84 b malloc_len.4904
+20058b88 b initted.4880
+20058b8c b m0
+20058b90 b m1
+20058b94 b m2
+20058b98 b mbox0
+20058da8 b mbox1
+20058fb8 b mbox2
+200591c8 00000010 B read_buf
+200591d8 0000000e B test_case1
+200591e8 b test_buf
+200611e8 b max2769_handler
+20061208 b lo_handler
+20061210 b spi4_handler
+20061218 b iComm
+2006121c b jComm
+20061220 b CommFlag
+20061224 b CommMsgStr1
+200613f0 b CommMsgStr
+200615bc b crc_buf
+200615e0 b thread_s
+20061be0 b stack
+20071be0 b handle_thread
+20071c00 b thread_pri_flag
+20071c20 b name
+20071cc0 b thread_init_flag.5635
+20071cc8 00000004 B iComm
+20071ccc 00000004 B jComm
+20071cd0 00000004 B CommFlag
+20071cd4 b synchro
+20071cdc b timer_interrupt
+20071d14 b timer_interrupt_handle
+20071d1c b test_stop_flag
+20071d20 b test_init_flag
+20071d24 00002000 b bp2016_serial_in_buf6
+20073d24 00000100 b bp2016_serial_in_buf0
+20073e24 00000100 b bp2016_serial_out_buf0
+20073f24 00002000 b bp2016_serial_out_buf6
+20075f24 00002000 b bp2016_serial_out_buf7
+20077f24 00002000 b bp2016_serial_in_buf7
+20079f24 00000180 B uart_api_manager_st
+2007a0a4 000000d8 b api_data
+2007a17c 00000014 b i2c_dev_get_lock
+2007a190 00000004 b i2c_api_init_flag.5927
+2007a194 00000024 b max2112_dev
+2007a1b8 00000001 b mode
+2007a1b9 00000010 b cwbuf
+2007a1cc 00000014 b flashiodev_table_lock
+2007a1e0 00000078 b flashiodev_table
+2007a258 00000800 b dbuf
+2007aa58 00000004 b wait_cmd
+2007aa5c 00000001 b wait_cmd
+2007aa60 00000004 b wait_cmd
+2007aa64 00000004 b wait_cmd
+2007aa68 00000118 b wbuf_s
+2007ab80 00000118 b wbuf_s
+2007ac98 00000118 b wbuf_s
+2007adb0 00000118 b wbuf_s
+2007aec8 00000004 b irq_rw_dlen
+2007af00 00000140 B dma_qspiflash_write_buf
+2007b040 00000004 b qspi_rd_thr_8
+2007b044 00000004 b qspi_rd_dfs
+2007b048 00000004 b qspi_rq_dlen
+2007b050 00000008 b timer_tick_save
+2007b058 00000004 b qspi_rq_dbuf
+2007b05c 00000004 B qspi_dma_tx_chan
+2007b060 000003b8 b dmac_manager
+2007b418 0000000c b tty_private_info_diag
+2007b424 00000004 b _no_data
+2007b428 00000004 b cyg_iso_c_start::initialized
+2007b42c 00000004 b _period
+2007b430 00001e00 b hal_interrupt_stats
+2007d230 00000004 b initialized.5814
+2007d234 00000014 b clklock
+2007d248 00000014 b rstlock
+2007d25c 00000004 b gic_dist_base
+2007d260 00000004 b gic_cpu_base
+20080000 00004000 b mmu_table_v
+20084000 00000004 b gpio_api_init_flag
+20084004 00000060 b gpio_manager
+20084064 00000004 b init__.5619
+20084068 00000014 b iomux_mutex
+2008407c 00000004 b wdt_api_init_flg
+20084080 00000014 b wdt_lock
+20084094 00000004 b pll_api_init_flg
+20084098 00000014 b pll_lock
+200840ac 00000014 b spi4_bitbang_lock
+200840c0 00000004 b init_flag
+200840c4 00000028 b pwm_lock
+200840ec 00000004 b pwm_init_flag
+200840f0 00000001 b cyg_i2c_init_object
+200840f4 00000004 b init
+200840f8 00000001 b called.5183
+200840f9 00000064 b __mangler_line
+20084160 00000120 b comm_channels
+20084280 00000004 b __mangler_pos
+20084284 00000004 b _init.5499
+20084288 00000064 b trim_func(char const*)::fbuf
+200842ec 00000004 B cyg_test_is_simulator
+200842f0 00001490 b idle_thread_stack
+20085780 000000c0 B idle_thread
+20085840 00000004 B Cyg_Thread::thread_list
+20085844 00000004 B idle_thread_loops
+20085848 00000008 B Cyg_Thread::exception_control
+20085850 00000004 B Cyg_Interrupt::dsr_list
+20085854 00000004 B Cyg_Interrupt::interrupt_disable_spinlock
+20085858 00000004 B Cyg_Interrupt::interrupt_disable_state
+2008585c 00000004 B Cyg_Interrupt::disable_counter
+20085860 00000004 B Cyg_Interrupt::dsr_list_tail
+20085864 00000004 B Cyg_Scheduler_Implementation::timeslice_count
+20085868 00000004 B Cyg_Scheduler_Base::need_reschedule
+20085870 00000008 B tick_sch_start
+20085878 00000084 B Cyg_Scheduler::scheduler
+200858fc 00000004 B Cyg_Scheduler_Base::thread_switches
+20085900 00000001 b Cyg_Scheduler::start_cpu()::flag_thread_start
+20085904 00000004 B Cyg_Scheduler_Base::current_thread
+20085908 00000414 B cygmem_pool_heap1
+20085d1c 00002c10 b cyg_libc_main_stack
+20088930 000000c0 B cyg_libc_main_thread
+200889f0 00000044 B cyg_libc_stdio_stdout
+20088a34 00000014 b gpiolock
+20088a48 00000004 b auth_config
+20088a4c 00000004 b rsv_save
+20088a50 00000004 B Cyg_Clock::real_time_clock
+20088a58 00000038 B Cyg_RealTimeClock::rtc
+20088a90 00000044 B cyg_libc_stdio_stderr
+20088ad4 00000044 B cyg_libc_stdio_stdin
+20088b18 00000014 B Cyg_libc_stdio_files::files_lock
+20088b2c 00000020 B Cyg_libc_stdio_files::files
+20088b4c 00000080 b cyg_libc_atexit_handlers
+20088bcc 00000004 b cyg_libc_atexit_handlers_count
+20088bd0 00002000 B my_local_stack
+2008abd0 000000c0 B thread_data
+2008ac90 00000004 B thread_handle
+2008ac98 00000004 B cli_thread_rtc
+2008aca0 000000c0 B thread_s_rtc
+2008ad60 00002000 B stack_rtc
+2008cd60 00002000 B stack1
+2008ed60 00000004 B port_recv
+2008ed64 00002000 B stack
+20090d64 00002000 B long_msg
+20092d68 000000c0 B thread_data1
+20092e28 00000004 B thread_handle1
+20092e2c 00000004 B port_send
+20092e30 00000004 B cli_thread
+20092e38 00000180 B thread_s
+20092fb8 00000100 B bbdst
+200930b8 000001cc B CommMsgStr
+20093284 00000020 B crc_buf
+200932a4 000001cc B CommMsgStr1
+20093470 0000001c B data
+2009348c 00000190 B spi_bus2_dev
+2009361c 00000050 B spi_bus1_dev
+2009366c 00000018 B max2112_info
+20093684 00000280 B i2c_dev_arr
+20093904 00000028 B spi_bus0_dev
+2009392c 00000078 B spi_bus4_dev
+200939a4 00000008 B qspi_wait
+200939ac 0000000c B max2112_gpio
+200939b8 00000008 B hal_irq_stat_s
+200939c0 00000480 B gpio_int_manager_st
+20093e40 00000004 B _cyg_hal_compiler_dummy
+20093e44 A __bss_end
+20093e80 B __heap1
+23f00000 N hal_vsr_table
+23f00040 N hal_dram_size
+23f00044 N hal_dram_type
+23f00050 N hal_virtual_vector_table
+23f00400 N _platform_resvered_data
+23f00800 B _end
+e7ffdefe a HAL_BREAKINST_ARM
+e7ffdefe a HAL_BREAKINST_ARM
+ffffffff a CYGNUM_HAL_INTERRUPT_NONE
+ffffffff a CYGNUM_HAL_INTERRUPT_NONE

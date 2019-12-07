@@ -69,7 +69,6 @@ CYG_HAL_DIAG_LOCK_DATA_DEFN;
 #define is_digit(c) ((c >= '0') && (c <= '9'))
 
 // wwzz add for float and double print
-#define CYGSEM_DIAG_PRINTF_FLOATING_POINT
 #ifdef CYGSEM_DIAG_PRINTF_FLOATING_POINT
 
 # include <float.h>      // for DBL_DIG etc. below
@@ -566,7 +565,10 @@ static cyg_bool diag_check_string( const char *str )
 
         /* Check for a reasonable length string. */
         
-        if( s-str > 2048 ) result = false;
+        if( s-str > 2048 ){
+            diag_write_string("GT 2048\r\n");
+            result = false;
+        }
 
         /* We only really support CR, NL, tab and backspace at present.
 	 * If we want to use other special chars, this test will
@@ -577,8 +579,10 @@ static cyg_bool diag_check_string( const char *str )
 
         /* Check for printable chars. This assumes ASCII */
         
-        if( c < ' ' || c > '~' )
+        if( c < ' ' || c > '~' ){
+            diag_write_string(">~ or <  \r\n");
             result = false;
+        }
 
     }
 
@@ -649,6 +653,9 @@ _vprintf(void (*putc)(char c, void **param), void **param, const char *fmt, va_l
         if (c == '%') {
             c = *fmt++;
             left_prec = right_prec = pad_on_right = islong = islonglong = 0;
+#ifdef CYGSEM_DIAG_PRINTF_FLOATING_POINT
+            fpprec = DEFPREC;
+#endif
             if (c == '-') {
                 c = *fmt++;
                 pad_on_right++;
@@ -670,6 +677,9 @@ _vprintf(void (*putc)(char c, void **param), void **param, const char *fmt, va_l
                     right_prec = (right_prec * 10) + (c - '0');
                     c = *fmt++;
                 }
+#ifdef CYGSEM_DIAG_PRINTF_FLOATING_POINT
+                fpprec = right_prec;
+#endif
             } else {
                 right_prec = left_prec;
             }
@@ -702,9 +712,9 @@ _vprintf(void (*putc)(char c, void **param), void **param, const char *fmt, va_l
             case 'B':
                 if (islonglong) {
                     val = va_arg(ap, long long);
-	        } else if (islong) {
+                } else if (islong) {
                     val = (long long)va_arg(ap, long);
-		} else{
+                } else{
                     val = (long long)va_arg(ap, int);
                 }
                 if ((c == 'd') || (c == 'D')) {
@@ -713,6 +723,11 @@ _vprintf(void (*putc)(char c, void **param), void **param, const char *fmt, va_l
                         val = -val;
                     }
                 } else {
+                    // wwzz add for debug llu
+                    if(islonglong){
+                        // %llu %llx
+                        break;
+                    }
                     // Mask to unsigned, sized quantity
                     if (islong) {
                         val &= ((long long)1 << (sizeof(long) * 8)) - 1;
@@ -731,6 +746,7 @@ _vprintf(void (*putc)(char c, void **param), void **param, const char *fmt, va_l
             case 'G':
                 //_double = va_arg(arg, double);
                 _double = va_arg(ap, double);
+                prec = fpprec+1; // wwzz fix precision lose 1 bug
                 /*
                  * don't do unrealistic precision; just pad it with
                  * zeroes later, so buffer size stays rational.

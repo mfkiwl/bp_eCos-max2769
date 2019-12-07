@@ -7,7 +7,7 @@
 #include <cyg/hal/plf/common_def.h>
 #include <cyg/hal/plf/irq_defs.h>
 #include <cyg/hal/regs/gpio.h>
-#include <cyg/hal/gpio/gpio_if.h>
+#include <cyg/hal/gpio/gpio_hal.h>
 #include <cyg/hal/api/gpio_api.h>
 
 typedef struct gpio_m {

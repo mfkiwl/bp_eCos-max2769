@@ -148,5 +148,24 @@ int arch_timer_starting_cpu(void)
 	return 0;
 }
 
+// wwzz add new interface for archtimer cnt
+u64 arch_counter_get_current(void)
+{
+    // fix: BP2016 use async clk to syscounter, the func arch_counter_get_cntpct 
+    // might return incorrect data when read cp15 in special point of time,
+    // discard low 4bit to reduce the accuracy(from 50ns to 800ns)
+    // consecutive 3 times of read, if t0==t1, means it's the correct value
+    // if not equal, means one of t0 and t1 is incorrect, then the t2 will be correct value
+    // (The wrong data would not exist consecutively)
+    u64 t0, t1, t2;
+    t0 = arch_counter_get_cntpct()&0xFFFFFFFFFFFFFFF0;
+    t1 = arch_counter_get_cntpct()&0xFFFFFFFFFFFFFFF0;
+    t2 = arch_counter_get_cntpct()&0xFFFFFFFFFFFFFFF0;
 
+    if(t0 == t1){
+        return t0;
+    }
+
+    return t2;
+}
 

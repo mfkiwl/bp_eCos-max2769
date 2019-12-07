@@ -184,7 +184,7 @@ cdl_package CYGPKG_IO_FLASH {
         cdl_option CYGNUM_IO_FLASH_BLOCK_DEVICES {
             display         "Number of /dev/flash/ device slots"
             flavor          data
-            default_value   3
+            default_value   4
             description     "The number of simultaneously open flash devices
                              permitted. This is statically configured, rather than
                              dynamically allocated at run-time as it is likely the

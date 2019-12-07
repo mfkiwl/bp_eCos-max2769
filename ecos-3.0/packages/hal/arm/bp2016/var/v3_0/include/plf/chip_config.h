@@ -18,8 +18,11 @@
 #define ms_to_tick(ms)			(ms * TICKS_PER_MS)
 #define tick_to_us(tick)		(tick/TICKS_PER_US)
 #define us_to_tick(us)			(us * TICKS_PER_US)
-#define archtimer_perus_to_tick	(20)
 
+#define ARCHTIMER_TICK_PER_US     (20)
+#define archtimer_perus_to_tick     (ARCHTIMER_TICK_PER_US)
+#define archtimer_us_to_tick(us)     (us * ARCHTIMER_TICK_PER_US)
+#define archtimer_tick_to_us(tick)   (tick/ARCHTIMER_TICK_PER_US)
 
 #define CONFIG_ROM_START	ROM_BASE	
 #define CONFIG_ROM_SIZE		0x00010000	/* 64k */
@@ -35,6 +38,8 @@
 
 #define	CONFIG_BP_FASTBOOT_JUMP_MAGIC	0xFABBE000		
 #define	CONFIG_BP_FASTBOOT_JUMP_ADDR    (SCM_BASE + 0x1100)
+#define	CONFIG_BP_FASTBOOT_EXEC_ADDR 	0x300000
+
 #define	CONFIG_AP_FASTBOOT_JUMP_MAGIC	0xFAAE1000			
 #define	CONFIG_AP_FASTBOOT_JUMP_ADDR    (SCM_BASE + 0x1108)
 

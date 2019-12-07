@@ -57,12 +57,17 @@ inline int dw_spi_get_cs(HWP_SPI_T *hw_spi)
 
 inline void dw_spi_ndf(HWP_SPI_T *hw_spi, const u32 ndf)
 {
-    hw_spi->ctrl1 = ndf & 0xffff;
+    hw_spi->ctrl1 = (ndf - 1) & 0xffff;     // this is must be rx length - 1
 }
 
 inline void dw_spi_baud(HWP_SPI_T *hw_spi, const u32 baud)
 {
     hw_spi->baudr = baud;
+}
+
+inline void dw_spi_sample_dly(HWP_SPI_T *hw_spi, const u32 sample_delay)
+{
+    hw_spi->rx_sample_dly = sample_delay;
 }
 
 inline void dw_spi_enable(HWP_SPI_T *hw_spi, cyg_uint32 en)

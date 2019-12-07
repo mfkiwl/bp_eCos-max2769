@@ -146,6 +146,11 @@ inline void *operator new(size_t size, void *ptr) { return ptr; };
 // or DSRs processed. By doing this, it makes it possible for threads
 // that want to go to sleep to wake up with the scheduler lock in the
 // same state it was in before.
+#ifdef CYGFUN_KERNEL_THREADS_CPULOAD
+externC void cyg_interrupt_disable(void);
+externC void cyg_interrupt_enable(void);
+cyg_uint32 idle_cnt_flag = 0;
+#endif
 
 void Cyg_Scheduler::unlock_inner( cyg_ucount32 new_lock )
 {
@@ -222,9 +227,19 @@ void Cyg_Scheduler::unlock_inner( cyg_ucount32 new_lock )
                 
                 // wwzz add thread time count
 #ifdef CYGFUN_KERNEL_THREADS_CPULOAD
+                extern Cyg_Thread idle_thread;
+                //cyg_interrupt_disable();
                 tick_end = HAL_GET_COUNTER;
-                current->tick_total += (cyg_uint64)(tick_end - current->tick_start);
-                next->tick_start = tick_end;
+                if(current == &idle_thread){
+                    if(idle_cnt_flag == 0){
+                        current->tick_total += (cyg_uint64)(tick_end - current->tick_start);
+                        idle_cnt_flag = 1;
+                    }
+                }else{
+                    current->tick_total += (cyg_uint64)(tick_end - current->tick_start);
+                }
+                //next->tick_start = tick_end;
+                //cyg_interrupt_enable();
 #endif
 
                 // Switch contexts
@@ -251,10 +266,47 @@ void Cyg_Scheduler::unlock_inner( cyg_ucount32 new_lock )
                 current_thread[CYG_KERNEL_CPU_THIS()] = current;   // restore current thread pointer
 
                 current->timeslice_restore();
+#ifdef CYGFUN_KERNEL_THREADS_CPULOAD
+                extern Cyg_Thread idle_thread;
+                current->tick_start = HAL_GET_COUNTER;
+                if(current == &idle_thread){
+                    idle_cnt_flag = 0;
+                }
+                //cyg_interrupt_enable();
+#endif
             }
+#ifdef CYGFUN_KERNEL_THREADS_CPULOAD
+            else{
+                // return ori thread, no switch
+                // wwzz add thread time count
+                extern Cyg_Thread idle_thread;
+                //cyg_interrupt_disable();
+                if(current == &idle_thread){
+                    current->tick_start = HAL_GET_COUNTER;
+                    idle_cnt_flag = 0;
+                }else{
+                }
+                //cyg_interrupt_enable();
+            }
+#endif
 
             clear_need_reschedule();    // finished rescheduling
         }
+#ifdef CYGFUN_KERNEL_THREADS_CPULOAD
+        else{
+            // return ori thread, no sched
+            // wwzz add thread time count
+            extern Cyg_Thread idle_thread;
+            //cyg_interrupt_disable();
+            if(current == &idle_thread){
+                current->tick_start = HAL_GET_COUNTER;
+                idle_cnt_flag = 0;
+            }else{
+                //current->tick_total += (cyg_uint64)(tick_end - current->tick_start);
+            }
+            //cyg_interrupt_enable();
+        }
+#endif
 
         if( new_lock == 0 )
         {
@@ -387,7 +439,23 @@ void Cyg_Scheduler::start()
 
 #ifdef CYGFUN_KERNEL_THREADS_CPULOAD
 cyg_uint64 tick_sch_start;
+cyg_uint64 idle_start, idle_end, idle_total;
+cyg_uint64 int_start, int_end, int_total = 0;
+
+externC void sched_check_idle(void)
+{
+    extern Cyg_Thread idle_thread;
+    Cyg_Thread *current = Cyg_Scheduler::get_current_thread();
+    if(&idle_thread == current)
+    {
+        if(0 == idle_cnt_flag){
+            current->tick_total += (cyg_uint64)(HAL_GET_COUNTER - current->tick_start);
+            idle_cnt_flag = 1;
+        }
+    }
+}
 #endif
+
 void Cyg_Scheduler::start_cpu()
 {
     CYG_REPORT_FUNCTION();

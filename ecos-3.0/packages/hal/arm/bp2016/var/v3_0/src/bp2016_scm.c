@@ -51,6 +51,7 @@ int hal_clk_set_rate_kHz(CLK_ID_TYPE_T id, int rate_kHz)
 int hal_clk_disable(CLK_ID_TYPE_T id)
 {
     int ret;
+    // diag_printf("hal_clk_disable id = %d\n", id);
     cyg_mutex_lock(&clklock); 
     ret = clk_disable(id);
     cyg_mutex_unlock(&clklock);
@@ -60,6 +61,7 @@ int hal_clk_disable(CLK_ID_TYPE_T id)
 int hal_clk_enable(CLK_ID_TYPE_T id)
 {
     int ret;
+    // diag_printf("hal_clk_enable id = %d\n", id);
     cyg_mutex_lock(&clklock); 
     ret = clk_enable(id);
     cyg_mutex_unlock(&clklock);

@@ -96,3 +96,13 @@ inline cyg_uint32 hal_ostimer_get_counter_lvalue(cyg_uint32 instance)
     return (cyg_uint32) timer->lockval_l;
 }
 
+cyg_uint64 hal_ostimer_get_current(cyg_uint32 instance)
+{
+    cyg_uint64  ret;
+    HWP_TIMER_AP_T * timer = hal_ostimer_get(instance);
+    if(NULL == timer)
+        return 0;
+
+    ret = ((((cyg_uint64)(timer->lockval_h)) << 32) | (cyg_uint64)(timer->lockval_l));
+    return ret;
+}

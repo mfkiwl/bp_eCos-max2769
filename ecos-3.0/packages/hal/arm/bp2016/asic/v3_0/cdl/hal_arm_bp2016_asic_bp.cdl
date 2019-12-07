@@ -79,9 +79,23 @@ cdl_package CYGPKG_HAL_ARM_BP2016_ASIC_BP_SIDE {
 
     cdl_option CYGHAL_RUN_ENV_DDR {
         display       "Running on ddr or not"
-            flavor        bool
-            default_value 0
-            description   "Select firmware running on ddr or not"
+        flavor        bool
+        default_value 0
+        description   "Select firmware running on ddr or not"
+    }
+
+    cdl_option CYGSEM_DIAG_PRINTF_FLOATING_POINT {
+        display       "diag support output double and lld or not"
+        flavor        bool
+        default_value 0
+        description   "double float and u64 in diag_printf or not"
+    }
+
+    cdl_option CYGHAL_RUN_ENV_TEXT_SRAM_BSS_DDR {
+        display       "Running on sram and ddr both"
+        flavor        bool
+        default_value 0
+        description   "Select firmware running on sram and ddr at the same time"
     }
 
     cdl_component CYGHWR_MEMORY_LAYOUT {
@@ -95,7 +109,9 @@ cdl_package CYGPKG_HAL_ARM_BP2016_ASIC_BP_SIDE {
             flavor data
             no_define
             define -file system.h CYGHWR_MEMORY_LAYOUT_LDI
-            calculated { (CYGHAL_RUN_ENV_DDR == 1) ? "<pkgconf/mlt_arm_asic_ddr.ldi>" : "<pkgconf/mlt_arm_asic_ram.ldi>" }
+            calculated { (CYGHAL_RUN_ENV_DDR == 1) ? "<pkgconf/mlt_arm_asic_ddr.ldi>" : \
+                        ((CYGHAL_RUN_ENV_TEXT_SRAM_BSS_DDR == 1) ? \
+                        "<pkgconf/mlt_arm_asic_ram_ddr.ldi>" : "<pkgconf/mlt_arm_asic_ram.ldi>")}
         }
 
         cdl_option CYGHWR_MEMORY_LAYOUT_H {
@@ -103,7 +119,9 @@ cdl_package CYGPKG_HAL_ARM_BP2016_ASIC_BP_SIDE {
             flavor data
             no_define
             define -file system.h CYGHWR_MEMORY_LAYOUT_H
-            calculated { (CYGHAL_RUN_ENV_DDR == 1) ? "<pkgconf/mlt_arm_asic_ddr.h>" : "<pkgconf/mlt_arm_asic_ram.h>" }
+            calculated { (CYGHAL_RUN_ENV_DDR == 1) ? "<pkgconf/mlt_arm_asic_ddr.h>" : \
+                        ((CYGHAL_RUN_ENV_TEXT_SRAM_BSS_DDR == 1) ? \
+                        "<pkgconf/mlt_arm_asic_ram_ddr.h>" : "<pkgconf/mlt_arm_asic_ram.h>")}
         }
     }
     cdl_option CYGNUM_HAL_RTC_TIMER_ID {
@@ -114,8 +132,14 @@ cdl_package CYGPKG_HAL_ARM_BP2016_ASIC_BP_SIDE {
         description      "
             The asic has 4 ext-timer. This option
             chooses which timer will be used to os tick."
-     }
-    
+    }
+     
+    cdl_option CYGHWR_HAL_ASIC_DRV_LOW_POWER {
+        display        "bp2016 asic contains controller clock gettings"
+        flavor         bool
+        default_value  { 0 }
+    }
+
     cdl_option CYGNUM_HAL_KERNEL_COUNTERS_CLOCK_ISR_DEFAULT_PRIORITY {
 	    display		"Default priority for system clock interrupts"
 	    flavor		data
@@ -196,7 +220,7 @@ cdl_package CYGPKG_HAL_ARM_BP2016_ASIC_BP_SIDE {
             flavor  data
             no_define
             default_value { CYGBLD_GLOBAL_WARNFLAGS . CYGBLD_ARCH_CFLAGS .
-                            "-Wstrict-prototypes -Wno-comment -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon -g -Os -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -fvtable-gc -ffreestanding" }
+                            "-Wstrict-prototypes -Wno-comment -mcpu=cortex-a7 -mfloat-abi=softfp -mfpu=neon -mno-unaligned-access -g -Os -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -fvtable-gc -ffreestanding" }
             description   "
                 This option controls the global compiler flags which are used to
                 compile all packages by default. Individual packages may define

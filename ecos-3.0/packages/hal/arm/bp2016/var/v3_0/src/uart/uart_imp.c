@@ -29,6 +29,9 @@ void cyg_hal_plf_serial_init_channel(HWP_UART_T *hwp_uart, int baudrate)
 	hwp_uart->dlh_ier = (baud_divisor >> 8) & 0xff;
 	hwp_uart->lcr = LCRVAL;		//data 8, stop 1, parity disable, break disable
 	hwp_uart->iir_fcr = FCRVAL;
+    // wwzz add. set bit7 of ier
+    // ier[7] and fcr[0] both set, the lsr[5] indicates tx full
+	//hwp_uart->dlh_ier |= 0x80;
 }
 
 /* 
@@ -70,9 +73,13 @@ cyg_hal_plf_serial_getc_timeout(HWP_UART_T *hwp_uart, cyg_uint8* ch)
  */
 void cyg_hal_plf_serial_putc(HWP_UART_T *hwp_uart, const char c)
 {
-	/*when THR or TX FIFO is non-empty, wait..*/
-	while ((hwp_uart->lsr & LSR_THRE) == 0); 
-	hwp_uart->rbr_thr_dll = c;
+    /*when THR or TX FIFO is non-empty, wait..*/
+    while ((hwp_uart->lsr & LSR_THRE) == 0);
+    // wwzz add. check tx full
+    // lsr[5]==1 indicate tx is full when ier[7] and fcr[0] are both set.
+    /*when TX FIFO is full, wait..*/
+    //while ((hwp_uart->lsr & LSR_THRE) == LSR_THRE);
+    hwp_uart->rbr_thr_dll = c;
 }
 
 void

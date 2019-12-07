@@ -57,8 +57,12 @@
 #include <cyg/infra/cyg_type.h>
 #include <cyg/hal/hal_if.h>
 
+#define  PRINTF_EN      0x12345a5a
+#define  PRINTF_DIS     0xabcda5a5
+
+extern int printf_en;
 #define HAL_DIAG_INIT() hal_if_diag_init()
-#define HAL_DIAG_WRITE_CHAR(_c_) hal_if_diag_write_char(_c_)
+#define HAL_DIAG_WRITE_CHAR(_c_) if(printf_en == PRINTF_EN) hal_if_diag_write_char(_c_)
 #define HAL_DIAG_READ_CHAR(_c_) hal_if_diag_read_char(&_c_)
 
 //-----------------------------------------------------------------------------
@@ -68,7 +72,8 @@ externC void hal_delay_us(cyg_int32 usecs);
 #define HAL_DELAY_US(n) hal_delay_us(n);
 
 externC cyg_uint64 hal_ostimer_get_counter_value(void);
-#define HAL_GET_COUNTER arch_counter_get_cntpct()
+//#define HAL_GET_COUNTER arch_counter_get_cntpct()
+#define HAL_GET_COUNTER arch_counter_get_current()
 //-----------------------------------------------------------------------------
 // end of hal_diag.h
 #endif // CYGONCE_HAL_DIAG_H

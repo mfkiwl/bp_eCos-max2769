@@ -77,7 +77,46 @@
 externC void
 cyg_hg_trace_dump(void);
 
-externC void cyg_hg_dump_frame(unsigned char *frame);
+//externC void cyg_hg_dump_frame(unsigned char *frame,  EXCEPTION_ENUM ex);
+externC bool kernel_text_address(cyg_uint32 addr);
+externC bool kernel_sp_addr_cross(cyg_uint32 addr);
+
+void cyg_hg_dump_frame_ss(unsigned char *frame, CYG_ADDRESS sp_base, cyg_uint32 size)
+{
+    HAL_SavedRegisters *rp = (HAL_SavedRegisters *)frame;
+    int i;
+
+    diag_printf("Registers:\n");
+    for (i = 0;  i <= 10;  i++) {
+        if ((i == 0) || (i == 6)) diag_printf("R%d: ", i);
+        diag_printf("%08X ", rp->d[i]);
+        if ((i == 5) || (i == 10)) diag_printf("\n");
+    }
+    diag_printf("FP: %08X, SP: %08X, LR: %08X, PC: %08X, PSR: %08X\n SVC_LR: %08X, SVC_SP: %08X\n",
+            rp->fp, rp->sp, rp->lr, rp->pc, rp->cpsr, rp->svc_lr, rp->svc_sp);
+
+	if((rp->sp >= sp_base) && (rp->sp <= (sp_base + size))) {
+		if(kernel_sp_addr_cross(rp->sp) == true) 
+			diag_printf("SP is in kernel space\r\n");
+		else
+			diag_printf("SP is in thread space\r\n");
+	}
+	else 
+		diag_printf("SP invalid\r\n");
+
+    if(kernel_text_address(rp->pc) == false)
+        diag_printf("PC is invalid address\r\n");
+    else
+        diag_printf("PC is valid\r\n");
+
+    if(kernel_text_address(rp->lr) == false)
+        diag_printf("LR is invalid address\r\n");
+    else
+        diag_printf("LR is valid\r\n");
+
+    diag_printf("\r\n");
+}
+
 void
 cyg_hg_trace_dump(void)
 {
@@ -169,11 +208,12 @@ cyg_hg_trace_dump(void)
                 );
 
 #   endif        
-            diag_printf( "%20s stack base = %08x ptr = %08x size = %08x\n",
+            diag_printf( "%20s stack base = %08x stack end = %08x size = %08x ctx = %08x\n",
                          "",
                          t->get_stack_base(),
-                         (int) t->hg_get_saved_context(),
-                         t->get_stack_size()
+                         t->get_stack_size() + t->get_stack_base(),
+                         t->get_stack_size(),
+                         (int) t->hg_get_saved_context()
                 );
 
             diag_printf( "%20s sleep reason %8s wake reason %8s\n",
@@ -191,7 +231,7 @@ cyg_hg_trace_dump(void)
             diag_printf( "Thread stack: \n");
             regs = t->hg_get_saved_context();
 
-            cyg_hg_dump_frame((unsigned char *)regs);
+            cyg_hg_dump_frame_ss((unsigned char *)regs, t->get_stack_base(), t->get_stack_size());
 
             diag_printf("\n");
             t = t->get_list_next();

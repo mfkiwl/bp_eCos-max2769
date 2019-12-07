@@ -1,0 +1,36 @@
+// eCos memory layout - Wed Jun 27 18:44:55 2012
+//
+// =============================================================================
+
+#include <cyg/infra/cyg_type.inc>
+#include <cyg/hal/mem_map.h>
+
+MEMORY
+{
+    ram0 (rwx) : ORIGIN = _IRAM_BASE, LENGTH = (2 * 1024 * 1024)
+    ram1 (rwx) : ORIGIN = _DDR_BASE, LENGTH = (63 * 1024 * 1024)
+    ram2 (rwx) : ORIGIN = _DDR_BASE + (63 * 1024 * 1024), LENGTH = 1024 * 1024
+}
+
+SECTIONS
+{
+    SECTIONS_BEGIN
+    SECTION_rom_vectors (ram0, _IRAM_BASE, LMA_EQ_VMA)
+
+    SECTION_RELOCS (ram0, ALIGN (0x1), LMA_EQ_VMA)
+    SECTION_text (ram0, ALIGN (0x4), LMA_EQ_VMA)
+    SECTION_fini (ram0, ALIGN (0x4), LMA_EQ_VMA)
+    SECTION_rodata (ram0, ALIGN (0x4), LMA_EQ_VMA)
+    SECTION_rodata1 (ram0, ALIGN (0x4), LMA_EQ_VMA)
+    SECTION_got (ram0, ALIGN (0x4), LMA_EQ_VMA)
+    SECTION_fixup (ram0, ALIGN (0x4), LMA_EQ_VMA)
+    SECTION_gcc_except_table (ram0, ALIGN (0x4), LMA_EQ_VMA)
+    SECTION_data (ram1, _DDR_BASE, FOLLOWING (.gcc_except_table))
+    // align to 16
+    SECTION_bss (ram1, ALIGN (0x10), LMA_EQ_VMA)
+    CYG_LABEL_DEFN(__heap1) = ALIGN (0x40);
+
+    SECTION_fixed_vectors (ram2, _DDR_BASE + (63 * 1024 * 1024), LMA_EQ_VMA)
+    SECTIONS_END
+}
+

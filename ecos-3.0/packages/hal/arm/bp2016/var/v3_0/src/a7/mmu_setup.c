@@ -75,6 +75,18 @@ static inline void set_cr(unsigned int val)
         isb();
 }
 
+static inline void dis_actlr_smp(void)
+{
+    /*
+     * Disable actlr.SMP 
+     */                                                                                                                                  
+    asm volatile ("mrc   p15, 0, r0, c1, c0, 1");
+    asm volatile ("bic   r0, r0, #(1 << 6)   @ Disable SMP/nAMP mode");
+    asm volatile ("mcr   p15, 0, r0, c1, c0, 1");
+
+    isb();
+}
+
 static void set_section_dcache(int section, enum dcache_option option)
 {
         unsigned int *page_table = (unsigned int *)ttb_addr;
@@ -83,6 +95,16 @@ static void set_section_dcache(int section, enum dcache_option option)
         value = (section << MMU_SECTION_SHIFT) | (3 << 10);
         value |= option;
         page_table[section] = value;
+}
+
+void modify_section_dcache(int va, int pa, enum dcache_option option)
+{
+    unsigned int *page_table = (unsigned int *) ttb_addr;
+    unsigned int value;
+
+    value = (pa << MMU_SECTION_SHIFT) | (3 << 10);
+    value |= option;
+    page_table[va] = value;
 }
 
 static void dram_bank_mmu_setup(void)
@@ -242,12 +264,19 @@ void mmu_setup(void)
     hal_bbram_cache_disable();
 #endif
 
-#ifdef CYGHAL_RUN_ENV_DDR
+#if defined(CYGHAL_RUN_ENV_DDR) || defined(CYGHAL_RUN_ENV_TEXT_SRAM_BSS_DDR)
     dram_bank_mmu_setup();
 #endif
     iram_mmu_setup();
 //    bbiram_mmu_setup();
     set_section_dcache(0, DCACHE_WRITEBACK );
+
+    // wwzz add new item for debug
+    modify_section_dcache(0xD05, 5, DCACHE_OFF);
+    modify_section_dcache(0xD06, 6, DCACHE_OFF);
+    modify_section_dcache(0xD07, 7, DCACHE_OFF);
+    modify_section_dcache(0xD08, 8, DCACHE_OFF);
+    
 
     /* Copy the page table address to cp15 */
     asm volatile("mcr p15, 0, %0, c2, c0, 0" 
@@ -291,6 +320,27 @@ void hal_bbram_cache_disable(void)
     v7_dma_clean_range(ttb_addr + s * 4, ttb_addr + e * 4);
 
     v7_inval_tlb();
+}
+ 
+static void cp15_cache_disable(unsigned int cache_bit) 
+{ 
+    unsigned int reg; 
+ 
+    reg = get_cr(); 
+ 
+    /* if disabling data cache, disable mmu too */ 
+    if ((cache_bit & reg) & CR_C) { 
+        cache_bit |= CR_M; 
+        //flush_dcache_all(); 
+    } 
+ 
+    set_cr(reg & ~cache_bit); 
+}
+
+void cache_disable(void)
+{
+    cp15_cache_disable(CR_I | CR_C);
+    dis_actlr_smp();
 }
 
 

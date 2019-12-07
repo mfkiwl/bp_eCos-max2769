@@ -10,7 +10,7 @@
 
 #define iomux_printf(fmt, args...) diag_printf("Iomux: " fmt "\n", ##args);
 
-#define IOMUX_DEBUG
+// #define IOMUX_DEBUG
 
 #ifdef IOMUX_DEBUG
 #define iomux_debug(fmt, args...) diag_printf(fmt "\n", ##args);

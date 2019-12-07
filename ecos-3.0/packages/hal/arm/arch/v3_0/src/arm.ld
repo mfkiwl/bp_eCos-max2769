@@ -162,8 +162,7 @@ OUTPUT_FORMAT(elf32-bigarm)
     .ARM.exidx ALIGN(AAPCS_ALIGN) : _lma_ { \
     FORCE_OUTPUT; \
     } > _region_ \
-    __exidx_end = ABSOLUTE(.); \
-    /DISCARD/     0 : { *(.ARM.exidx* .gnu.linkonce.armexidx.*) }
+    __exidx_end = ABSOLUTE(.); 
 #endif
 
 

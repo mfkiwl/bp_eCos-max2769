@@ -5461,10 +5461,10 @@ target bp2016_asic_bp {
             CYGPKG_HAL_ARM_BP2016
             CYGPKG_HAL_ARM_BP2016_ASIC_BP_SIDE
             CYGPKG_IO_SERIAL_ARM_BP2016
-            CYGPKG_IO_COMMON_SIM_ARM_BP2016
+            CYGPKG_DEVS_DISK_MMC
+            CYGPKG_IO_DISK
             CYGPKG_IO_I2C
             CYGPKG_DEVS_BP2016_I2C_DW
-            CYGPKG_BP2016_I2C_DEV_MAX2112
             CYGPKG_IO_FLASH
             CYGPKG_DEVS_QSPI_BP2016
             CYGPKG_IO_COMMON_DMA_ARM_BP2016
@@ -5475,6 +5475,8 @@ target bp2016_asic_bp {
     enable { CYGFUN_KERNEL_THREADS_CPULOAD }
     enable { CYGNUM_DEVS_ARM_BP2016_SELECT_DMAC0 }
     enable { CYGHWR_HAL_ASIC_CLK }
+    enable { CYGHWR_HAL_ASIC_DRV_LOW_POWER }
+    enable { CYGSEM_DIAG_PRINTF_FLOATING_POINT }
 
     description "HG ASIC board -BP2016 Baseband Soc"
 }
@@ -5488,13 +5490,16 @@ target bp2016_asic_bp_ddr {
             CYGPKG_HAL_ARM_BP2016
             CYGPKG_HAL_ARM_BP2016_ASIC_BP_SIDE
             CYGPKG_IO_SERIAL_ARM_BP2016
-            CYGPKG_IO_COMMON_SIM_ARM_BP2016
             CYGPKG_IO_I2C
             CYGPKG_DEVS_BP2016_I2C_DW
-            CYGPKG_BP2016_I2C_DEV_MAX2112
             CYGPKG_IO_FLASH
             CYGPKG_DEVS_QSPI_BP2016
             CYGPKG_IO_COMMON_DMA_ARM_BP2016
+            CYGPKG_IO_COMMON_TIMER_ARM_BP2016
+            CYGPKG_IO_FILEIO
+            CYGPKG_LINUX_COMPAT
+            CYGPKG_CRC
+            CYGPKG_FS_JFFS2
     }
 
     enable { CYGHAL_RUN_ENV_DDR }
@@ -5502,6 +5507,74 @@ target bp2016_asic_bp_ddr {
     enable { CYGFUN_KERNEL_THREADS_CPULOAD }
     enable { CYGNUM_DEVS_ARM_BP2016_SELECT_DMAC0 }
     enable { CYGHWR_HAL_ASIC_CLK }
+    enable { CYGHWR_HAL_ASIC_DRV_LOW_POWER }
+    enable { CYGSEM_DIAG_PRINTF_FLOATING_POINT }
+
+    description "HG ASIC board -BP2016 Baseband Soc"
+}
+
+target bp2016_asic_bp_text_sram_bss_ddr {
+    alias { "HG ASIC board -BP2016 Baseband Soc For BP Side, text in sram, bss in DDR" }
+    packages {
+            CYGPKG_HAL_ARM
+            CYGPKG_IO_SPI
+            CYGPKG_DEVS_SPI_ARM_BP2016
+            CYGPKG_HAL_ARM_BP2016
+            CYGPKG_HAL_ARM_BP2016_ASIC_BP_SIDE
+            CYGPKG_IO_SERIAL_ARM_BP2016
+            CYGPKG_IO_I2C
+            CYGPKG_DEVS_BP2016_I2C_DW
+            CYGPKG_IO_FLASH
+            CYGPKG_DEVS_QSPI_BP2016
+            CYGPKG_IO_COMMON_DMA_ARM_BP2016
+            CYGPKG_IO_COMMON_TIMER_ARM_BP2016
+            CYGPKG_IO_FILEIO
+            CYGPKG_LINUX_COMPAT
+            CYGPKG_CRC
+            CYGPKG_FS_JFFS2
+    }
+
+    enable { CYGHAL_RUN_ENV_TEXT_SRAM_BSS_DDR }
+    enable { CYGDBG_HG_DUMP_ALL_THREADS_INFO }
+    enable { CYGFUN_KERNEL_THREADS_CPULOAD }
+    enable { CYGNUM_DEVS_ARM_BP2016_SELECT_DMAC0 }
+    enable { CYGHWR_HAL_ASIC_CLK }
+    enable { CYGHWR_HAL_ASIC_DRV_LOW_POWER }
+    enable { CYGSEM_DIAG_PRINTF_FLOATING_POINT }
+
+    description "HG ASIC board -BP2016 Baseband Soc"
+}
+
+target bp2016_oem_bp_ddr_fat {
+    alias { "HG OEM board -BP2016 Baseband Soc For BP Side, running in DDR" }
+    packages {
+            CYGPKG_HAL_ARM
+            CYGPKG_IO_SPI
+            CYGPKG_DEVS_SPI_ARM_BP2016
+            CYGPKG_HAL_ARM_BP2016
+            CYGPKG_HAL_ARM_BP2016_ASIC_BP_SIDE
+            CYGPKG_IO_SERIAL_ARM_BP2016
+            CYGPKG_IO_I2C
+            CYGPKG_DEVS_BP2016_I2C_DW
+            CYGPKG_IO_FLASH
+            CYGPKG_DEVS_QSPI_BP2016
+            CYGPKG_IO_COMMON_DMA_ARM_BP2016
+            CYGPKG_IO_COMMON_TIMER_ARM_BP2016 
+            CYGPKG_IO_DISK_DEVICES
+            CYGPKG_DEVS_DISK_MMC
+            CYGPKG_IO_DISK
+            CYGPKG_FS_FAT
+            CYGPKG_IO_FILEIO
+            CYGPKG_BLOCK_LIB
+            CYGPKG_LINUX_COMPAT
+    }
+
+    enable { CYGHAL_RUN_ENV_DDR }
+    enable { CYGDBG_HG_DUMP_ALL_THREADS_INFO }
+    enable { CYGFUN_KERNEL_THREADS_CPULOAD }
+    enable { CYGNUM_DEVS_ARM_BP2016_SELECT_DMAC0 }
+    enable { CYGHWR_HAL_ASIC_CLK }
+    enable { CYGSEM_DIAG_PRINTF_FLOATING_POINT }
 
     description "HG ASIC board -BP2016 Baseband Soc"
 }

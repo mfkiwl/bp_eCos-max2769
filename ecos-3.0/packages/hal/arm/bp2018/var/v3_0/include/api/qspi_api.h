@@ -1,6 +1,8 @@
 #ifndef __QSPI_API_20180314_H_
 #define __QSPI_API_20180314_H_
 
+#include <cyg/io/io.h>
+
 /*
 * Function Name: qspi_flash_init 
 * Condition:    initialization flash 
@@ -71,6 +73,16 @@ int qspi_flash_sector_erase(cyg_io_handle_t handle, cyg_uint32 offs, cyg_uint32 
 cyg_uint32 qspi_flash_get_flashsize(cyg_io_handle_t handle);
 
 /*
+* Function Name: qspi_flash_get_sectorsize
+* Condition:	need init qspi module
+* Input Para:  handle of flash device 
+* Output Para:
+* Return value:  0: flash sector size is 0 
+*                xx: flash sector size 
+*/
+cyg_uint32 qspi_flash_get_sectorsize(cyg_io_handle_t handle);
+
+/*
 * Function Name: qspi_flash_get_flashmem
 * Condition: need init qspi module
 * Input Para:  handle of flash device 
@@ -90,15 +102,6 @@ cyg_uint32 qspi_flash_get_flashmem(cyg_io_handle_t handle);
 */
 cyg_uint32 qspi_flash_get_blocksize(cyg_io_handle_t handle);
 
-/*
-* Function Name: qspi_flash_get_sectorsize
-* Condition:	need init qspi module
-* Input Para:  handle of flash device 
-* Output Para:
-* Return value:  0: flash sector size is 0 
-*                xx: flash sector size 
-*/
-cyg_uint32 qspi_flash_get_sectorsize(cyg_io_handle_t handle);
 
 /*
 * Function Name: qspi_flash_read
@@ -108,8 +111,8 @@ cyg_uint32 qspi_flash_get_sectorsize(cyg_io_handle_t handle);
                *len- length to read
                addr- read start addr from start
 * Output Para: *buff- data
-* Return value:  0: get flash block size failed 
-*                xx: read length 
+* Return value:  ENOERR: read ok 
+*                xx: read failed 
 */
 cyg_uint32 qspi_flash_read(cyg_io_handle_t handle, void *buff, cyg_uint32 *len, cyg_uint32 addr);
 
@@ -121,8 +124,8 @@ cyg_uint32 qspi_flash_read(cyg_io_handle_t handle, void *buff, cyg_uint32 *len, 
                *len- length to write
                addr- write start addr from start
 * Output Para: none
-* Return value:  0: get flash block size failed 
-*                xx: write length 
+* Return value:  ENOERR: write ok 
+*                xx: write failed 
 */
 cyg_uint32 qspi_flash_write(cyg_io_handle_t handle, void *buff, cyg_uint32 *len, cyg_uint32 addr);
 
@@ -139,9 +142,9 @@ int qspi_flash_chip_erase(cyg_io_handle_t handle);
 /*
 * Function Name: qspi_flash_read_id
 * Condition:	need init qspi module
-* Input Para:  handle of flash device 
+* Input Para:  handle of flash device
 * Output Para: none
-* Return value:  0xFFFFFFFF: read id error 
+* Return value:  0xFFFFFFFF: read id error
 *                XX: flash id
 */
 cyg_uint32 qspi_flash_read_id(cyg_io_handle_t handle);

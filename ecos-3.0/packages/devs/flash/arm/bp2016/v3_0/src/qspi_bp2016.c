@@ -130,7 +130,7 @@ static int qspi_dma_init(cyg_qspi_flash_dev *bus)
     int res = 0;
 
     qspi_debug("ENTER");
-    qspi_printf("qspi work at dma mode!\n");
+    qspi_debug("qspi work at dma mode!\n");
 
     if (NULL != (bus->dma_rx_ch = DMA_alloc(DMAC_SLAVE_ID_E_QSPI))) {
         qspi_debug("spi read get valid channel %d!\n", *((cyg_uint32 *) bus->dma_rx_ch + 1));
@@ -163,14 +163,13 @@ extern struct qspi_fl_info * fl_rescan(void);
 size_t bp2016_qspi_query(struct cyg_flash_dev *dev, void *data, size_t len)
 {
     cyg_qspi_flash_dev *qspi_dev = (cyg_qspi_flash_dev *) dev->priv;
-    struct qspi_fl_info *fl_dev = NULL; 
+    struct qspi_fl_info *fl_dev = NULL;
     static char query[] = "HG BP2016 Qspi Flash";
     memcpy(data, query, sizeof(query));
 
 	qspi_debug("enter!");
 
     cyg_drv_mutex_lock(&qspi_dev->qspi_lock);
-
     qspi_hw_init();
 #if (CYGPKG_DEVS_QSPI_DMA_EN > 0)
     qspi_dma_init(qspi_dev);
@@ -185,15 +184,21 @@ size_t bp2016_qspi_query(struct cyg_flash_dev *dev, void *data, size_t len)
 		return -EINVAL;
 	}else{
 		qspi_dev->fl_dev = fl_dev;
-		qspi_printf("scan done!");
+		qspi_debug("scan done!");
 	}
 
-	qspi_printf("block_size %u  block num %u", fl_dev->blk_size, fl_dev->blk_num);
+	qspi_debug("block_size %u  block num %u", fl_dev->blk_size, fl_dev->blk_num);
 	
 	if(fl_dev->reset)
-		fl_dev->reset();
+    {
+		if(QSPI_OP_SUCCESS != fl_dev->reset())
+        {
+            cyg_drv_mutex_unlock(&qspi_dev->qspi_lock);
+            return QSPI_OP_FAILED;
+        }
+    }
 
-	qspi_printf("reset done!");
+	qspi_debug("reset done!");
 
 #if 1
     if (fl_dev->config_quad(quad_enable) != 0) {
@@ -221,12 +226,18 @@ int bp2016_qspi_erase_block(struct cyg_flash_dev *dev, cyg_flashaddr_t block_bas
     int status;
     cyg_flashaddr_t offset = block_base - dev->start;
 
+    if(block_base > dev->end)
+        return QSPI_OP_FAILED;
 
 	qspi_debug("erase addr 0x%x", block_base);
 
     cyg_drv_mutex_lock(&qspi_dev->qspi_lock);
-
-	fl_dev->config_4byte_extend(offset, offset&0x3000000);
+	status = fl_dev->config_4byte_extend(offset, offset&0x3000000);
+    if(status != QSPI_OP_SUCCESS)
+    {
+        cyg_drv_mutex_unlock(&qspi_dev->qspi_lock);
+        return QSPI_OP_FAILED;
+    }
 
     if(HG_FLASH_SECTOR_ERASE == erase_type)
     {
@@ -254,7 +265,7 @@ int bp2016_qspi_erase_block(struct cyg_flash_dev *dev, cyg_flashaddr_t block_bas
     if (status != QSPI_OP_SUCCESS)
 	{
 		qspi_printf("erase failed! addr 0x%x, ret=%d", block_base - QSPI_MEM_ADDR, status);
-        return -1;
+        return QSPI_OP_FAILED;
 	}
     return ENOERR;
 }
@@ -269,9 +280,11 @@ int bp2016_qspi_program(struct cyg_flash_dev *dev, cyg_flashaddr_t base, const v
 	cyg_uint8 *ptr = NULL;
 	int ret = ENOERR;
 
+    if(base > dev->end)
+        return QSPI_OP_FAILED;
+
 	qspi_debug("base 0x%x len 0x%x", offset, len);
     cyg_drv_mutex_lock(&qspi_dev->qspi_lock);
-
 #ifdef QSPI_DEBUG
 	fl_dev->read_status();
 #endif
@@ -293,7 +306,12 @@ int bp2016_qspi_program(struct cyg_flash_dev *dev, cyg_flashaddr_t base, const v
 			}
 		}
 
-        fl_dev->config_4byte_extend(offset, offset&0x3000000);
+        ret = fl_dev->config_4byte_extend(offset, offset&0x3000000);
+        if(ret != QSPI_OP_SUCCESS)
+        {
+            cyg_drv_mutex_unlock(&qspi_dev->qspi_lock);
+            return QSPI_OP_FAILED;
+        }
 
 #if (CYGPKG_DEVS_QSPI_DMA_EN > 0)
         //cyg_drv_interrupt_mask(qspi_dev->qspi_isrvec);
@@ -334,6 +352,10 @@ int bp2016_qspi_read(struct cyg_flash_dev *dev, const cyg_flashaddr_t base, void
 	cyg_uint32 qspi_dfs = 32;
 #endif
 
+    qspi_debug("dev->start 0x%x dev->end 0x%x", dev->start, dev->end);
+    if(base > dev->end)
+        return QSPI_OP_FAILED;
+
 	qspi_debug("enter! read_base 0x%x len %d", base, len);
 	qspi_debug("base 0x%x len 0x%x", offset, len);
 
@@ -367,7 +389,12 @@ int bp2016_qspi_read(struct cyg_flash_dev *dev, const cyg_flashaddr_t base, void
 		}
 #endif
 
-        fl_dev->config_4byte_extend(offset, offset&0x3000000);
+        ret = fl_dev->config_4byte_extend(offset, offset&0x3000000);
+        if(ret != QSPI_OP_SUCCESS)
+        {
+            cyg_drv_mutex_unlock(&qspi_dev->qspi_lock);
+            return QSPI_OP_FAILED;
+        }
 
 #if (CYGPKG_DEVS_QSPI_DMA_EN > 0)
         cyg_drv_interrupt_mask(qspi_dev->qspi_isrvec);
@@ -398,9 +425,18 @@ int bp2016_qspi_block_lock(struct cyg_flash_dev *dev, const cyg_flashaddr_t bloc
     cyg_flashaddr_t offset = block_base - dev->start;
 	int ret = ENOERR;
 
+    if(block_base > dev->end)
+        return QSPI_OP_FAILED;
+
     cyg_drv_mutex_lock(&qspi_dev->qspi_lock);
 
-	fl_dev->config_4byte_extend(offset, offset&0x3000000);
+	ret = fl_dev->config_4byte_extend(offset, offset&0x3000000);
+    if(ret != QSPI_OP_SUCCESS)
+    {
+        cyg_drv_mutex_unlock(&qspi_dev->qspi_lock);
+        return QSPI_OP_FAILED;
+    }
+
 	if(fl_dev->block_lock)
 	{
 		ret = fl_dev->get_block_lock_status(offset);
@@ -431,9 +467,17 @@ int bp2016_qspi_block_unlock(struct cyg_flash_dev *dev, const cyg_flashaddr_t bl
     cyg_flashaddr_t offset = block_base - dev->start;
 	int ret = ENOERR;
 
-    cyg_drv_mutex_lock(&qspi_dev->qspi_lock);
+    if(block_base > dev->end)
+        return QSPI_OP_FAILED;
 
-	fl_dev->config_4byte_extend(offset, offset&0x3000000);
+    cyg_drv_mutex_lock(&qspi_dev->qspi_lock);
+	ret = fl_dev->config_4byte_extend(offset, offset&0x3000000);
+    if(ret != QSPI_OP_SUCCESS)
+    {
+        cyg_drv_mutex_unlock(&qspi_dev->qspi_lock);
+        return QSPI_OP_FAILED;
+    }
+
 	if(fl_dev->block_unlock)
 	{
 		ret = fl_dev->get_block_lock_status(offset);
@@ -512,6 +556,7 @@ int	bp2016_qspi_global_lock(struct cyg_flash_dev *dev)
 {
     cyg_qspi_flash_dev *qspi_dev = (cyg_qspi_flash_dev *) dev->priv;
     struct qspi_fl_info *fl_dev = qspi_dev->fl_dev;
+    int ret;
 
 	qspi_debug("enter!");
 
@@ -524,18 +569,19 @@ int	bp2016_qspi_global_lock(struct cyg_flash_dev *dev)
     cyg_drv_mutex_lock(&qspi_dev->qspi_lock);
 
 	fl_dev->read_status();
-	fl_dev->global_lock();
+	ret = fl_dev->global_lock();
 
     cyg_drv_mutex_unlock(&qspi_dev->qspi_lock);
 
 	qspi_debug("done!");
-    return ENOERR;
+    return ret;
 }
 
 int	bp2016_qspi_global_unlock(struct cyg_flash_dev *dev)
 {
     cyg_qspi_flash_dev *qspi_dev = (cyg_qspi_flash_dev *) dev->priv;
     struct qspi_fl_info *fl_dev = qspi_dev->fl_dev;
+    int ret;
 
 	qspi_debug("enter!");
 
@@ -548,13 +594,13 @@ int	bp2016_qspi_global_unlock(struct cyg_flash_dev *dev)
     cyg_drv_mutex_lock(&qspi_dev->qspi_lock);
 
 	fl_dev->read_status();
-	fl_dev->global_unlock();
+	ret = fl_dev->global_unlock();
 
     cyg_drv_mutex_unlock(&qspi_dev->qspi_lock);
 
 	qspi_debug("done!");
 
-    return ENOERR;
+    return ret;
 }
 
 static cyg_qspi_flash_dev bp2016_qspi_dev = {

@@ -63,6 +63,15 @@
     
 #define _ARM_MCR(coproc, opcode1, Rt, CRn, CRm, opcode2)	\
     asm volatile ("mcr p" #coproc ", " #opcode1 ", %[input], c" #CRn ", c" #CRm ", " #opcode2 "\n" :: [input] "r" (Rt))
+
+// wwzz add, get current sp val
+#define HAL_GET_CURR_SP(_sp_)   \
+    asm volatile (              \
+        "mov %0,sp;"            \
+        : "=r"(_sp_)            \
+        :                       \
+        :                       \
+        );
 //@}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,6 +100,7 @@ void mmu_setup(void);
 /*arch timer */
 int arch_timer_starting_cpu(void);  
 inline u64 arch_counter_get_cntpct(void); 
+u64 arch_counter_get_current(void); 
 inline u32 arch_timer_get_cntfrq(void); 
 
 void hal_interrupt_stats_display(void);
@@ -106,6 +116,9 @@ cyg_int32 hal_get_interrupt_stats(SYS_IRQ_ID_T irqnum,
 unsigned int arch_local_irq_save(void);
 void arch_local_irq_restore(unsigned int flags); 
 extern void hal_delay_us(cyg_int32 usecs);
+
+void *memcpy_fast(void *dest, const void *src, cyg_uint32 n);
+void *memset_fast(void *s, cyg_int32 c, cyg_uint32 count);
 
 #if defined(__cplusplus)
 }

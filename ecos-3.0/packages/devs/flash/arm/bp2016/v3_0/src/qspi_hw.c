@@ -14,8 +14,8 @@
 inline void qspi_hw_init(void)
 {
     hwp_apQspi->ssienr = QSPI_SSIENR_EN(0) | QSPI_SSIENR_AHB_EN(0);
-    hwp_apQspi->imr = QSPI_IMR_TXEIM(1) | QSPI_IMR_TXOIM(0) | QSPI_IMR_RXUIM(0) |
-                      QSPI_IMR_RXOIM(0) | QSPI_IMR_RXFIM(1) | QSPI_IMR_AHBIM(0);
+    hwp_apQspi->imr = QSPI_IMR_TXEIM(0) | QSPI_IMR_TXOIM(0) | QSPI_IMR_RXUIM(0) |
+                      QSPI_IMR_RXOIM(0) | QSPI_IMR_RXFIM(0) | QSPI_IMR_AHBIM(0);
     hwp_apQspi->dma_ctrl = 0;
 }
 

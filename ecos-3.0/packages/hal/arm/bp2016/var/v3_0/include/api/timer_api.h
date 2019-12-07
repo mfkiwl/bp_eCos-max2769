@@ -14,5 +14,6 @@ typedef enum {
 // function declare
 void *TimerInit(cyg_uint32 id, cyg_uint32 pri, cyg_uint32 period_us, callback_func isr_callback, callback_func dsr_callback, void *arg);
 void TimerStop(void *handle);
+cyg_uint64 TimerGetCurrent(cyg_uint32 id);
 
 #endif

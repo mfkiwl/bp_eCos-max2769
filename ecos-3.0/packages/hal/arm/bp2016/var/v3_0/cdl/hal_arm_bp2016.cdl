@@ -57,7 +57,7 @@ cdl_package CYGPKG_HAL_ARM_BP2016 {
         The bp2016 HAL package provides the support needed to run
         eCos on HG bp2016 based targets."
 
-    compile		bp2016_timer.c bp2016_intr.c bp2016_plf_misc.c bp2016_scm.c bp2016_gpio.c timer/timer_imp.c uart/uart_imp.c gic/gic400.c a7/cache_v7.c a7/mmu_setup.c a7/arch_timer.c a7/v7_cp15.S sim/sim.c sim/sim_hal.c clk/clk_hw.c reset/reset_hw.c  gpio/gpio_imp.c spi/spi_dw.c spi/spi3wire.c gpio/gpio_api.c dma/dma_imp.c backtrace/backtrace.c misc/wakeupap.c
+    compile		bp2016_timer.c bp2016_intr.c bp2016_plf_misc.c bp2016_scm.c bp2016_gpio.c timer/timer_imp.c uart/uart_imp.c gic/gic400.c a7/cache_v7.c a7/mmu_setup.c a7/arch_timer.c a7/v7_cp15.S a7/memcpy.S a7/memset.S sim/sim.c sim/sim_hal.c clk/clk_hw.c reset/reset_hw.c  gpio/gpio_imp.c spi/spi_dw.c spi/spi3wire.c gpio/gpio_api.c dma/dma_imp.c backtrace/backtrace.c misc/wakeupap.c
 	compile		iomux/iomux_hw_gpio.c iomux/iomux_hw_mmc.c iomux/iomux_hw_pwm.c iomux/iomux_hw_sim.c iomux/iomux_hw_sram.c iomux/iomux_hw_if.c iomux/iomux_hw_prm.c iomux/iomux_hw_regs.c iomux/iomux_hw_scm.c iomux/iomux_hw_spi.c iomux/iomux_hw_uart.c iomux/iomux_hw_api.c
 	compile		backtrace/dump_stack.c misc/debug_misc.c
 	compile		comm/cpu_comm.c
@@ -66,7 +66,9 @@ cdl_package CYGPKG_HAL_ARM_BP2016 {
     compile     wdt/wdt_hw.c wdt/wdt_api.c 
     compile     pll/pll.c pll/pll_api.c 
     compile     gpio/spi4_bitbang.c
+    compile     gpio/spi_bitbang.c
     compile     pwm/pwm.c pwm/pwm_api.c
+    compile     misc/fastboot_reset.c
 
     implements    CYGINT_HAL_DEBUG_GDB_STUBS
     implements    CYGINT_HAL_DEBUG_GDB_STUBS_BREAK

@@ -68,6 +68,10 @@
 // -------------------------------------------------------------------------
 // inline function for awakening waiting threads
 
+// wwzz add. can use mbox try_put try_get in irq.
+externC void cyg_interrupt_disable(void);
+externC void cyg_interrupt_enable(void);
+
 template <class T, cyg_count32 QUEUE_SIZE>
 inline void
 Cyg_Mboxt<T,QUEUE_SIZE>::wakeup_waiter( Cyg_ThreadQueue &q )
@@ -245,13 +249,17 @@ Cyg_Mboxt<T,QUEUE_SIZE>::get( T &ritem )
 
     if ( result ) {
         CYG_INSTRUMENT_MBOXT(GOT, this, count);
-    
+
+        // wwzz add, disable irq here.
+        cyg_interrupt_disable();
         ritem = itemqueue[ (count--, base++) ];
         CYG_ASSERT( 0 <= count, "Count went -ve" );
         CYG_ASSERT( size >= base, "Base overflow" );
 
         if ( size <= base )
             base = 0;
+        // wwzz add, enable irq here.
+        cyg_interrupt_enable();
 
 #ifdef CYGMFN_KERNEL_SYNCH_MBOXT_PUT_CAN_WAIT
         wakeup_waiter( put_threadq );
@@ -343,12 +351,16 @@ Cyg_Mboxt<T,QUEUE_SIZE>::get( T &ritem, cyg_tick_count abs_timeout )
 
         CYG_INSTRUMENT_MBOXT(GOT, this, count);
     
+        // wwzz add, disable irq here.
+        cyg_interrupt_disable();
         ritem = itemqueue[ (count--, base++) ];
         CYG_ASSERT( 0 <= count, "Count went -ve" );
         CYG_ASSERT( size >= base, "Base overflow" );
 
         if ( size <= base )
             base = 0;
+        // wwzz add, enable irq here.
+        cyg_interrupt_enable();
 
 #ifdef CYGMFN_KERNEL_SYNCH_MBOXT_PUT_CAN_WAIT
         wakeup_waiter( put_threadq );
@@ -384,11 +396,15 @@ Cyg_Mboxt<T,QUEUE_SIZE>::tryget( T &ritem )
     cyg_bool result = ( 0 < count );
     // If the mboxt is not empty, grab an item and return it.
     if ( result ) {
+        // wwzz add, disable irq here.
+        cyg_interrupt_disable();
         ritem = itemqueue[ (count--, base++) ];
         CYG_ASSERT( 0 <= count, "Count went -ve" );
         CYG_ASSERT( size >= base, "Base overflow" );
         if ( size <= base )
             base = 0;
+        // wwzz add, enable irq here.
+        cyg_interrupt_enable();
 
 #ifdef CYGMFN_KERNEL_SYNCH_MBOXT_PUT_CAN_WAIT
         wakeup_waiter( put_threadq );
@@ -415,11 +431,15 @@ Cyg_Mboxt<T,QUEUE_SIZE>::peek_item( T &ritem )
     CYG_ASSERTCLASS( this, "Bad this pointer");
     
     CYG_INSTRUMENT_MBOXT(TRY, this, count);
-    
+
+    // wwzz add, disable irq here.
+    cyg_interrupt_disable();
     cyg_bool result = ( 0 < count );
     // If the mboxt is not empty, grab an item and return it.
     if ( result )
         ritem = itemqueue[ base ];
+    // wwzz add, enable irq here.
+    cyg_interrupt_enable();
 
     // Unlock the scheduler and maybe switch threads
     Cyg_Scheduler::unlock();
@@ -475,6 +495,8 @@ Cyg_Mboxt<T,QUEUE_SIZE>::put( const T item )
     }
 
     if ( result ) {
+        // wwzz add, disable irq here.
+        cyg_interrupt_disable();
         cyg_count32 in = base + (count++);
         if ( size <= in )
             in -= size;
@@ -484,6 +506,8 @@ Cyg_Mboxt<T,QUEUE_SIZE>::put( const T item )
         CYG_ASSERT( size >= count, "count overflow" );
 
         itemqueue[ in ] = item;
+        // wwzz add, enable irq here.
+        cyg_interrupt_enable();
 
         wakeup_waiter( get_threadq );
     }
@@ -567,6 +591,8 @@ Cyg_Mboxt<T,QUEUE_SIZE>::put( const T item, cyg_tick_count abs_timeout )
     self->clear_timer();
 
     if ( result ) {
+        // wwzz add, disable irq here.
+        cyg_interrupt_disable();
         cyg_count32 in = base + (count++);
         if ( size <= in )
             in -= size;
@@ -576,6 +602,8 @@ Cyg_Mboxt<T,QUEUE_SIZE>::put( const T item, cyg_tick_count abs_timeout )
         CYG_ASSERT( size >= count, "count overflow" );
 
         itemqueue[ in ] = item;
+        // wwzz add, enable irq here.
+        cyg_interrupt_enable();
 
         wakeup_waiter( get_threadq );
     }
@@ -609,6 +637,8 @@ Cyg_Mboxt<T,QUEUE_SIZE>::tryput( const T item )
         return false;                   // the mboxt is full
     }
 
+    // wwzz add, disable irq here.
+    cyg_interrupt_disable();
     cyg_count32 in = base + (count++);
     if ( size <= in )
         in -= size;
@@ -618,6 +648,8 @@ Cyg_Mboxt<T,QUEUE_SIZE>::tryput( const T item )
     CYG_ASSERT( size >= count, "count overflow" );
 
     itemqueue[ in ] = item;
+    // wwzz add, enable irq here.
+    cyg_interrupt_enable();
 
     CYG_ASSERTCLASS( this, "Bad this pointer");    
 

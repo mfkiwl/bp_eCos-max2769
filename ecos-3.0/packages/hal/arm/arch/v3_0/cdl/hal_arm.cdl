@@ -98,6 +98,20 @@ cdl_package CYGPKG_HAL_ARM {
         default_value  0
     }
 
+    cdl_option CYGDBG_HG_ASSEMBLY {
+        display        "HG mem: for memcpy_fast, memset_fast"
+        flavor         bool
+        default_value  1 
+        description    "source code from linux arm lib, for arm arch"
+    }
+
+    cdl_option CYGHWR_HG_ARM_ARCH {
+        display        "HG arch: for memcpy_fast, memset_fast"
+        flavor         data
+        default_value  7 
+        description    "source code from linux arm lib, for arm arch"
+    }
+
     cdl_option CYGFUN_KERNEL_THREADS_CPULOAD {
         display       "Thread Cpuload"
         flavor        bool

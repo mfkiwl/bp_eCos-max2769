@@ -61,6 +61,9 @@
 #include <cyg/kernel/kapi.h>
 #include <errno.h>
 #include <string.h>
+#ifdef CYGHWR_HAL_ASIC_CLK
+#include <cyg/hal/clk/clk.h>
+#endif
 
 #ifdef CYGPKG_DEVS_BP2016_I2C_DW
 
@@ -589,6 +592,20 @@ int i2c_dw_xfer(cyg_dw_i2c_bus *dev, cyg_uint32 count)
 	int ret;
 	struct i2c_msg *msgs;
 	//i2c_debug("msgs: %d", num);
+#ifdef CYGHWR_HAL_ASIC_DRV_LOW_POWER    
+    CLK_ID_TYPE_T id_type = CLK_I2C0;
+#ifdef CYGVAR_DEVS_BP2016_I2C_BUS0_EN
+    if((dev->hwp_i2c) == hwp_apI2c0){
+        id_type = CLK_I2C0;
+    }
+#endif
+#ifdef CYGVAR_DEVS_BP2016_I2C_BUS1_EN
+    if((dev->hwp_i2c) == hwp_apI2c1){
+        id_type = CLK_I2C1;
+    }
+#endif
+    hal_clk_enable(id_type);
+#endif
 
     cyg_drv_mutex_lock(&dev->i2c_lock);
 
@@ -649,6 +666,20 @@ int i2c_dw_xfer(cyg_dw_i2c_bus *dev, cyg_uint32 count)
 done:
     cyg_drv_mutex_unlock(&dev->i2c_lock);
 	i2c_debug("done!");
+
+#ifdef CYGHWR_HAL_ASIC_DRV_LOW_POWER    
+#ifdef CYGVAR_DEVS_BP2016_I2C_BUS0_EN
+    if((dev->hwp_i2c) == hwp_apI2c0){
+        id_type = CLK_I2C0;
+    }
+#endif
+#ifdef CYGVAR_DEVS_BP2016_I2C_BUS1_EN
+    if((dev->hwp_i2c) == hwp_apI2c1){
+        id_type = CLK_I2C1;
+    }
+#endif
+    hal_clk_disable(id_type);
+#endif
 
 	return ret;
 }

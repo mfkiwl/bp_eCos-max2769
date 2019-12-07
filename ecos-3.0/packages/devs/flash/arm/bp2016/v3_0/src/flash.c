@@ -35,9 +35,9 @@ int qspi_gd25q256d_dma_write_page(void *dma_tx_ch, cyg_uint32 addr, cyg_uint8 *d
 /******************************************************************************/
 
 int qspi_s25fl512s_write_page(cyg_uint32 addr, cyg_uint8 *dbuf, int len);
-cyg_uint8 qspi_s25fl512s_erase(cyg_uint8 cmd, cyg_uint32 addr);
-cyg_uint8 qspi_s25fl512s_erase_all(void);
-void qspi_s25fl512s_4byte_extend(cyg_uint32 addr, int en);
+int qspi_s25fl512s_erase(cyg_uint8 cmd, cyg_uint32 addr);
+int qspi_s25fl512s_erase_all(void);
+int qspi_s25fl512s_4byte_extend(cyg_uint32 addr, int en);
 int qspi_s25fl512s_quad(int en);
 int qspi_s25fl512s_prot_region(int region, int en);
 cyg_uint8 qspi_s25fl512s_read_status(void);
@@ -55,9 +55,9 @@ int qspi_s25fl512s_read_block_status(cyg_uint32 addr);
 /******************************************************************************/
 
 int qspi_w25q256fv_write_page(cyg_uint32 addr, cyg_uint8 *dbuf, int len);
-cyg_uint8 qspi_w25q256fv_erase(cyg_uint8 cmd, cyg_uint32 addr);
-cyg_uint8 qspi_w25q256fv_erase_all(void);
-void qspi_w25q256fv_4byte_extend(cyg_uint32 addr, int en);
+int qspi_w25q256fv_erase(cyg_uint8 cmd, cyg_uint32 addr);
+int qspi_w25q256fv_erase_all(void);
+int qspi_w25q256fv_4byte_extend(cyg_uint32 addr, int en);
 int qspi_w25q256fv_quad(int en);
 int qspi_w25q256fv_prot_region(int region, int en);
 cyg_uint8 qspi_w25q256fv_read_status(void);
@@ -66,8 +66,8 @@ int qspi_w25q256fv_reset(void);
 int qspi_w25q256fv_block_lock(cyg_uint32 offs);
 int qspi_w25q256fv_block_unlock(cyg_uint32 offs);
 int qspi_w25q256fv_read_block_lock_status(cyg_uint32 offs);
-void qspi_w25q256fv_global_lock(void);
-void qspi_w25q256fv_global_unlock(void);
+int  qspi_w25q256fv_global_lock(void);
+int qspi_w25q256fv_global_unlock(void);
 /******************************************************************************/
 /********************* W25Q256FV Function end *********************************/
 /******************************************************************************/
@@ -77,9 +77,9 @@ void qspi_w25q256fv_global_unlock(void);
 /******************************************************************************/
 
 int qspi_gd25q512mc_write_page(cyg_uint32 addr, cyg_uint8 *dbuf, int len);
-cyg_uint8 qspi_gd25q512mc_erase(cyg_uint8 cmd, cyg_uint32 addr);
-cyg_uint8 qspi_gd25q512mc_erase_all(void);
-void qspi_gd25q512mc_4byte_extend(cyg_uint32 addr, int en);
+int qspi_gd25q512mc_erase(cyg_uint8 cmd, cyg_uint32 addr);
+int qspi_gd25q512mc_erase_all(void);
+int qspi_gd25q512mc_4byte_extend(cyg_uint32 addr, int en);
 int qspi_gd25q512mc_quad(int en);
 int qspi_gd25q512mc_prot_region(int region, int en);
 cyg_uint8 qspi_gd25q512mc_read_status(void);
@@ -101,8 +101,8 @@ void qspi_gd25q512mc_global_unlock(void);
 /******************************************************************************/
 
 int qspi_gd25q256d_write_page(cyg_uint32 addr, cyg_uint8 *dbuf, int len);
-cyg_uint8 qspi_gd25q256d_erase(cyg_uint8 cmd, cyg_uint32 addr);
-cyg_uint8 qspi_gd25q256d_erase_all(void);
+int qspi_gd25q256d_erase(cyg_uint8 cmd, cyg_uint32 addr);
+int qspi_gd25q256d_erase_all(void);
 void qspi_gd25q256d_4byte_extend(cyg_uint32 addr, int en);
 int qspi_gd25q256d_quad(int en);
 int qspi_gd25q256d_prot_region(int region, int en);
@@ -240,22 +240,31 @@ extern struct qspi_fl_info * fl_rescan(void)
     cyg_uint32 jedid = 0;
     struct qspi_fl_info *fl = &fl_info[0];
     int fl_count = sizeof(fl_info) / sizeof(fl_info[0]), i;
+    int ret;
 
     qspi_fl_read_rdid(SPINOR_OP_RDID, 3, dbuf);
     jedid = (dbuf[0] << 16) | (dbuf[1] << 8) | (dbuf[2]);
-    qspi_printf("jedid = 0x%x, support device number :%d\n", jedid, fl_count);
+    qspi_debug("jedid = 0x%x, support device number :%d\n", jedid, fl_count);
 
 	if(!jedid)
 	{
-		qspi_w25q256fv_reset();	
+		ret = qspi_w25q256fv_reset();
+        if(ret < 0)
+            return NULL;
 
-		qspi_fl_read_rdid(SPINOR_OP_RDID, 3, dbuf);
+		ret = qspi_fl_read_rdid(SPINOR_OP_RDID, 3, dbuf);
+        if(ret < 0)
+            return NULL;
 		jedid = (dbuf[0] << 16) | (dbuf[1] << 8) | (dbuf[2]);
 
 		if(!jedid)
 		{
-			qspi_s25fl512s_reset();
-			qspi_fl_read_rdid(SPINOR_OP_RDID, 3, dbuf);
+			ret = qspi_s25fl512s_reset();
+            if(ret < 0)
+                return NULL;
+			ret = qspi_fl_read_rdid(SPINOR_OP_RDID, 3, dbuf);
+            if(ret < 0)
+                return NULL;
 			jedid = (dbuf[0] << 16) | (dbuf[1] << 8) | (dbuf[2]);
 		}
 
@@ -266,8 +275,8 @@ extern struct qspi_fl_info * fl_rescan(void)
             continue;
 
         if (fl->jedec == jedid) {
-            qspi_printf("fl_rescan device match ok, and name: %s\n", fl->name);
-			qspi_printf("blk_size %u, blk_num %u", fl->blk_size, fl->blk_num);
+            qspi_debug("fl_rescan device match ok, and name: %s\n", fl->name);
+			qspi_debug("blk_size %u, blk_num %u", fl->blk_size, fl->blk_num);
             return fl;
         }
         fl++;
@@ -328,10 +337,10 @@ int fl_read(int rd_cmd, cyg_uint32 addr, cyg_uint8 *buf, cyg_uint32 len, cyg_uin
     qspi_printf_buf_fmt_32bit((cyg_uint32 *) buf, (cyg_uint32) addr, rx_count / 4);
 #ifdef QSPI_HW_STAT
     e_spi = qspi_get_timer_tick_save();
-    us_spi = tick_to_us((unsigned long) (e_spi - s));
+    us_spi = archtimer_tick_to_us((unsigned long) (e_spi - s));
     qspi_printf("spi need %d\n", us_spi);
 #endif
-    us = tick_to_us((unsigned long) (e - s));
+    us = archtimer_tick_to_us((unsigned long) (e - s));
     qspi_printf("Test need %d us (%d ms)\n", us, us / 1000);
     return 0;
 }
@@ -362,7 +371,7 @@ int fl_ahbread(int rd_cmd, cyg_uint32 fl_addr, cyg_uint8 *buf, cyg_uint32 len, c
 
     qspi_printf_buf_fmt_32bit((cyg_uint32 *) buf, (cyg_uint32) SPIFLASH_D_BASE + fl_addr, len / 4);
 
-    us = tick_to_us((unsigned long) (e - s));
+    us = archtimer_tick_to_us((unsigned long) (e - s));
     qspi_printf("Test need %d us (%d ms)\n", us, us / 1000);
     return ENOERR;
 }

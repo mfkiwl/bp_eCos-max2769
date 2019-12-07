@@ -13,6 +13,18 @@
 #include <cyg/hal/a7/cortex_a7.h>
 #include <cyg/hal/regs/uart.h>
 
+int printf_en = PRINTF_EN;
+
+void enable_hal_printf(void)
+{
+    printf_en = PRINTF_EN;
+}
+
+void disable_hal_printf(void)
+{
+    printf_en = PRINTF_DIS;
+}
+
 extern void cyg_hal_plf_serial_init_channel(HWP_UART_T *, int);
 extern int cyg_hal_plf_serial_getc(HWP_UART_T *);
 extern void cyg_hal_plf_serial_putc(HWP_UART_T *, const char);

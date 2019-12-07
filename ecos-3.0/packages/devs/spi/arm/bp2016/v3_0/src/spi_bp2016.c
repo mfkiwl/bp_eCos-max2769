@@ -41,6 +41,7 @@ extern inline void spi_set_dma_tdlr(HWP_SPI_T *hw_spi, u32 tdlr);
 extern inline void spi_set_dma_rdlr(HWP_SPI_T *hw_spi, u32 rdlr);
 #endif /* CYGPKG_DEVS_SPI_ENABLE_DMA */
 
+extern inline void dw_spi_sample_dly(HWP_SPI_T *hw_spi, const u32 sample_delay);
 extern inline void dw_spi_baud(HWP_SPI_T *hw_spi, const u32 baud);
 extern inline void dw_spi_tmod(HWP_SPI_T *hw_spi, const u32 tmod);
 extern inline void dw_spi_cs_enable(HWP_SPI_T *hw_spi, const u32 cs);
@@ -692,6 +693,7 @@ static int begin_spi_trans(cyg_spi_bp2016_dev_t *dev)
     dw_spi_cpmode(hw_spi, dev->spi_cfg.spi_dw_cfg.cpha, dev->spi_cfg.spi_dw_cfg.cpol);
     spi_bp2016_set_baud(bus, dev->spi_cfg.spi_dw_cfg.baud);
     dw_spi_bus_width(hw_spi, dev->spi_cfg.spi_dw_cfg.bus_width);
+    dw_spi_sample_dly(hw_spi, dev->spi_cfg.spi_dw_cfg.sample_delay);
     dev->error = config_cs(dev);
 
     switch (bus->mode) {
@@ -1073,6 +1075,32 @@ spi_cpu_transfer(cyg_spi_device *device, cyg_bool polled,
 static void
 spi_bp2016_transaction_begin(cyg_spi_device *device)
 {
+#ifdef CYGHWR_HAL_ASIC_DRV_LOW_POWER    
+    cyg_spi_bus*    bus = device->spi_bus;
+    CLK_ID_TYPE_T id_type = CLK_SPI0;
+#ifdef CYGPKG_DEVS_SPI_ARM_BP2016_BUS0
+    if(bus == (cyg_spi_bus*)(&cyg_spi_bp2016_bus0)){
+        id_type = CLK_SPI0;
+    }
+#endif
+#ifdef CYGPKG_DEVS_SPI_ARM_BP2016_BUS1
+    if(bus == (cyg_spi_bus*)(&cyg_spi_bp2016_bus1)){
+        id_type = CLK_SPI1;
+    }
+#endif
+#ifdef CYGPKG_DEVS_SPI_ARM_BP2016_BUS2
+    if(bus == (cyg_spi_bus*)(&cyg_spi_bp2016_bus2)){
+        id_type = CLK_SPI2;
+    }
+#endif
+#ifdef CYGPKG_DEVS_SPI_ARM_BP2016_BUS3
+    if(bus == (cyg_spi_bus*)(&cyg_spi_bp2016_bus3)){
+        id_type = CLK_SPI3;
+    }
+#endif
+    hal_clk_enable(id_type);
+#endif
+
 }
 
 /*
@@ -1116,6 +1144,31 @@ spi_bp2016_transaction_tick(cyg_spi_device *device, cyg_bool polled, cyg_uint32 
 static void
 spi_bp2016_transaction_end(cyg_spi_device *device)
 {
+#ifdef CYGHWR_HAL_ASIC_DRV_LOW_POWER    
+    cyg_spi_bus*    bus = device->spi_bus;
+    CLK_ID_TYPE_T id_type = CLK_SPI0;
+#ifdef CYGPKG_DEVS_SPI_ARM_BP2016_BUS0
+    if(bus == (cyg_spi_bus*)(&cyg_spi_bp2016_bus0)){
+        id_type = CLK_SPI0;
+    }
+#endif
+#ifdef CYGPKG_DEVS_SPI_ARM_BP2016_BUS1
+    if(bus == (cyg_spi_bus*)(&cyg_spi_bp2016_bus1)){
+        id_type = CLK_SPI1;
+    }
+#endif
+#ifdef CYGPKG_DEVS_SPI_ARM_BP2016_BUS2
+    if(bus == (cyg_spi_bus*)(&cyg_spi_bp2016_bus2)){
+        id_type = CLK_SPI2;
+    }
+#endif
+#ifdef CYGPKG_DEVS_SPI_ARM_BP2016_BUS3
+    if(bus == (cyg_spi_bus*)(&cyg_spi_bp2016_bus3)){
+        id_type = CLK_SPI3;
+    }
+#endif
+    hal_clk_disable(id_type);
+#endif
 }
 
 static void is_dma_use(cyg_spi_bp2016_bus_t *bus)

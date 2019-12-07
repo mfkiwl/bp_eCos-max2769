@@ -233,6 +233,11 @@ externC cyg_handle_t cyg_thread_self() __THROW
     return (cyg_handle_t)Cyg_Thread::self();
 }
 
+externC cyg_handle_t cyg_thread_current() __THROW
+{
+    return (cyg_handle_t)Cyg_Scheduler::get_current_thread();
+}
+
 externC cyg_uint16 cyg_thread_get_id( cyg_handle_t thread) __THROW
 {
     return ((Cyg_Thread *)thread)->get_unique_id();
@@ -379,48 +384,6 @@ cyg_handle_t cyg_thread_find( cyg_uint16 id ) __THROW
     return (cyg_handle_t)thread;
 }
 
-#endif
-
-#ifdef CYGFUN_KERNEL_THREADS_CPULOAD
-#include <cyg/hal/a7/cortex_a7.h>
-extern cyg_uint64 tick_sch_start;
-float cyg_thread_get_cpuload(void)
-{
-    cyg_uint64 curr_tick;
-    cyg_handle_t thread;
-    cyg_uint16 id;
-    double rate = 0.0;
-    cyg_thread_info info;
-    thread = cyg_thread_idle_thread();
-    id = ((Cyg_Thread *)thread)->get_unique_id();
-    cyg_scheduler_lock();
-
-    if(cyg_thread_get_info(thread, id, &info) == true) {
-        curr_tick = arch_counter_get_cntpct();
-        rate = (info.tick_total*1.0)/(curr_tick - tick_sch_start);
-    }
-    cyg_scheduler_unlock();
-    return (1 - rate);
-}
-
-void cyg_thread_cpuload_reset(void)
-{
-    cyg_handle_t thread;
-    cyg_uint16 id;
-
-    thread = 0;
-    id = 0;
-
-    cyg_scheduler_lock();
-    while(cyg_thread_get_next(&thread, &id) == true) {
-         ((Cyg_Thread *)thread)->tick_total = 0;
-    }
-    tick_sch_start = arch_counter_get_cntpct();
-    Cyg_Thread *t = Cyg_Scheduler::get_current_thread();
-    t->tick_start = arch_counter_get_cntpct();
-
-    cyg_scheduler_unlock();
-}
 #endif
 
 cyg_bool_t cyg_thread_get_info( cyg_handle_t threadh,

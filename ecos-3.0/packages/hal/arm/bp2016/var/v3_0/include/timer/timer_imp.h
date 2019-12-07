@@ -9,4 +9,5 @@ extern cyg_int32 hal_ostimer_disable(cyg_uint32 instance);
 extern inline cyg_uint32 hal_ostimer_get_cur_value(cyg_uint32 instance);
 extern inline cyg_uint32 hal_ostimer_get_counter_hvalue(cyg_uint32 instance);
 extern inline cyg_uint32 hal_ostimer_get_counter_lvalue(cyg_uint32 instance);
+extern cyg_uint64 hal_ostimer_get_current(cyg_uint32 instance);
 #endif

@@ -14,6 +14,9 @@
 #include <cyg/hal/api/dma_api.h>
 #include <stdio.h>
 #include <pkgconf/io_common_dma_arm_bp2016.h>
+#ifdef CYGHWR_HAL_ASIC_CLK
+#include <cyg/hal/clk/clk.h>
+#endif
 
 // DMAC Peripheral enum
 typedef enum {
@@ -159,11 +162,47 @@ extern inline DMAC_CH_CONTROLLER_ST * get_hwp_dma(U32 id, U32 ch_id);
 extern inline void dmac_ch_int_enable(DMAC_CH_CONTROLLER_ST *hwp_dma, DMAC_CH_INT_TYPE_E int_type);
 extern inline void dmac_ch_int_disable(DMAC_CH_CONTROLLER_ST *hwp_dma, DMAC_CH_INT_TYPE_E int_type);
 
+#ifdef CYGHWR_HAL_ASIC_DRV_LOW_POWER    
+cyg_thread_entry_t dis_dma_clk;
+cyg_handle_t dis_dma_clk_thread;
+char dis_dma_clk_stack[4096*2];		/* space for two 4K stacks */
+cyg_thread dis_dma_clk_s;		/* space for two thread objects */
+static cyg_sem_t syn_dis_dma_clk;
+
+void dis_dma_clk(cyg_addrword_t data)
+{
+    CLK_ID_TYPE_T id_type = (CLK_ID_TYPE_T)data;
+    DMA_CH_M *dma_ch = NULL;
+    cyg_uint32 ch_id = 0;
+    while(1){
+        cyg_semaphore_wait(&syn_dis_dma_clk);
+        for(ch_id = 0; ch_id < HW_DMAC_CH_NUM_MAX; ch_id++){ 
+            dma_ch = &(dmac_manager.dma_ch_handle[ch_id]);
+            if(true == cyg_mutex_trylock(&(dma_ch->mt))){
+                if(true == (dma_ch->ch_idle)){
+                    cyg_mutex_unlock(&(dma_ch->mt)); 
+                } else {
+                    cyg_mutex_unlock(&(dma_ch->mt)); 
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+        if(HW_DMAC_CH_NUM_MAX == ch_id){
+            hal_clk_disable(id_type);
+        }
+    } 
+}
+#endif
 
 void DMA_init(void)
 {
     U32 i, id;
     SWRST_ID_TYPE_T  rwt;
+#ifdef CYGHWR_HAL_ASIC_DRV_LOW_POWER    
+    CLK_ID_TYPE_T id_type = CLK_DMAC0;
+#endif
 
     memset(&dmac_manager, 0x0, sizeof(DMAC_M));
     dmac_manager.pri = &dmac_controller_pri;
@@ -193,6 +232,15 @@ void DMA_init(void)
             &dmac_manager.dmac_interrupt);
     cyg_interrupt_attach(dmac_manager.dmac_interrupt_handle);
     cyg_interrupt_unmask(dmac_manager.pri->irq_num);
+
+#ifdef CYGHWR_HAL_ASIC_DRV_LOW_POWER    
+    cyg_semaphore_init(&syn_dis_dma_clk, 0);
+    cyg_thread_create(0, dis_dma_clk, (cyg_addrword_t) id_type,
+		 "for disable dma clk", (void *)dis_dma_clk_stack, 4096*2,
+		 &dis_dma_clk_thread, &dis_dma_clk_s);
+
+    cyg_thread_resume(dis_dma_clk_thread);
+#endif
 
     dmac_int_enable(id);
     dma_enable(id);
@@ -397,7 +445,9 @@ static void dmac_dsr(cyg_vector_t vector, cyg_ucount32 count, cyg_addrword_t dat
             }
         }
     }
-
+#ifdef CYGHWR_HAL_ASIC_DRV_LOW_POWER    
+    cyg_semaphore_post(&syn_dis_dma_clk);
+#endif
     cyg_interrupt_unmask(vector);
     return ;
 }
@@ -808,6 +858,9 @@ int DMA_trans(void * dma_handle)
 {
     DMA_CH_M *handle = NULL;
     cyg_uint32 ret = DMAC_ERR_E_OK;
+#ifdef CYGHWR_HAL_ASIC_DRV_LOW_POWER    
+    CLK_ID_TYPE_T id_type = CLK_DMAC0;
+#endif
 
     if (NULL == dma_handle)
         return DMAC_ERR_E_PARA_INVALID;
@@ -819,6 +872,18 @@ int DMA_trans(void * dma_handle)
     handle = (DMA_CH_M *)dma_handle;
 
     cyg_mutex_lock(&(handle->mt));
+#ifdef CYGHWR_HAL_ASIC_DRV_LOW_POWER    
+#ifdef CYGNUM_DEVS_ARM_BP2016_SELECT_DMAC0
+    if(0 == handle->dmac_id){
+        id_type = CLK_DMAC0;
+    }
+#else
+    if(1 == handle->dmac_id){
+        id_type = CLK_DMAC1;
+    }
+#endif
+    hal_clk_enable(id_type);
+#endif
     cyg_semaphore_init(&(handle->sem), 0);
     ret = hal_dma_trans(handle);
     cyg_mutex_unlock(&(handle->mt));

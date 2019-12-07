@@ -16,6 +16,7 @@ typedef union spi_dev_config_t {
         cyg_uint32 cpha;
         cyg_uint32 baud;
         cyg_uint32 bus_width;
+        cyg_uint32 sample_delay;
         cyg_uint32 gpio_num;    //this is for board cs more than spi2 controler
     } spi_dw_cfg;
 

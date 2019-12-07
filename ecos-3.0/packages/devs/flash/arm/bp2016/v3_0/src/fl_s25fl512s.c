@@ -12,7 +12,7 @@
 #define SPINOR_OP_CLRR 0x30
 #define SPINOR_OP_SW_RESET 0xf0 /* Software Reset */
 
-extern inline void qspi_wren(cyg_uint8 cmd);
+extern inline int qspi_wren(cyg_uint8 cmd);
 extern void qspi_ahb_read_enable(cyg_uint8 rd_cmd, cyg_uint8 dfs);
 extern void qspi_ahb_write_enable(cyg_uint8 wren_cmd);
 extern int qspi_send_xx_data(cyg_uint8 *tx_dbuf, int tx_len);
@@ -20,34 +20,37 @@ extern int qspi_read_xx_data(cyg_uint8 cmd, cyg_uint32 addr, int addr_vld, cyg_u
                              int rx_len);
 extern int qspi_read_spansion_data(cyg_uint8 cmd, cyg_uint32 addr, int addr_vld, 
 		cyg_uint8 *rx_dbuf, int rx_len);
-extern int qspi_read_page_data(cyg_uint8 cmd, cyg_uint32 addr, cyg_uint8 *rx_dbuf, int rx_len,
-                               int dfs);
 
 extern int qspi_dma_send_cmd_data(cyg_uint8 cmd, cyg_uint8 data);
 static cyg_uint8 wbuf_s[280];
 static cyg_uint8 wait_cmd=0; 
 
 extern cyg_uint8 qspi_fl_read_status(cyg_uint8 cmd);
+extern int qspi_fl_wait_wel(void);
 
 /*not require WEN command to precede its*/
-static void qspi_s25fl512s_write_bar(cyg_uint8 cmd, cyg_uint8 data)
+static int qspi_s25fl512s_write_bar(cyg_uint8 cmd, cyg_uint8 data)
 {
+    int ret;
 #if (CYGPKG_DEVS_QSPI_DMA_EN > 0)
-    qspi_dma_send_cmd_data(cmd, data);
+    ret = qspi_dma_send_cmd_data(cmd, data);
 #else
     cyg_uint8 wbuf[2];
     wbuf[0] = cmd;
     wbuf[1] = data;
-    qspi_send_xx_data(wbuf, 2);
+    ret = qspi_send_xx_data(wbuf, 2);
 #endif
+    if(ret < 0)
+        return QSPI_OP_FAILED;
+
+    return QSPI_OP_SUCCESS;
 }
 
 /*not necessary to set WEL bit, before the clear SR command is executed*/
 /* for clear erase Fail Flag and Program Fail Flag*/
 static int qspi_f25fl512s_clear_status(cyg_uint8 clrr_cmd)
 {
-    qspi_send_xx_data(&clrr_cmd, 1);
-    return 0;
+    return qspi_send_xx_data(&clrr_cmd, 1);
 }
 
 static cyg_uint8 wait_flash_idle_extend(cyg_uint8 rdsr_cmd, cyg_uint32 wip, cyg_uint32 wip_mask,
@@ -97,21 +100,27 @@ static cyg_uint8 wait_flash_idle_extend(cyg_uint8 rdsr_cmd, cyg_uint32 wip, cyg_
     return st;
 }
 
-static cyg_uint8 qspi_s25fl512s_write_status(cyg_uint8 sr, cyg_uint8 cr)
+static int qspi_s25fl512s_write_status(cyg_uint8 sr, cyg_uint8 cr)
 {
     cyg_uint8 status;
     cyg_uint8 wbuf[3];
 	int ret = 0;
-    qspi_wren(SPINOR_OP_WREN);
+
+    ret = qspi_wren(SPINOR_OP_WREN);
+    if(ret < 0)
+        return ret;
+    ret = qspi_fl_wait_wel();
+    if(ret < 0)
+        return ret;
 
     wbuf[0] = SPINOR_OP_WRSR;
     wbuf[1] = sr;
     wbuf[2] = cr;
     ret = qspi_send_xx_data(wbuf, 3);
-	if(!ret)
+	if(ret<0)
 	{
 		qspi_printf("error! return ...");
-		return 0;
+		return QSPI_OP_FAILED;
 	}
 
 	wait_cmd = SPINOR_OP_WRSR;
@@ -122,18 +131,21 @@ static cyg_uint8 qspi_s25fl512s_write_status(cyg_uint8 sr, cyg_uint8 cr)
         qspi_printf("write status failed, status 0x:%x\n", status);
         qspi_f25fl512s_clear_status(SPINOR_OP_CLRR);
         qspi_printf("clear and status	               : 0x%x\n", qspi_fl_read_status(SPINOR_OP_RDSR));
-        qspi_wren(SPINOR_OP_WRDI);
+        ret = qspi_wren(SPINOR_OP_WRDI);
+        if(ret < 0)
+            return ret;
     }
     return status;
 }
 
-static void qspi_s25fl512s_4byte_extend_enable(cyg_uint32 addr)
+static int qspi_s25fl512s_4byte_extend_enable(cyg_uint32 addr)
 {
 #ifdef QSPI_DEBUG
     unsigned long long s, e;
     cyg_uint32 us;
 #endif
     cyg_uint8 bar_data = 0, bar_d;
+    int ret=QSPI_OP_SUCCESS;
 
     bar_d = qspi_fl_read_status(SPINOR_OP_BRRD);
     if ((addr & (1 << 24)) > 0)
@@ -144,37 +156,42 @@ static void qspi_s25fl512s_4byte_extend_enable(cyg_uint32 addr)
 #ifdef QSPI_DEBUG
         s = HAL_GET_COUNTER;
 #endif
-        qspi_s25fl512s_write_bar(SPINOR_OP_BRWR, bar_data);
+        ret = qspi_s25fl512s_write_bar(SPINOR_OP_BRWR, bar_data);
 
 #ifdef QSPI_DEBUG
         e = HAL_GET_COUNTER;
-        us = tick_to_us((unsigned long) (e - s));
+        us = archtimer_tick_to_us((unsigned long) (e - s));
 #endif
 
         qspi_debug("bank register             : 0x%x, wr: 0x%x\n", qspi_fl_read_status(SPINOR_OP_BRRD),
                bar_data);
         qspi_debug("address_extend_enable need: %d us (%d ms)\n\n", us, us / 1000);
     }
+
+    return ret;
 }
 
-static void qspi_s25fl512s_4byte_extend_disable(cyg_uint32 addr)
+static int qspi_s25fl512s_4byte_extend_disable(cyg_uint32 addr)
 {
     unsigned long long s, e;
     cyg_uint32 us;
     cyg_uint8 bar_d = 0;
+    int ret=0;
 
     bar_d = qspi_fl_read_status(SPINOR_OP_BRRD);
 
     if (bar_d != 0) {
         s = HAL_GET_COUNTER;
-        qspi_s25fl512s_write_bar(SPINOR_OP_BRWR, 0);
+        ret = qspi_s25fl512s_write_bar(SPINOR_OP_BRWR, 0);
 
         e = HAL_GET_COUNTER;
-        us = tick_to_us((unsigned long) (e - s));
+        us = archtimer_tick_to_us((unsigned long) (e - s));
 
         qspi_printf("bank register              : 0x%x, wr: 0\n", qspi_fl_read_status(SPINOR_OP_BRRD));
         qspi_printf("address_extend_disable need: %d us (%d ms)\n\n", us, us / 1000);
     }
+
+    return ret;
 }
 
 static int qspi_s25fl512s_quad_enable(void)
@@ -184,7 +201,7 @@ static int qspi_s25fl512s_quad_enable(void)
     cyg_uint32 us;
 #endif
     cyg_uint8 rdcr, rdsr;
-    int ret = 0;
+    int ret = QSPI_OP_SUCCESS;
 
     qspi_debug("quad enable \n");
 
@@ -195,7 +212,7 @@ static int qspi_s25fl512s_quad_enable(void)
     rdsr = qspi_fl_read_status(SPINOR_OP_RDSR);
     rdcr = qspi_fl_read_status(SPINOR_OP_RDCR);
     if ((rdcr & CR_QUAD_EN_SPAN) == CR_QUAD_EN_SPAN) {
-        qspi_printf("quad bit had enabled\n");
+        //qspi_printf("quad bit had enabled\n");
         return ret;
     }
     if ((rdcr & CR_BPNV_EN_SPAN) == 0) // protect disable
@@ -204,12 +221,14 @@ static int qspi_s25fl512s_quad_enable(void)
     rdsr = qspi_s25fl512s_write_status(rdsr, CR_QUAD_EN_SPAN | rdcr);
 #ifdef QSPI_DEBUG
     e = HAL_GET_COUNTER;
-    us = tick_to_us((unsigned long) (e - s));
+    us = archtimer_tick_to_us((unsigned long) (e - s));
 #endif
 
     if ((rdsr & SR_P_ERR_SPAN) == SR_P_ERR_SPAN) {
-        ret = -1;
+        ret = QSPI_OP_FAILED;
     }
+    if(rdsr < 0)
+        ret = QSPI_OP_FAILED;
 
     qspi_debug("status register     : 0x%x\n", qspi_fl_read_status(SPINOR_OP_RDSR));
     qspi_debug("configuration status: 0x%x\n", qspi_fl_read_status(SPINOR_OP_RDCR));
@@ -244,12 +263,14 @@ static int qspi_s25fl512s_quad_disable(void)
 
 #ifdef QSPI_DEBUG
     e = HAL_GET_COUNTER;
-    us = tick_to_us((unsigned long) (e - s));
+    us = archtimer_tick_to_us((unsigned long) (e - s));
 #endif
 
     if ((rdsr & SR_P_ERR_SPAN) == SR_P_ERR_SPAN) {
-        ret = -1;
+        ret = QSPI_OP_FAILED;
     }
+    if(rdsr < 0)
+        ret = QSPI_OP_FAILED;
 
     qspi_debug("status register     : 0x%x\n", qspi_fl_read_status(SPINOR_OP_RDSR));
     qspi_debug("configuration status: 0x%x\n", qspi_fl_read_status(SPINOR_OP_RDCR));
@@ -269,7 +290,7 @@ static int qspi_s25fl512s_prot_region_enable(int region)
 
     region &= 0x7;
     if (region >= 8)
-        return -1;
+        return QSPI_OP_FAILED;
 
     qspi_debug("\nprot enable \n");
 
@@ -281,19 +302,21 @@ static int qspi_s25fl512s_prot_region_enable(int region)
 
     if (((rdcr & CR_BPNV_EN_SPAN) == CR_BPNV_EN_SPAN) &&
         (rdsr & SR_BP_BITS_MASK) == SR_BP_BITS_SHIFT(region)) {
-        qspi_printf("region had enabled, rdsr = 0x%x, rdcr = 0x%x\n", rdsr, rdcr);
-        return 0;
+        //qspi_printf("region had enabled, rdsr = 0x%x, rdcr = 0x%x\n", rdsr, rdcr);
+        return QSPI_OP_SUCCESS;
     }
 
     rdsr = qspi_s25fl512s_write_status(SR_BP_BITS_SHIFT(region),
                                        rdcr | CR_BPNV_EN_SPAN | CR_TBPROT_EN_SPAN);
 #ifdef QSPI_DEBUG
     e = HAL_GET_COUNTER;
-    us = tick_to_us((unsigned long) (e - s));
+    us = archtimer_tick_to_us((unsigned long) (e - s));
 #endif
     if ((rdsr & SR_P_ERR_SPAN) == SR_P_ERR_SPAN) {
-        ret = -1;
+        ret = QSPI_OP_FAILED;
     }
+    if(rdsr < 0)
+        ret = QSPI_OP_FAILED;
 
     qspi_debug("status		    : 0x%x\n", qspi_fl_read_status(SPINOR_OP_RDSR));
     qspi_debug("configuration status: 0x%x\n", qspi_fl_read_status(SPINOR_OP_RDCR));
@@ -311,7 +334,7 @@ static int qspi_s25fl512s_prot_region_disable(int region)
 
     region &= 0x7;
     if (region >= 8)
-        return -1;
+        return QSPI_OP_FAILED;
 
     qspi_debug("\nprot disable\n");
 #ifdef QSPI_DEBUG
@@ -321,30 +344,37 @@ static int qspi_s25fl512s_prot_region_disable(int region)
     rdcr = qspi_fl_read_status(SPINOR_OP_RDCR);
 
     if ((rdsr & SR_BP_BITS_MASK) == 0)
-        return 0;
+        return QSPI_OP_SUCCESS;
 
     rdsr = qspi_s25fl512s_write_status(0, rdcr | CR_BPNV_EN_SPAN | CR_TBPROT_EN_SPAN);
     if ((rdsr & SR_P_ERR_SPAN) == SR_P_ERR_SPAN) {
-        return -1;
+        return QSPI_OP_FAILED;
     }
+    if(rdsr < 0)
+        return QSPI_OP_FAILED;
 
 #ifdef QSPI_DEBUG
     e = HAL_GET_COUNTER;
-    us = tick_to_us((unsigned long) (e - s));
+    us = archtimer_tick_to_us((unsigned long) (e - s));
 #endif
 
     qspi_debug("status		    : 0x%x\n", qspi_fl_read_status(SPINOR_OP_RDSR));
     qspi_debug("configuration status: 0x%x\n", qspi_fl_read_status(SPINOR_OP_RDCR));
     qspi_debug("prot_disable need   :%d us (%d ms)\n", us, us / 1000);
-    return 0;
+    return QSPI_OP_SUCCESS;
 }
 
 int qspi_s25fl512s_write_page(cyg_uint32 addr, cyg_uint8 *dbuf, int len)
 {
     cyg_uint8 status;
-	int ret=0;
+	int ret=QSPI_OP_SUCCESS;
 
-    qspi_wren(SPINOR_OP_WREN);
+    ret = qspi_wren(SPINOR_OP_WREN);
+    if(ret < 0)
+        return ret;
+    ret=qspi_fl_wait_wel();
+    if(ret < 0)
+        return ret;
 
     wbuf_s[0] = SPINOR_OP_BP;
     wbuf_s[1] = (addr >> 16) & 0xff;
@@ -354,10 +384,10 @@ int qspi_s25fl512s_write_page(cyg_uint32 addr, cyg_uint8 *dbuf, int len)
     if (len <= 256)
         memcpy(wbuf_s + 4, dbuf, len);
     ret = qspi_send_xx_data(wbuf_s, len + 4);
-	if(!ret)
+	if(ret<0)
 	{
 		qspi_printf("error! return ...");
-		return 0;
+		return QSPI_OP_FAILED;
 	}
 
 	wait_cmd = SPINOR_OP_BP;
@@ -382,9 +412,18 @@ extern inline void qspi_hw_init(void);
 int qspi_s25fl512s_dma_write_page(void *dma_tx_ch, cyg_uint32 addr, cyg_uint8 *dbuf, int len)
 {
     cyg_uint8 status;
+    int ret=0;
 
-    qspi_wren(SPINOR_OP_WREN);
-    qspi_dma_write_page(dma_tx_ch, SPINOR_OP_BP, addr, dbuf, len, 8);
+    ret = qspi_wren(SPINOR_OP_WREN);
+    if(ret < 0)
+        return ret;
+    ret=qspi_fl_wait_wel();
+    if(ret<0)
+        return ret;
+    ret = qspi_dma_write_page(dma_tx_ch, SPINOR_OP_BP, addr, dbuf, len, 8);
+
+    if(ret < 0)
+        return ret;
 
 	wait_cmd = SPINOR_OP_BP;
     status = wait_flash_idle_extend(SPINOR_OP_RDSR, 0, 1, SR_E_ERR_SPAN, SR_E_ERR_SPAN,
@@ -406,20 +445,21 @@ int qspi_s25fl512s_dma_write_page(void *dma_tx_ch, cyg_uint32 addr, cyg_uint8 *d
 }
 #endif
 
-cyg_uint8 qspi_s25fl512s_erase(cyg_uint8 cmd, cyg_uint32 addr)
+int qspi_s25fl512s_erase(cyg_uint8 cmd, cyg_uint32 addr)
 {
     cyg_uint8 status;
 	int ret = 0;
 
 	qspi_debug("cmd 0x%x addr 0x%x", cmd, addr);
-    qspi_wren(SPINOR_OP_WREN);
+    ret = qspi_wren(SPINOR_OP_WREN);
+    if(ret < 0)
+        return ret;
+    ret=qspi_fl_wait_wel();
+    if(ret < 0)
+        return ret;
 
 #if (CYGPKG_DEVS_QSPI_DMA_EN > 0)
     ret = qspi_dma_write_page(qspi_dma_tx_chan, cmd, addr, NULL, 0, 8);
-	if(ret < 0)
-	{
-		return QSPI_OP_FAILED;
-	}
 #else
     cyg_uint8 wbuf[4];
     //wbuf[0] = SPINOR_OP_SE;
@@ -428,12 +468,11 @@ cyg_uint8 qspi_s25fl512s_erase(cyg_uint8 cmd, cyg_uint32 addr)
     wbuf[2] = (addr >> 8) & 0xff;
     wbuf[3] = addr & 0xff;
     ret = qspi_send_xx_data(wbuf, 4);
-
-	if(!ret)
+#endif
+	if(ret<0)
 	{
 		return QSPI_OP_FAILED;
 	}
-#endif
 
 	wait_cmd = cmd;
     status = wait_flash_idle_extend(SPINOR_OP_RDSR, 0, 1, SR_E_ERR_SPAN, SR_E_ERR_SPAN,
@@ -455,16 +494,22 @@ cyg_uint8 qspi_s25fl512s_erase(cyg_uint8 cmd, cyg_uint32 addr)
     return QSPI_OP_SUCCESS;
 }
 
-cyg_uint8 qspi_s25fl512s_erase_all(void)
+int qspi_s25fl512s_erase_all(void)
 {
     cyg_uint8 status;
     cyg_uint8 wbuf[4];
 	int ret = 0;
 
-    qspi_wren(SPINOR_OP_WREN);
+    ret = qspi_wren(SPINOR_OP_WREN);
+    if(ret < 0)
+        return ret;
+    ret=qspi_fl_wait_wel();
+    if(ret < 0)
+        return ret;
+
     wbuf[0] = SPINOR_OP_CHIP_ERASE;
     ret = qspi_send_xx_data(wbuf, 1);
-	if(!ret)
+	if(ret<0)
 	{
 		return QSPI_OP_FAILED;
 	}
@@ -484,12 +529,12 @@ cyg_uint8 qspi_s25fl512s_erase_all(void)
     return QSPI_OP_SUCCESS;
 }
 
-void qspi_s25fl512s_4byte_extend(cyg_uint32 addr, int en)
+int qspi_s25fl512s_4byte_extend(cyg_uint32 addr, int en)
 {
     if (en > 0)
-        qspi_s25fl512s_4byte_extend_enable(addr);
+        return qspi_s25fl512s_4byte_extend_enable(addr);
     else
-        qspi_s25fl512s_4byte_extend_disable(addr);
+        return qspi_s25fl512s_4byte_extend_disable(addr);
 }
 
 int qspi_s25fl512s_quad(int en)
@@ -521,30 +566,36 @@ int qspi_s25fl512s_reset(void)
 	int ret = 0;
     cyg_uint8 cmd = SPINOR_OP_SW_RESET;
     ret = qspi_send_xx_data(&cmd, 1);
-	if(!ret)
+	if(ret<0)
 	{
 		return QSPI_OP_FAILED;
 	}
     HAL_DELAY_US(10000); // wait for device Reset sequence complete
-    return 0;
+    return QSPI_OP_SUCCESS;
 }
 
 /******************************************************************************/
 /********************** for asp relative command ******************************/
 /******************************************************************************/
 
-static cyg_uint8 qspi_s25fl512s_write_registers(cyg_uint8 cmd, cyg_uint16 val)
+static int qspi_s25fl512s_write_registers(cyg_uint8 cmd, cyg_uint16 val)
 {
     cyg_uint8 status;
     cyg_uint8 wbuf[3];
 	int ret=0;
-    qspi_wren(SPINOR_OP_WREN);
+
+    ret = qspi_wren(SPINOR_OP_WREN);
+    if(ret<0)
+        return ret;
+    ret=qspi_fl_wait_wel();
+    if(ret<0)
+        return ret;
 
     wbuf[0] = cmd;
     wbuf[1] = val&0xff;
     wbuf[2] = (val>>8)&0xff;
     ret = qspi_send_xx_data(wbuf, 3);
-	if(!ret)
+	if(ret<0)
 	{
 		return QSPI_OP_FAILED;
 	}
@@ -619,13 +670,13 @@ int qspi_s25fl512s_asp_mode_set(cyg_uint8 mode)
 	if((st&mode) == mode)
 	{
 		qspi_printf("mode is already enabled! val 0x%x", st);
-		return 0;
+		return QSPI_OP_SUCCESS;
 	}
 
 	if((st&0x6) != 6)
 	{
 		qspi_printf("It's already set to mode val 0x%x, don't to set to 0x%x, it will cause error!", st&0x6, mode);
-		return 0;
+		return QSPI_OP_SUCCESS;
 	}
 
 	st = (st & ~(MODE_MASK)) | mode;
@@ -646,10 +697,10 @@ int qspi_s25fl512s_asp_ppb_read(cyg_uint32 offset)
 	qspi_printf("offset 0x%x\n", offset);
 	ret = qspi_read_spansion_data(SPANSION_PPBRD, offset, 1, data, 2);
 
-	if(!ret)
+	if(ret<0)
 	{
 		qspi_printf("read ppb failed!");
-		return 0;
+		return QSPI_OP_FAILED;
 	}
 	qspi_printf("offset 0x%x PPB %u %u", offset, (cyg_uint32)data[0], (cyg_uint32)data[1]);
 
@@ -663,7 +714,12 @@ int qspi_s25fl512s_asp_ppb_program(cyg_uint32 addr)
 	int ret = QSPI_OP_SUCCESS;
 
 	qspi_printf("enter!");
-    qspi_wren(SPINOR_OP_WREN);
+    ret = qspi_wren(SPINOR_OP_WREN);
+    if(ret < 0)
+        return ret;
+    ret=qspi_fl_wait_wel();
+    if(ret < 0)
+        return ret;
 
     wbuf[0] = SPANSION_PPBP;
     wbuf[1] = (addr >> 24) & 0xff;
@@ -671,7 +727,7 @@ int qspi_s25fl512s_asp_ppb_program(cyg_uint32 addr)
     wbuf[3] = (addr >> 8) & 0xff;
     wbuf[4] = addr & 0xff;
     ret = qspi_send_xx_data(wbuf, 5);
-	if(!ret)
+	if(ret<0)
 	{
 		return QSPI_OP_FAILED;
 	}
@@ -704,11 +760,17 @@ int qspi_s25fl512s_asp_ppb_erase(void)
     cyg_uint8 status;
     cyg_uint8 wbuf[2];
 
-    qspi_wren(SPINOR_OP_WREN);
+    ret = qspi_wren(SPINOR_OP_WREN);
+    if(ret < 0)
+        return ret;
+
+    ret=qspi_fl_wait_wel();
+    if(ret < 0)
+        return ret;
 
     wbuf[0] = SPANSION_PPBE;
     ret = qspi_send_xx_data(wbuf, 1);
-	if(!ret)
+	if(ret<0)
 	{
 		return QSPI_OP_FAILED;
 	}
@@ -736,11 +798,12 @@ int qspi_s25fl512s_asp_ppb_erase(void)
 int qspi_s25fl512s_asp_ppb_lockbit_read(void)
 {
 	cyg_uint8 data[2];
+    int ret;
 
-    qspi_read_xx_data(SPANSION_PLBRD, 0, 0, data, 2);
+    ret = qspi_read_xx_data(SPANSION_PLBRD, 0, 0, data, 2);
 
 	qspi_printf("PPB lock bit status %u %u", (cyg_uint32)data[0], (cyg_uint32)data[1]);
-	return 0;
+	return ret;
 }
 
 cyg_uint8 qspi_s25fl512s_asp_dyb_read(cyg_uint32 offset)
@@ -750,11 +813,10 @@ cyg_uint8 qspi_s25fl512s_asp_dyb_read(cyg_uint32 offset)
 
 	qspi_printf("offset 0x%x\n", offset);
 	ret = qspi_read_spansion_data(SPANSION_DYBRD, offset, 1, data, 2);
-
-	if(!ret)
+	if(ret<0)
 	{
 		qspi_printf("read dyb failed!");
-		return 0;
+		return QSPI_OP_FAILED;
 	}
 	qspi_printf("offset 0x%x DYB status %u %u", offset, (cyg_uint32)data[0], (cyg_uint32)data[1]);
 	return data[0];
@@ -767,7 +829,12 @@ int qspi_s25fl512s_asp_dyb_program(cyg_uint32 addr, cyg_uint8 val)
     cyg_uint8 wbuf[6];
 
 	qspi_printf("enter!");
-    qspi_wren(SPINOR_OP_WREN);
+    ret = qspi_wren(SPINOR_OP_WREN);
+    if(ret < 0)
+        return ret;
+    ret=qspi_fl_wait_wel();
+    if(ret < 0)
+        return ret;
 
     wbuf[0] = SPANSION_DYBWR;
     wbuf[1] = (addr >> 24) & 0xff;
@@ -776,7 +843,7 @@ int qspi_s25fl512s_asp_dyb_program(cyg_uint32 addr, cyg_uint8 val)
     wbuf[4] = addr & 0xff;
     wbuf[5] = val;
     ret = qspi_send_xx_data(wbuf, 6);
-	if(!ret)
+	if(ret<0)
 	{
 		return QSPI_OP_FAILED;
 	}

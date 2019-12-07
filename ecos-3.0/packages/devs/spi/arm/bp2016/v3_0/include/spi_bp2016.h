@@ -103,6 +103,7 @@ typedef struct {
             cyg_uint32 cpha;
             cyg_uint32 baud;
             cyg_uint32 bus_width;
+            cyg_uint32 sample_delay;
         } spi_dw_cfg;
 
         struct {

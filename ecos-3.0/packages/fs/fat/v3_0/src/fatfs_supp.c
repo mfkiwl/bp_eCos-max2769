@@ -1445,7 +1445,8 @@ set_raw_dentry_filename(fat_raw_dir_entry_t *dentry,
     }
     
     if (0 == namelen)
-        namelen = 9999;
+        namelen = 12;
+        //namelen = 9999;
     
     nidx  = 0;
     cname = name;
@@ -1813,6 +1814,9 @@ init_dir_entry(fatfs_dir_entry_t *dentry,
     if (0 == namelen)
         namelen = 12;
     
+    if (namelen > 12)
+        namelen = 12;
+
     strncpy(dentry->filename, name, namelen);
     dentry->filename[namelen] = '\0';
     
